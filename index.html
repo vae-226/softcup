@@ -1,0 +1,2038 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>灵境导游 - AI数字人景区导览系统</title>
+  <meta name="description" content="具备语音、文本、表情多模态交互能力的 AI 数字人景区导览系统">
+  <link rel="stylesheet" href="styles.css?v=20260529-1410">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div>
+        <strong>灵境导游</strong>
+        <span class="topbar-subtitle">AI数字人景区导览系统</span>
+      </div>
+      <div class="topbar-meta">
+        <span class="topbar-tag">完整系统版</span>
+        <span class="topbar-tag">V2026.05.29.1410</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <div>
+        <div class="brand">
+          <div class="brand-mark">L</div>
+          <div>
+            <h1>灵境导游</h1>
+            <p>AI数字人景区导览系统</p>
+          </div>
+        </div>
+        <nav class="nav">
+          <button class="nav-btn active" data-view="tourist">游客交互端</button>
+          <button class="nav-btn" data-view="admin">管理后台</button>
+          <button class="nav-btn" data-view="docs">方案说明</button>
+        </nav>
+        <div class="sidebar-note" style="margin-top:16px;">
+          <strong>当前版本</strong>
+          <p>V2026.05.29.1410<br>已升级为可交互完整系统页面</p>
+        </div>
+      </div>
+      <div class="sidebar-note">
+        <strong>核心AI能力</strong>
+        <p>多模态大模型 + 本地知识库检索 + 数字人口型/表情联动策略</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="panel preload-panel">
+        <div class="preload-header">
+          <div>
+            <h2>系统模块</h2>
+            <p>游客端、管理后台、方案说明三大模块已预置，页面加载后会进入完整交互视图。</p>
+          </div>
+          <span class="badge">HTML结构已升级</span>
+        </div>
+        <div class="preload-grid">
+          <article class="preload-card">
+            <h3>游客交互端</h3>
+            <p>支持文本、语音、表情联动问答，按景点场景切换导览状态。</p>
+          </article>
+          <article class="preload-card">
+            <h3>管理后台</h3>
+            <p>支持知识库维护、数字人配置、数据概览和游客反馈分析。</p>
+          </article>
+          <article class="preload-card">
+            <h3>比赛方案说明</h3>
+            <p>对应总体设计、部署手册和答辩演示的核心内容结构。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="tourist-view" class="view active" aria-label="游客交互端"></section>
+      <section id="admin-view" class="view" aria-label="管理后台"></section>
+      <section id="docs-view" class="view" aria-label="方案说明"></section>
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    <div class="app-footer-inner">
+      <span>当前入口文件：C:\Users\25610\Documents\softcup\index.html</span>
+      <span>资源版本：20260528-3</span>
+    </div>
+  </footer>
+
+  <noscript>
+    <div class="noscript-banner">
+      当前页面需要启用 JavaScript 才能加载完整的数字人导览系统。
+    </div>
+  </noscript>
+
+  <script>
+/* inlined app bundle for file:// and http parity */
+const scenicSpot = {
+  name: "灵山胜境",
+  city: "江苏·无锡·马山",
+  theme: "佛教文化 / 太湖风光 / 祈福体验",
+  overview:
+    "灵山胜境坐落于江苏省无锡市太湖西北部马山镇，是国家5A级旅游景区、世界佛教论坛永久会址，被誉为“东方佛国”和“太湖佛国”。景区融合佛教文化、自然景观、人文体验与现代艺术科技。",
+  highlights: [
+    "基于 jqxx 示范景区公开资料包构建知识库",
+    "灵山大佛、九龙灌浴、梵宫、五印坛城重点讲解",
+    "按历史文化、自然风光、亲子家庭推荐路线",
+    "游客行为数据驱动后台分析"
+  ]
+};
+
+const scenicSpots = [
+  {
+    id: "buddha",
+    name: "灵山大佛",
+    label: "核心地标",
+    teaser: "世界最高露天青铜释迦牟尼立像",
+    mood: "thinking",
+    script: "灵山大佛是景区标志性建筑，体现赵朴初“五方五佛”理念。讲解可围绕佛像手印、216级台阶寓意、青铜铸造工艺和太湖山水格局展开。"
+  },
+  {
+    id: "bath",
+    name: "九龙灌浴",
+    label: "动态演艺",
+    teaser: "佛陀诞生故事的仪式化再现",
+    mood: "calm",
+    script: "九龙灌浴以“花开见佛”和九条龙吐水为核心场景，再现佛陀诞生故事，是祈福体验和亲子讲解的重点区域。"
+  },
+  {
+    id: "palace",
+    name: "灵山梵宫",
+    label: "艺术殿堂",
+    teaser: "佛教艺术与现代科技融合的代表",
+    mood: "smile",
+    script: "灵山梵宫被誉为“佛教艺术的卢浮宫”，汇集东阳木雕、敦煌壁画、景泰蓝、琉璃艺术与声光电技术，也是《吉祥颂》演出的重要场所。"
+  },
+  {
+    id: "tantric",
+    name: "五印坛城",
+    label: "藏传文化",
+    teaser: "藏传佛教文化与建筑艺术体验",
+    mood: "excited",
+    script: "五印坛城集中展现藏传佛教建筑、曼荼罗文化和转经祈福体验，适合对多元佛教文化和建筑艺术感兴趣的游客。"
+  }
+];
+
+const knowledgeBase = [
+  {
+    id: 1,
+    title: "灵山胜境概况",
+    category: "历史文化",
+    keywords: ["灵山", "概况", "历史", "无锡", "太湖", "马山"],
+    content:
+      "灵山胜境坐落于江苏省无锡市太湖西北部马山镇，地处秦履峰、青龙山、白虎山三山环抱之间，是国家5A级旅游景区、世界佛教论坛永久会址，被誉为“东方佛国”和“太湖佛国”。",
+    status: "已启用",
+    spotId: "buddha"
+  },
+  {
+    id: 2,
+    title: "小灵山佛教缘起",
+    category: "核心景点",
+    keywords: ["玄奘", "小灵山", "窥基", "佛教", "祥符禅寺"],
+    content:
+      "唐贞观年间，玄奘法师西行取经归来途经马山，见此地山形酷似印度灵鹫山，遂命名“小灵山”，并嘱咐弟子窥基法师在此住持道场，奠定了此地佛教根基。",
+    status: "已启用",
+    spotId: "buddha"
+  },
+  {
+    id: 3,
+    title: "灵山大佛",
+    category: "核心景点",
+    keywords: ["灵山大佛", "大佛", "青铜", "五方五佛", "抱佛脚"],
+    content:
+      "灵山大佛于1997年11月15日落成开光，是景区标志性建筑。讲解重点包括佛像手印含义、216级台阶寓意、青铜铸造工艺以及赵朴初提出的“五方五佛”理念。",
+    status: "已启用",
+    spotId: "buddha"
+  },
+  {
+    id: 4,
+    title: "灵山梵宫",
+    category: "佛教艺术",
+    keywords: ["梵宫", "吉祥颂", "佛教艺术", "东阳木雕", "敦煌壁画"],
+    content:
+      "灵山梵宫被誉为“佛教艺术的卢浮宫”，融合菩提伽耶塔风格与中国石窟艺术，内部汇集东阳木雕、敦煌壁画、扬州漆器、景泰蓝、寿山石雕等传统工艺，并运用声光电技术打造沉浸体验。",
+    status: "已启用",
+    spotId: "palace"
+  },
+  {
+    id: 5,
+    title: "九龙灌浴与吉祥颂",
+    category: "文旅演艺",
+    keywords: ["九龙灌浴", "吉祥颂", "演出", "表演", "祈福"],
+    content:
+      "九龙灌浴每日约4-5场表演，建议提前到达占位；《吉祥颂》演出通常为10:35、11:30、14:00、16:00，时长约20分钟，具体以景区公告为准。",
+    status: "已启用",
+    spotId: "bath"
+  },
+  {
+    id: 6,
+    title: "实用游览贴士",
+    category: "游客服务",
+    keywords: ["门票", "餐饮", "素斋", "住宿", "导游", "时间"],
+    content:
+      "建议春秋季节游览，上午9点前入园可避开高峰。景区内可体验梵宫素斋自助、素面套餐、灵山精舍素斋；导游讲解服务约300元起。游览需穿舒适鞋，并尊重佛教文化场所礼仪。",
+    status: "已启用",
+    spotId: "palace"
+  }
+];
+
+const routes = [
+  {
+    id: "history",
+    audience: "历史文化爱好者",
+    duration: "6 小时",
+    pace: "深度步行",
+    stops: ["灵山大照壁", "佛手广场", "祥符禅寺", "灵山大佛", "灵山梵宫", "五印坛城"],
+    focus: "重点讲解玄奘与小灵山渊源、祥符禅寺兴衰、灵山大佛造像艺术和佛教文化传承。",
+    tags: ["佛教文化", "深度讲解", "适合研学"]
+  },
+  {
+    id: "nature",
+    audience: "自然风光游客",
+    duration: "5 小时",
+    pace: "轻松漫游",
+    stops: ["佛足坛", "九龙灌浴", "菩提大道", "灵山大佛", "曼飞龙塔", "灵山精舍"],
+    focus: "突出太湖风光、青龙山白虎山环抱格局、禅意园林和大佛观景平台。",
+    tags: ["太湖风光", "拍照", "轻松"]
+  },
+  {
+    id: "family",
+    audience: "亲子家庭",
+    duration: "4 小时",
+    pace: "互动体验",
+    stops: ["九龙灌浴", "佛手广场", "百子戏弥勒", "灵山梵宫", "五印坛城"],
+    focus: "用生动语言讲述佛陀诞生故事，结合祈福、雕塑观察和互动演出降低理解门槛。",
+    tags: ["亲子", "祈福互动", "轻松"]
+  }
+];
+
+const analytics = {
+  serviceCountToday: 1824,
+  serviceCountWeek: 11890,
+  avgResponseSeconds: 3.6,
+  satisfaction: 94.2,
+  responseAccuracy: 92.8,
+  emotionTrend: [
+    { day: "周一", value: 72 },
+    { day: "周二", value: 78 },
+    { day: "周三", value: 80 },
+    { day: "周四", value: 76 },
+    { day: "周五", value: 88 },
+    { day: "周六", value: 93 },
+    { day: "周日", value: 91 }
+  ],
+  feedbacks: [
+    {
+      user: "游客A12",
+      score: 5,
+      emotion: "满意",
+      content: "喜欢夜游灯彩和数字人语音讲解，路线推荐节省了排队时间。"
+    },
+    {
+      user: "游客B07",
+      score: 3,
+      emotion: "中性",
+      content: "问答准确，但在湿地区域语音识别受风噪影响。"
+    },
+    {
+      user: "游客C31",
+      score: 5,
+      emotion: "惊喜",
+      content: "亲子模式中的互动任务提高了孩子参与感。"
+    }
+  ]
+};
+
+const avatarProfiles = [
+  {
+    id: "classic",
+    name: "云舒",
+    costume: "宋风青绿披帛",
+    voice: "温润女声",
+    style: "亲和讲解型",
+    mood: "smile",
+    summary: "整体风格温和、可靠，适合多数游客日常导览。"
+  },
+  {
+    id: "scholar",
+    name: "岫文",
+    costume: "书院长衫",
+    voice: "沉稳男声",
+    style: "文史专家型",
+    mood: "calm",
+    summary: "更适合研学团、历史文化深度讲解。"
+  }
+];
+
+const docsContent = {
+  architecture: [
+    "游客端：支持文本输入、语音录入按钮、数字人口型和表情状态反馈、推荐路线展示。",
+    "AI 中枢：多模态大模型负责理解游客意图；RAG 知识库负责景区事实问答；推荐引擎基于兴趣标签和游览时段生成路线。",
+    "管理后台：知识库管理、数字人配置、感受度分析、运营指标大屏。",
+    "可落地扩展：将当前静态数据服务替换为 FastAPI 或 Flask + 向量数据库 + 实时 TTS/ASR 即可进入工程化部署。"
+  ],
+  tech: [
+    "多模态大模型：可接入 Qwen-Omni、GLM-4.1V、GPT-4o 等支持语音、视觉、文本协同的模型。",
+    "语音能力：Whisper 或 FunASR 负责语音识别，Paraformer、Edge-TTS、ChatTTS 负责语音合成。",
+    "知识库：景区公开资料分块、向量化入库，结合关键词过滤和重排保障事实性准确率。",
+    "数字人：可接 Live2D + Web Audio 驱动口型，也可对接开源 2D 数字人或 Unreal、Unity 方案。"
+  ]
+};
+
+const seedAnalytics = analytics;
+const seedAvatarProfiles = avatarProfiles;
+const seedKnowledgeBase = knowledgeBase;
+
+
+const STORAGE_KEY = "softcup-lingshan-guide-state-v2";
+const API_LOG_LIMIT = 12;
+
+function clone(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function loadStore() {
+  const fallback = {
+    knowledgeBase: clone(seedKnowledgeBase),
+    avatarProfiles: clone(seedAvatarProfiles),
+    feedbacks: clone(seedAnalytics.feedbacks),
+    apiLogs: [],
+    visitorProfile: {
+      name: "游客001",
+      interest: "history",
+      duration: "2小时",
+      groupType: "个人",
+      language: "中文"
+    }
+  };
+
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    return {
+      ...fallback,
+      ...parsed
+    };
+  } catch {
+    return fallback;
+  }
+}
+
+function saveStore(store) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+}
+
+function getStore() {
+  return loadStore();
+}
+
+function updateStore(updater) {
+  const current = loadStore();
+  const next = updater(clone(current));
+  saveStore(next);
+  return next;
+}
+
+function createApiResult(endpoint, method, data, message = "接口调用成功") {
+  const result = {
+    code: 0,
+    endpoint,
+    method,
+    message,
+    data,
+    requestId: `REQ-${Date.now()}`,
+    time: new Date().toLocaleString()
+  };
+
+  updateStore((store) => {
+    store.apiLogs = [
+      {
+        endpoint,
+        method,
+        message,
+        requestId: result.requestId,
+        time: result.time
+      },
+      ...(store.apiLogs || [])
+    ].slice(0, API_LOG_LIMIT);
+    return store;
+  });
+
+  return result;
+}
+
+const emotionMap = {
+  history: "thinking",
+  cultural: "thinking",
+  natural: "smile",
+  family: "excited",
+  service: "calm",
+  default: "smile"
+};
+
+function detectIntent(message) {
+  const text = message.toLowerCase();
+  if (/(历史|古城|城墙|朝代|文化|博物馆)/.test(text)) return "history";
+  if (/(自然|风光|湿地|拍照|观鸟|栈道|晚霞)/.test(text)) return "natural";
+  if (/(亲子|孩子|家庭|手作|体验)/.test(text)) return "family";
+  if (/(厕所|停车|服务|餐饮|母婴|无障碍)/.test(text)) return "service";
+  if (/(几点|时间|夜游|演出)/.test(text)) return "cultural";
+  return "default";
+}
+
+function activeKnowledgeBase() {
+  return loadStore().knowledgeBase.filter((item) => item.status !== "已停用");
+}
+
+function searchKnowledge(message, spotId) {
+  const text = message.trim();
+  const base = activeKnowledgeBase();
+  const matches = base
+    .map((item) => {
+      let score = 0;
+      item.keywords.forEach((keyword) => {
+        if (text.includes(keyword)) score += 2;
+      });
+      if (text.includes(item.category)) score += 1;
+      if (text.includes(item.title)) score += 2;
+      if (spotId && item.spotId === spotId) score += 3;
+      return { item, score };
+    })
+    .sort((a, b) => b.score - a.score);
+
+  return matches[0]?.item || base[0];
+}
+
+function recommendRoute(message, interest) {
+  const intent = detectIntent(message);
+  if (intent === "history" || intent === "cultural" || interest === "history") return routes[0];
+  if (intent === "natural" || interest === "nature") return routes[1];
+  if (intent === "family" || interest === "family" || interest === "service") return routes[2];
+  return routes[0];
+}
+
+function summarizeFeedback(feedback) {
+  const summary = feedback.content || "游客提交了简短反馈。";
+  const suggestion = feedback.emotion === "不满" || feedback.score <= 2
+    ? "建议优先回看该时段的交互链路和景点导览内容。"
+    : "建议保留当前服务风格，并继续丰富多语种讲解。";
+  return {
+    user: feedback.user,
+    sentiment: scoreToSentiment(feedback.score, feedback.emotion),
+    summary,
+    suggestion
+  };
+}
+
+function scoreToSentiment(score, emotion) {
+  if (score >= 4 || ["满意", "惊喜"].includes(emotion)) return "积极";
+  if (score === 3 || emotion === "中性") return "中性";
+  return "待改善";
+}
+
+function computeAnalytics() {
+  const store = loadStore();
+  const base = clone(seedAnalytics);
+  const dynamicFeedbacks = store.feedbacks;
+  const avgScore =
+    dynamicFeedbacks.reduce((sum, item) => sum + (item.score || 4), 0) / Math.max(dynamicFeedbacks.length, 1);
+
+  const satisfaction = Number((avgScore / 5 * 100).toFixed(1));
+  const hotQuestions = [
+    "夜游演艺几点开始？",
+    "哪里适合拍照看晚霞？",
+    "亲子路线怎么安排？",
+    "城墙遗址有哪些看点？"
+  ];
+
+  return {
+    ...base,
+    satisfaction,
+    hotQuestions,
+    feedbacks: dynamicFeedbacks.map(summarizeFeedback)
+  };
+}
+
+function getScenicProfile() {
+  return scenicSpot;
+}
+
+function getAvatarProfiles() {
+  return loadStore().avatarProfiles;
+}
+
+function getKnowledgeBase() {
+  return loadStore().knowledgeBase;
+}
+
+function getRoutes() {
+  return routes;
+}
+
+function getAnalytics() {
+  return computeAnalytics();
+}
+
+function createLiveSnapshot() {
+  return {
+    scenic: scenicSpot,
+    avatars: getAvatarProfiles(),
+    knowledge: getKnowledgeBase(),
+    routes: getRoutes(),
+    analytics: getAnalytics(),
+    spots: scenicSpots,
+    apiLogs: loadStore().apiLogs || []
+  };
+}
+
+function updateVisitorProfile(profile) {
+  const store = updateStore((draft) => {
+    draft.visitorProfile = profile;
+    return draft;
+  });
+
+  return createApiResult(
+    "/api/visitor/profile",
+    "PUT",
+    store.visitorProfile,
+    "游客档案已更新，路线推荐接口已重新计算"
+  );
+}
+
+function switchGuideScene(spotId) {
+  const spot = scenicSpots.find((item) => item.id === spotId) || scenicSpots[0];
+  return createApiResult(
+    "/api/guide/scene",
+    "POST",
+    { spot },
+    `已切换到${spot.name}讲解场景`
+  );
+}
+
+function startSpotGuide(spotId, mode = "text") {
+  const spot = scenicSpots.find((item) => item.id === spotId) || scenicSpots[0];
+  const relatedKnowledge = activeKnowledgeBase().filter((item) => item.spotId === spot.id);
+  return createApiResult(
+    "/api/guide/spot/start",
+    "POST",
+    {
+      spot,
+      mode,
+      script: spot.script,
+      knowledge: relatedKnowledge,
+      nextQuestions: [
+        `${spot.name}最值得看的是什么？`,
+        `帮我讲讲${spot.name}的历史故事。`,
+        `从${spot.name}下一站应该去哪？`
+      ]
+    },
+    `已进入${spot.name}数字人讲解`
+  );
+}
+
+function planRouteToSpot(spotId, interest = "history") {
+  const spot = scenicSpots.find((item) => item.id === spotId) || scenicSpots[0];
+  const route = recommendRoute(spot.name, interest);
+  return createApiResult(
+    "/api/routes/spot-plan",
+    "POST",
+    {
+      targetSpot: spot,
+      route,
+      eta: "12 分钟",
+      navigationTips: [
+        "沿主路前行，避开施工区域。",
+        "若 GPS 信号弱，可扫描沿途二维码继续定位。",
+        "到达后自动切换数字人讲解词。"
+      ]
+    },
+    `已生成前往${spot.name}的路线`
+  );
+}
+
+function switchRoute(routeId) {
+  const route = routes.find((item) => item.id === routeId) || routes[0];
+  return createApiResult(
+    "/api/routes/active",
+    "PUT",
+    { route },
+    `已切换到${route.audience}`
+  );
+}
+
+function updateVisitorProfileLegacy(profile) {
+  updateStore((store) => {
+    store.visitorProfile = profile;
+    return store;
+  });
+}
+
+function chatWithGuide(message, context = {}) {
+  const source = searchKnowledge(message, context.spotId);
+  const route = recommendRoute(message, context.interest);
+  const intent = detectIntent(message);
+  const emotion = emotionMap[intent] || emotionMap.default;
+  const spot = scenicSpots.find((item) => item.id === context.spotId) || scenicSpots[0];
+  const answer =
+    `你好，${context.visitorName || "游客"}。这里是${scenicSpot.name}数字导游。` +
+    `${source.content}` +
+    ` 当前你所在的讲解场景是${spot.name}。` +
+    ` 我推荐你参考“${route.audience}”路线，重点站点包括${route.stops.join("、")}。` +
+    ` 如果需要，我还可以继续细讲每个站点的故事、拍照点和休息服务。`;
+
+  const payload = {
+    channel: context.channel || "text",
+    answer,
+    sourceTitle: source.title,
+    route,
+    emotion
+  };
+
+  return createApiResult(
+    "/api/guide/chat",
+    "POST",
+    payload,
+    "数字人问答接口已返回"
+  );
+}
+
+async function chatWithQwenGuide(message, context = {}) {
+  const localResult = chatWithGuide(message, context);
+
+  try {
+    const requestBody = JSON.stringify({
+      message,
+      context,
+      knowledge: activeKnowledgeBase(),
+      model: "qwen-plus"
+    });
+    const origins = [
+      window.location.origin,
+      "http://127.0.0.1:8000",
+      "http://localhost:8000"
+    ].filter(Boolean);
+    let response = null;
+    let lastError = null;
+
+    for (const origin of [...new Set(origins)]) {
+      try {
+        response = await fetch(`${origin}/api/qwen/chat`, {
+          method: "POST",
+          mode: "cors",
+          cache: "no-store",
+          headers: { "Content-Type": "application/json" },
+          body: requestBody
+        });
+        if (response.ok) break;
+        lastError = new Error(`Qwen proxy returned ${response.status}`);
+      } catch (error) {
+        lastError = error;
+      }
+    }
+
+    if (!response || !response.ok) {
+      throw lastError || new Error("Qwen proxy request failed");
+    }
+
+    const data = await response.json();
+    const qwenPayload = {
+      ...localResult.data,
+      answer: data.answer,
+      sourceTitle: "千问 Qwen + 本地景区知识库",
+      provider: data.provider || "qwen",
+      model: data.model || "qwen-plus"
+    };
+
+    return createApiResult(
+      "/api/qwen/chat",
+      "POST",
+      qwenPayload,
+      `千问 ${qwenPayload.model} 已生成回答`
+    );
+  } catch (error) {
+    return createApiResult(
+      "/api/qwen/chat",
+      "POST",
+      {
+        ...localResult.data,
+        provider: "local-fallback",
+        model: "local-rag",
+        error: error.message
+      },
+      "千问未启用或请求失败，已降级到本地知识库回答"
+    );
+  }
+}
+
+function addKnowledgeItem({ title, category, keywords, content }) {
+  const store = updateStore((store) => {
+    store.knowledgeBase.unshift({
+      id: `kb-${Date.now()}`,
+      title,
+      category,
+      keywords: keywords.split(",").map((item) => item.trim()).filter(Boolean),
+      content,
+      status: "已启用",
+      spotId: "wall"
+    });
+    return store;
+  });
+
+  return createApiResult(
+    "/api/admin/knowledge",
+    "POST",
+    { total: store.knowledgeBase.length, item: store.knowledgeBase[0] },
+    "知识条目已新增并完成索引"
+  );
+}
+
+function toggleKnowledgeStatus(id) {
+  let updated = null;
+  updateStore((store) => {
+    const item = store.knowledgeBase.find((entry) => String(entry.id) === String(id));
+    if (item) {
+      item.status = item.status === "已启用" ? "已停用" : "已启用";
+      updated = item;
+    }
+    return store;
+  });
+
+  return createApiResult(
+    `/api/admin/knowledge/${id}/status`,
+    "PATCH",
+    { item: updated },
+    updated ? `知识条目已${updated.status === "已启用" ? "启用" : "停用"}` : "未找到知识条目"
+  );
+}
+
+function removeKnowledgeItem(id) {
+  const store = updateStore((store) => {
+    store.knowledgeBase = store.knowledgeBase.filter((entry) => String(entry.id) !== String(id));
+    return store;
+  });
+
+  return createApiResult(
+    `/api/admin/knowledge/${id}`,
+    "DELETE",
+    { total: store.knowledgeBase.length },
+    "知识条目已删除"
+  );
+}
+
+function saveAvatarProfile(profile) {
+  updateStore((store) => {
+    store.avatarProfiles = store.avatarProfiles.map((item) =>
+      item.id === profile.id ? { ...item, ...profile } : item
+    );
+    return store;
+  });
+
+  return createApiResult(
+    `/api/admin/avatar/${profile.id}`,
+    "PUT",
+    { profile },
+    "数字人配置已保存"
+  );
+}
+
+function submitVisitorFeedback(feedback) {
+  const store = updateStore((store) => {
+    store.feedbacks.unshift({
+      user: feedback.user,
+      score: feedback.score,
+      emotion: feedback.emotion,
+      content: feedback.content,
+      sentiment: scoreToSentiment(feedback.score, feedback.emotion)
+    });
+    return store;
+  });
+
+  return createApiResult(
+    "/api/visitor/feedback",
+    "POST",
+    { feedback: store.feedbacks[0], total: store.feedbacks.length },
+    "游客反馈已提交并进入感受度分析"
+  );
+}
+
+function buildFeedbackReport() {
+  const analytics = computeAnalytics();
+  const positiveCount = analytics.feedbacks.filter((item) => item.sentiment === "积极").length;
+  const neutralCount = analytics.feedbacks.filter((item) => item.sentiment === "中性").length;
+  const negativeCount = analytics.feedbacks.length - positiveCount - neutralCount;
+
+  return {
+    positiveRate: ((positiveCount / analytics.feedbacks.length) * 100).toFixed(1),
+    neutralRate: ((neutralCount / analytics.feedbacks.length) * 100).toFixed(1),
+    negativeRate: ((negativeCount / analytics.feedbacks.length) * 100).toFixed(1),
+    keywords: ["夜游体验", "路线推荐", "风噪识别", "亲子互动", "多语种讲解"],
+    advice: [
+      "在湿地及风口区域启用降噪 ASR 模型和离线文本快捷提问。",
+      "将夜游内容与热门打卡点绑定，提升游客停留时长与二次消费转化。",
+      "增加英文、日语和无障碍模式，扩展国际游客与特殊人群服务能力。"
+    ]
+  };
+}
+
+
+const scenic = getScenicProfile();
+
+const state = {
+  currentView: "tourist",
+  adminTab: "overview",
+  adminLoggedIn: false,
+  adminLoginOpen: false,
+  currentMode: "text",
+  currentEmotion: "smile",
+  activeAvatar: getAvatarProfiles()[0],
+  visitorProfile: {
+    name: "游客001",
+    interest: "history",
+    duration: "2小时",
+    groupType: "个人",
+    language: "中文"
+  },
+  currentRouteId: "history",
+  selectedSpotId: "buddha",
+  activeSpotDetail: null,
+  messageInput: "",
+  lastApiResult: null,
+  aiLoading: false,
+  voiceDraft: "我对历史文化感兴趣，帮我推荐一条 2 小时路线。",
+  newKnowledge: {
+    title: "",
+    category: "历史文化",
+    keywords: "",
+    content: ""
+  },
+  feedbackForm: {
+    score: 5,
+    emotion: "满意",
+    content: ""
+  },
+  messages: [
+    {
+      role: "assistant",
+      content: "你好，我是灵灵，欢迎来到灵山胜境。你可以问我灵山大佛、九龙灌浴、梵宫、五印坛城、演出时间或亲子路线，也可以点击场景开始导览。",
+      meta: "系统欢迎语"
+    }
+  ]
+};
+
+const touristView = document.querySelector("#tourist-view");
+const adminView = document.querySelector("#admin-view");
+const docsView = document.querySelector("#docs-view");
+
+function renderApp() {
+  renderShellNav();
+  renderTourist();
+  renderAdmin();
+  renderDocs();
+  bindGlobalNav();
+  bindShellEvents();
+}
+
+function renderShellNav() {
+  const nav = document.querySelector(".nav");
+  if (nav) {
+    nav.innerHTML = state.adminLoggedIn
+      ? `
+        <button class="nav-btn ${state.currentView === "tourist" ? "active" : ""}" data-view="tourist">游客导览端</button>
+        <button class="nav-btn ${state.currentView === "admin" ? "active" : ""}" data-view="admin">管理后台</button>
+        <button class="nav-btn ${state.currentView === "docs" ? "active" : ""}" data-view="docs">方案说明</button>
+      `
+      : `
+        <button class="nav-btn active" data-view="tourist">游客导览端</button>
+      `;
+  }
+
+  const topbarMeta = document.querySelector(".topbar-meta");
+  if (topbarMeta) {
+    topbarMeta.innerHTML = `
+      <span class="topbar-tag">灵山胜境游客端</span>
+      <span class="topbar-tag">V2026.05.29.14</span>
+      ${state.adminLoggedIn
+        ? `<button class="topbar-login" data-shell-action="logout-admin">退出后台</button>`
+        : `<button class="topbar-login" data-shell-action="open-admin-login">管理员登录</button>`}
+    `;
+  }
+}
+
+function bindGlobalNav() {
+  document.querySelectorAll(".nav-btn").forEach((button) => {
+    button.classList.toggle("active", button.dataset.view === state.currentView);
+    button.onclick = () => {
+      if (button.dataset.view === "admin" && !state.adminLoggedIn) {
+        state.adminLoginOpen = true;
+        renderApp();
+        return;
+      }
+      state.currentView = button.dataset.view;
+      document.querySelectorAll(".view").forEach((view) => view.classList.remove("active"));
+      document.querySelector(`#${button.dataset.view}-view`).classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      bindGlobalNav();
+    };
+  });
+}
+
+function bindShellEvents() {
+  document.querySelectorAll("[data-shell-action]").forEach((button) => {
+    button.onclick = () => {
+      const action = button.dataset.shellAction;
+      if (action === "open-admin-login") {
+        state.adminLoginOpen = true;
+        renderApp();
+      }
+      if (action === "close-admin-login") {
+        state.adminLoginOpen = false;
+        renderApp();
+      }
+      if (action === "login-admin") {
+        const account = document.querySelector("#admin-account")?.value.trim();
+        const password = document.querySelector("#admin-password")?.value.trim();
+        if (account === "admin" && password === "123456") {
+          state.adminLoggedIn = true;
+          state.adminLoginOpen = false;
+          state.currentView = "admin";
+          document.querySelectorAll(".view").forEach((view) => view.classList.remove("active"));
+          document.querySelector("#admin-view").classList.add("active");
+          renderApp();
+        } else {
+          alert("管理员账号或密码错误。演示账号：admin，密码：123456");
+        }
+      }
+      if (action === "logout-admin") {
+        state.adminLoggedIn = false;
+        state.currentView = "tourist";
+        document.querySelectorAll(".view").forEach((view) => view.classList.remove("active"));
+        document.querySelector("#tourist-view").classList.add("active");
+        renderApp();
+      }
+    };
+  });
+}
+
+function renderTourist() {
+  const snapshot = createLiveSnapshot();
+  const route = snapshot.routes.find((item) => item.id === state.currentRouteId) || snapshot.routes[0];
+  const selectedSpot = snapshot.spots.find((item) => item.id === state.selectedSpotId) || snapshot.spots[0];
+
+  touristView.innerHTML = `
+    <section class="hero">
+      <div class="panel hero-card">
+        <div class="section-title">
+          <div>
+            <h2>${scenic.name}</h2>
+            <p>${scenic.city} · ${scenic.theme}</p>
+          </div>
+          <span class="badge">游客交互端</span>
+        </div>
+        <p class="muted">${scenic.overview}</p>
+        <div class="hero-highlights">
+          ${scenic.highlights.map((item) => `<span class="pill">${item}</span>`).join("")}
+        </div>
+        <div class="grid-4" style="margin-top:18px;">
+          <div class="status-card">
+            <strong>${snapshot.analytics.avgResponseSeconds}s</strong>
+            <span>平均响应</span>
+          </div>
+          <div class="status-card">
+            <strong>${snapshot.analytics.responseAccuracy}%</strong>
+            <span>问答准确率</span>
+          </div>
+          <div class="status-card">
+            <strong>${snapshot.analytics.satisfaction}%</strong>
+            <span>游客满意度</span>
+          </div>
+          <div class="status-card">
+            <strong>${snapshot.analytics.serviceCountToday}</strong>
+            <span>今日服务人次</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel hero-card digital-human">
+        <div class="section-title">
+          <div>
+            <h2>数字人导游</h2>
+            <p>${state.activeAvatar.name} · ${state.activeAvatar.costume} · ${state.activeAvatar.voice}</p>
+          </div>
+          <span class="tag"><span class="dot"></span>在线接待</span>
+        </div>
+        <div class="avatar-stage">
+          <div class="halo"></div>
+          <div class="avatar">
+            <div class="head">
+              <div class="hair"></div>
+              <div class="brow left"></div>
+              <div class="brow right"></div>
+              <div class="eye left"></div>
+              <div class="eye right"></div>
+              <div class="mouth ${state.currentEmotion}" id="mouth"></div>
+            </div>
+            <div class="body">
+              <div class="sash"></div>
+            </div>
+          </div>
+          <div class="scenery">
+            <div class="hill one"></div>
+            <div class="hill two"></div>
+            <div class="hill three"></div>
+          </div>
+        </div>
+        <div class="expression-row">
+          <span class="tag">表情状态：${emotionLabel(state.currentEmotion)}</span>
+          <span class="tag">当前讲解：${selectedSpot.name}</span>
+          <span class="tag">语言：${state.visitorProfile.language}</span>
+          <span class="tag">AI接口：千问 Qwen 优先 / 本地RAG降级</span>
+        </div>
+        <div class="avatar-picker">
+          ${snapshot.avatars.map((avatar) => `
+            <button class="avatar-choice ${avatar.id === state.activeAvatar.id ? "active" : ""}" data-action="choose-avatar" data-avatar-id="${avatar.id}">
+              <strong>${avatar.name}</strong>
+              <span>${avatar.voice} · ${avatar.style}</span>
+            </button>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+
+    <section class="tourist-workbench">
+      <div class="tourist-left">
+        <div class="panel pad">
+          <div class="panel-title">
+            <div>
+              <h3>场景导览</h3>
+              <p>点击景点卡片，数字人切换讲解上下文</p>
+            </div>
+          </div>
+          <div class="spot-grid">
+            ${snapshot.spots.map((spot) => `
+              <button class="spot-card ${spot.id === state.selectedSpotId ? "active" : ""}" data-action="select-spot" data-spot-id="${spot.id}">
+                <strong>${spot.name}</strong>
+                <span>${spot.label}</span>
+                <small>${spot.teaser}</small>
+                <em>进入讲解</em>
+              </button>
+            `).join("")}
+          </div>
+          ${renderSpotDetail(selectedSpot, snapshot)}
+        </div>
+
+        <div class="panel chat-panel">
+          <div class="ai-chat-head">
+            <div>
+          <h3>和灵灵 AI 导游对话</h3>
+              <p>直接输入任何景区问题，系统会优先调用千问 qwen-plus。</p>
+            </div>
+            <span class="badge">${state.aiLoading ? "千问生成中" : "千问已接入"}</span>
+          </div>
+          <div class="quick-ai-composer">
+            <input id="quick-ai-input" value="${escapeHtml(state.messageInput)}" placeholder="例如：我现在在灵山大佛，像真人导游一样给我讲讲这里。">
+            <button class="primary-btn" data-action="send-quick-ai">${state.aiLoading ? "生成中..." : "问 AI 导游"}</button>
+          </div>
+          <div class="toolbar pad" style="padding:14px 16px 0;">
+            <div class="segmented">
+              <button class="${state.currentMode === "text" ? "active" : ""}" data-action="switch-mode" data-mode="text">文本问答</button>
+              <button class="${state.currentMode === "voice" ? "active" : ""}" data-action="switch-mode" data-mode="voice">语音模式</button>
+            </div>
+            <button class="ghost-btn" data-action="quick-question" data-question="夜游演艺几点开始？">夜游时间</button>
+            <button class="ghost-btn" data-action="quick-question" data-question="哪里适合拍照看晚霞？">拍照推荐</button>
+            <button class="ghost-btn" data-action="quick-question" data-question="我带孩子来玩，推荐亲子路线。">亲子路线</button>
+          </div>
+          <div class="chat-messages">
+            ${state.messages.map(renderMessage).join("")}
+          </div>
+          <div class="composer">
+            <textarea id="message-input" placeholder="请输入问题，或者点击上方快捷问题。">${escapeHtml(state.messageInput)}</textarea>
+            <div class="input-row">
+              <div class="tag">
+                ${state.currentMode === "voice"
+                  ? `<span class="signal-bar"><span></span><span></span><span></span><span></span></span> 语音识别准备中`
+                  : "文本输入已启用"}
+              </div>
+              <div class="toolbar">
+                <button class="secondary-btn" data-action="fill-voice">填充语音示例</button>
+                <button class="primary-btn" data-action="send-message">${state.aiLoading ? "AI生成中..." : "发送给数字人"}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tourist-right">
+        <div class="panel pad">
+          <div class="panel-title">
+            <div>
+              <h3>游客档案</h3>
+              <p>兴趣偏好会影响路线和讲解重点</p>
+            </div>
+          </div>
+          <div class="field-grid">
+            <label class="field">
+              <span>游客昵称</span>
+              <input id="visitor-name" value="${escapeHtml(state.visitorProfile.name)}">
+            </label>
+            <label class="field">
+              <span>出行类型</span>
+              <select id="visitor-group">
+                ${["个人", "情侣", "亲子家庭", "研学团队"].map((item) => `
+                  <option value="${item}" ${item === state.visitorProfile.groupType ? "selected" : ""}>${item}</option>
+                `).join("")}
+              </select>
+            </label>
+            <label class="field">
+              <span>兴趣方向</span>
+              <select id="visitor-interest">
+                <option value="history" ${state.visitorProfile.interest === "history" ? "selected" : ""}>历史文化</option>
+                <option value="nature" ${state.visitorProfile.interest === "nature" ? "selected" : ""}>自然风光</option>
+                <option value="family" ${state.visitorProfile.interest === "family" ? "selected" : ""}>亲子互动</option>
+                <option value="service" ${state.visitorProfile.interest === "service" ? "selected" : ""}>便民服务</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>可游览时长</span>
+              <select id="visitor-duration">
+                ${["1小时", "2小时", "3小时", "半天"].map((item) => `
+                  <option value="${item}" ${item === state.visitorProfile.duration ? "selected" : ""}>${item}</option>
+                `).join("")}
+              </select>
+            </label>
+            <label class="field">
+              <span>讲解语言</span>
+              <select id="visitor-language">
+                ${["中文", "English", "日语", "无障碍模式"].map((item) => `
+                  <option value="${item}" ${item === state.visitorProfile.language ? "selected" : ""}>${item}</option>
+                `).join("")}
+              </select>
+            </label>
+            <div class="field">
+              <span>推荐操作</span>
+              <button class="primary-btn" data-action="save-profile">更新偏好并重算路线</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel pad">
+          <div class="panel-title">
+            <div>
+              <h3>个性化路线</h3>
+              <p>当前推荐给 ${state.visitorProfile.name}</p>
+            </div>
+          </div>
+          <div class="route-switcher">
+            ${snapshot.routes.map((item) => `
+              <button class="route-switch ${item.id === state.currentRouteId ? "active" : ""}" data-action="select-route" data-route-id="${item.id}">
+                ${item.audience}
+              </button>
+            `).join("")}
+          </div>
+          ${renderRouteCard(route)}
+          <div class="list-item" style="margin-top:14px;">
+            <h4>讲解重点</h4>
+            <p>${selectedSpot.script}</p>
+          </div>
+        </div>
+
+        <div class="panel pad">
+          <div class="panel-title">
+            <div>
+              <h3>快速提问</h3>
+              <p>游客常问问题，一键开始对话</p>
+            </div>
+          </div>
+          <div class="quick-question-grid">
+            ${[
+              "灵山大佛最值得看什么？",
+              "九龙灌浴几点表演？",
+              "带孩子怎么玩不累？",
+              "梵宫有什么艺术亮点？",
+              "帮我安排半日路线",
+              "哪里适合拍太湖风光？"
+            ].map((question) => `
+              <button class="ghost-btn" data-action="quick-question" data-question="${question}">${question}</button>
+            `).join("")}
+          </div>
+        </div>
+      </div>
+    </section>
+    ${state.adminLoginOpen ? renderAdminLoginModal() : ""}
+  `;
+
+  bindTouristEvents();
+}
+
+function renderAdmin() {
+  const snapshot = createLiveSnapshot();
+  const report = buildFeedbackReport();
+  if (!state.adminLoggedIn) {
+    adminView.innerHTML = `
+      <section class="panel pad admin-locked">
+        <h2>管理后台</h2>
+        <p class="muted">后台包含知识库、接口监控、游客反馈和运营数据，仅管理员可见。</p>
+        <button class="primary-btn" data-shell-action="open-admin-login">管理员登录</button>
+      </section>
+    `;
+    return;
+  }
+  const tabs = [
+    ["overview", "运营概览"],
+    ["knowledge", "知识库"],
+    ["avatar", "数字人配置"],
+    ["report", "游客报告"]
+  ];
+
+  adminView.innerHTML = `
+    <section class="section-title" style="margin-bottom:18px;">
+      <div>
+        <h2>管理后台</h2>
+        <p>一套完整的运营控制台，覆盖知识库管理、导游配置、游客洞察和服务监控</p>
+      </div>
+      <span class="badge">管理员视角</span>
+    </section>
+
+    <div class="tab-row admin-tabs">
+      ${tabs.map(([id, label]) => `
+        <button class="tab-btn ${state.adminTab === id ? "active" : ""}" data-action="switch-admin-tab" data-tab="${id}">
+          ${label}
+        </button>
+      `).join("")}
+    </div>
+
+    ${state.adminTab === "overview" ? renderAdminOverview(snapshot) : ""}
+    ${state.adminTab === "knowledge" ? renderAdminKnowledge(snapshot) : ""}
+    ${state.adminTab === "avatar" ? renderAdminAvatar(snapshot) : ""}
+    ${state.adminTab === "report" ? renderAdminReport(snapshot, report) : ""}
+    <section style="margin-top:18px;">${renderApiLogPanel(snapshot)}</section>
+  `;
+
+  bindAdminEvents();
+}
+
+function renderAdminLoginModal() {
+  return `
+    <div class="modal-mask">
+      <div class="login-modal">
+        <div class="panel-title">
+          <div>
+            <h3>管理员登录</h3>
+            <p>登录后进入知识库、数据大屏和接口监控后台</p>
+          </div>
+          <button class="ghost-btn" data-shell-action="close-admin-login">关闭</button>
+        </div>
+        <div class="field-grid">
+          <label class="field full">
+            <span>账号</span>
+            <input id="admin-account" value="admin">
+          </label>
+          <label class="field full">
+            <span>密码</span>
+            <input id="admin-password" type="password" value="123456">
+          </label>
+          <button class="primary-btn" data-shell-action="login-admin">进入后台</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderAdminOverview(snapshot) {
+  return `
+    <section class="kpi-grid" style="margin-top:18px;">
+      <div class="kpi-card">
+        <strong>${snapshot.analytics.serviceCountToday}</strong>
+        <div>今日服务人次</div>
+        <div class="metric-trend up">较昨日 +12.6%</div>
+      </div>
+      <div class="kpi-card">
+        <strong>${snapshot.analytics.serviceCountWeek}</strong>
+        <div>本周累计服务</div>
+        <div class="metric-trend up">夜游高峰最明显</div>
+      </div>
+      <div class="kpi-card">
+        <strong>${snapshot.analytics.satisfaction}%</strong>
+        <div>游客满意度</div>
+        <div class="metric-trend up">由反馈动态计算</div>
+      </div>
+      <div class="kpi-card">
+        <strong>${snapshot.analytics.avgResponseSeconds}s</strong>
+        <div>平均响应时延</div>
+        <div class="metric-trend down">弱网区域待优化</div>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <div class="panel pad">
+        <div class="panel-title">
+          <div>
+            <h3>情绪趋势</h3>
+            <p>游客满意度和交互活跃度综合趋势</p>
+          </div>
+        </div>
+        <div class="chart-box">
+          ${snapshot.analytics.emotionTrend.map((item) => `
+            <div class="bar-col">
+              <div class="bar" style="height:${item.value * 1.6}px;"></div>
+              <span>${item.day}</span>
+            </div>
+          `).join("")}
+        </div>
+        <p class="chart-caption">数据可用于答辩中展示服务质量持续改善。</p>
+      </div>
+
+      <div class="panel pad">
+        <div class="panel-title">
+          <div>
+            <h3>实时热点</h3>
+            <p>当前游客最常提问的问题与关注场景</p>
+          </div>
+        </div>
+        <div class="hot-list">
+          ${snapshot.analytics.hotQuestions.map((item, index) => `
+            <div class="list-item">
+              <h4>TOP ${index + 1}</h4>
+              <p>${item}</p>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderAdminKnowledge(snapshot) {
+  return `
+    <section class="grid-2" style="margin-top:18px;">
+      <div class="panel pad">
+        <div class="panel-title">
+          <div>
+            <h3>知识库列表</h3>
+            <p>支持新增、启停和删除知识条目</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>文档名称</th>
+                <th>分类</th>
+                <th>关键词</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${snapshot.knowledge.map((item) => `
+                <tr>
+                  <td>${item.title}</td>
+                  <td>${item.category}</td>
+                  <td>${item.keywords.slice(0, 3).join(" / ")}</td>
+                  <td>${item.status}</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="ghost-btn small-btn" data-action="toggle-kb" data-kb-id="${item.id}">
+                        ${item.status === "已启用" ? "停用" : "启用"}
+                      </button>
+                      <button class="ghost-btn small-btn danger-btn" data-action="delete-kb" data-kb-id="${item.id}">
+                        删除
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel pad">
+        <div class="panel-title">
+          <div>
+            <h3>新增知识条目</h3>
+            <p>模拟上传资料包并实时更新问答基础</p>
+          </div>
+        </div>
+        <div class="field-grid">
+          <label class="field">
+            <span>文档名称</span>
+            <input id="kb-title" value="${escapeHtml(state.newKnowledge.title)}">
+          </label>
+          <label class="field">
+            <span>分类</span>
+            <select id="kb-category">
+              ${["历史文化", "核心景点", "自然风光", "游客服务", "文旅演艺", "交通安全"].map((item) => `
+                <option value="${item}" ${item === state.newKnowledge.category ? "selected" : ""}>${item}</option>
+              `).join("")}
+            </select>
+          </label>
+          <label class="field full">
+            <span>关键词</span>
+            <input id="kb-keywords" value="${escapeHtml(state.newKnowledge.keywords)}" placeholder="用逗号分隔，例如 夜游, 演艺, 灯光">
+          </label>
+          <label class="field full">
+            <span>内容摘要</span>
+            <textarea id="kb-content" placeholder="请输入景区知识内容。">${escapeHtml(state.newKnowledge.content)}</textarea>
+          </label>
+          <div class="field full">
+            <button class="primary-btn" data-action="add-kb">保存到知识库</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderAdminAvatar(snapshot) {
+  return `
+    <section class="grid-2" style="margin-top:18px;">
+      <div class="panel pad">
+        <div class="panel-title">
+          <div>
+            <h3>数字人形象管理</h3>
+            <p>名称、服装、声音、角色风格可即时生效</p>
+          </div>
+        </div>
+        <div class="avatar-config">
+          <div class="avatar-preview">
+            <div class="mini-avatar">
+              <div class="head">
+                <div class="hair"></div>
+                <div class="eye left"></div>
+                <div class="eye right"></div>
+                <div class="mouth ${state.currentEmotion}"></div>
+              </div>
+              <div class="body">
+                <div class="sash"></div>
+              </div>
+            </div>
+          </div>
+          <div class="field-grid">
+            <label class="field">
+              <span>数字人档案</span>
+              <select id="avatar-select">
+                ${snapshot.avatars.map((item) => `
+                  <option value="${item.id}" ${item.id === state.activeAvatar.id ? "selected" : ""}>${item.name}</option>
+                `).join("")}
+              </select>
+            </label>
+            <label class="field">
+              <span>声音风格</span>
+              <input id="avatar-voice" value="${escapeHtml(state.activeAvatar.voice)}">
+            </label>
+            <label class="field">
+              <span>服装主题</span>
+              <input id="avatar-costume" value="${escapeHtml(state.activeAvatar.costume)}">
+            </label>
+            <label class="field">
+              <span>服务角色</span>
+              <input id="avatar-style" value="${escapeHtml(state.activeAvatar.style)}">
+            </label>
+            <label class="field full">
+              <span>形象设定</span>
+              <textarea id="avatar-summary">${escapeHtml(state.activeAvatar.summary || "突出景区文化气质、亲和陪伴感和稳定讲解能力。")}</textarea>
+            </label>
+            <div class="field full">
+              <button class="primary-btn" data-action="save-avatar-config">保存配置</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel pad">
+        <div class="panel-title">
+          <div>
+            <h3>能力挂载清单</h3>
+            <p>答辩时可直接说明的工程模块</p>
+          </div>
+        </div>
+        <div class="feedback-list">
+          ${[
+            "ASR: Whisper / FunASR，用于游客语音转文本",
+            "TTS: Edge-TTS / ParaTTS，用于拟人化语音播报",
+            "LLM: 多模态大模型负责问答与情绪生成",
+            "RAG: 本地景区知识库检索增强保障事实正确性",
+            "Avatar Engine: Live2D 或 2D 数字人驱动口型和表情"
+          ].map((item) => `
+            <div class="list-item">
+              <p>${item}</p>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderAdminReport(snapshot, report) {
+  return `
+    <section class="grid-2" style="margin-top:18px;">
+      <div class="panel pad">
+        <div class="panel-title">
+          <div>
+            <h3>游客感受度报告</h3>
+            <p>基于聊天记录和反馈表单实时汇总</p>
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="mini-stat">
+            <strong>${report.positiveRate}%</strong>
+            <div>积极反馈</div>
+          </div>
+          <div class="mini-stat">
+            <strong>${report.neutralRate}%</strong>
+            <div>中性反馈</div>
+          </div>
+          <div class="mini-stat">
+            <strong>${report.negativeRate}%</strong>
+            <div>待改善反馈</div>
+          </div>
+        </div>
+        <div class="report-card" style="margin-top:16px;">
+          <h4>关键词聚合</h4>
+          <div class="route-meta">
+            ${report.keywords.map((item) => `<span class="pill">${item}</span>`).join("")}
+          </div>
+        </div>
+        <div class="report-card" style="margin-top:16px;">
+          <h4>优化建议</h4>
+          <ul>
+            ${report.advice.map((item) => `<li>${item}</li>`).join("")}
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel pad">
+        <div class="panel-title">
+          <div>
+            <h3>反馈明细</h3>
+            <p>游客满意度、情绪和服务建议</p>
+          </div>
+        </div>
+        <div class="feedback-list">
+          ${snapshot.analytics.feedbacks.map((item) => `
+            <div class="list-item">
+              <h4>${item.user} · ${item.sentiment}</h4>
+              <p>${item.summary}</p>
+              <p style="margin-top:8px;"><strong>建议：</strong>${item.suggestion}</p>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderDocs() {
+  docsView.innerHTML = `
+    <section class="doc-layout">
+      <div class="panel doc-hero">
+        <div class="section-title">
+          <div>
+            <h2>方案说明</h2>
+            <p>这一页给答辩、视频录制和文档讲解使用</p>
+          </div>
+          <div class="doc-actions">
+            <span class="badge">完整交互闭环</span>
+            <span class="badge">可升级到真实后端</span>
+          </div>
+        </div>
+        <p class="muted">系统以游客导览和后台运营双端闭环为核心，重点展示多模态交互、景区知识问答、个性化路线、游客洞察和数字人配置能力。</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="panel doc-section">
+          <h3>业务价值</h3>
+          <ul>
+            <li>缓解旺季导游资源紧张问题，支撑 7x24 小时讲解服务。</li>
+            <li>通过数字人增强陪伴感，提升景区品牌记忆点。</li>
+            <li>用数据分析替代管理盲区，帮助景区持续优化。</li>
+          </ul>
+        </div>
+        <div class="panel doc-section">
+          <h3>核心技术</h3>
+          <ul>
+            ${docsContent.tech.map((item) => `<li>${item}</li>`).join("")}
+          </ul>
+        </div>
+        <div class="panel doc-section">
+          <h3>系统架构</h3>
+          <ul>
+            ${docsContent.architecture.map((item) => `<li>${item}</li>`).join("")}
+          </ul>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderApiResult() {
+  if (!state.lastApiResult) {
+    return `
+      <div class="api-result">
+        <strong>最近接口</strong>
+        <span>等待游客或管理员操作</span>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="api-result">
+      <strong>${state.lastApiResult.method} ${state.lastApiResult.endpoint}</strong>
+      <span>${state.lastApiResult.message}</span>
+      <small>${state.lastApiResult.requestId} · ${state.lastApiResult.time}</small>
+    </div>
+  `;
+}
+
+function renderApiLogPanel(snapshot) {
+  const logs = snapshot.apiLogs || [];
+  return `
+    <div class="panel pad">
+      <div class="panel-title">
+        <div>
+          <h3>接口调用监控</h3>
+          <p>每个按钮都会写入一条 Mock API 调用记录</p>
+        </div>
+      </div>
+      <div class="api-log-list">
+        ${logs.length ? logs.map((item) => `
+          <div class="api-log-item">
+            <strong>${item.method} ${item.endpoint}</strong>
+            <span>${item.message}</span>
+            <small>${item.requestId} · ${item.time}</small>
+          </div>
+        `).join("") : `
+          <div class="api-log-item">
+            <strong>暂无调用</strong>
+            <span>点击问答、路线、知识库或数字人配置按钮后会出现记录。</span>
+          </div>
+        `}
+      </div>
+    </div>
+  `;
+}
+
+function renderSpotDetail(spot, snapshot) {
+  const related = snapshot.knowledge.filter((item) => item.spotId === spot.id);
+  return `
+    <div class="spot-detail">
+      <div class="panel-title">
+        <div>
+          <h3>${spot.name}详情</h3>
+          <p>${spot.label} · ${spot.teaser}</p>
+        </div>
+      </div>
+      <p class="muted">${spot.script}</p>
+      <div class="route-meta" style="margin-top:12px;">
+        ${related.map((item) => `<span class="pill">${item.title}</span>`).join("") || `<span class="pill">暂无关联知识</span>`}
+      </div>
+      <div class="toolbar" style="margin-top:14px;">
+        <button class="primary-btn" data-action="start-spot-guide" data-spot-id="${spot.id}">开始数字人讲解</button>
+        <button class="secondary-btn" data-action="plan-to-spot" data-spot-id="${spot.id}">规划到此</button>
+        <button class="ghost-btn" data-action="voice-spot-guide" data-spot-id="${spot.id}">语音讲解</button>
+      </div>
+    </div>
+  `;
+}
+
+function bindTouristEvents() {
+  touristView.querySelectorAll("[data-action]").forEach((element) => {
+    element.onclick = handleTouristAction;
+  });
+  touristView.querySelectorAll("#message-input, #quick-ai-input").forEach((input) => {
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendAiMessage(input.value);
+      }
+    });
+  });
+}
+
+function bindAdminEvents() {
+  adminView.querySelectorAll("[data-action]").forEach((element) => {
+    element.onclick = handleAdminAction;
+  });
+}
+
+async function handleTouristAction(event) {
+  const action = event.currentTarget.dataset.action;
+
+  if (action === "switch-mode") {
+    state.currentMode = event.currentTarget.dataset.mode;
+    renderTourist();
+    return;
+  }
+
+  if (action === "choose-avatar") {
+    const avatar = getAvatarProfiles().find((item) => item.id === event.currentTarget.dataset.avatarId);
+    if (!avatar) return;
+    state.activeAvatar = avatar;
+    state.currentEmotion = avatar.mood;
+    state.messages.push({
+      role: "assistant",
+      content: `已切换为${avatar.name}。接下来我会用“${avatar.style}”风格继续陪你游览灵山胜境。`,
+      meta: "数字人形象切换"
+    });
+    renderApp();
+    animateMouth();
+    return;
+  }
+
+  if (action === "select-spot") {
+    state.selectedSpotId = event.currentTarget.dataset.spotId;
+    const api = switchGuideScene(state.selectedSpotId);
+    state.lastApiResult = api;
+    const selectedSpot = api.data.spot;
+    state.currentEmotion = selectedSpot?.mood || "smile";
+    state.messages.push({
+      role: "assistant",
+      content: `已切换到${selectedSpot.name}讲解模式。${selectedSpot.script}`,
+      meta: "场景导览"
+    });
+    renderTourist();
+    animateMouth();
+    return;
+  }
+
+  if (action === "start-spot-guide" || action === "voice-spot-guide") {
+    const spotId = event.currentTarget.dataset.spotId;
+    const mode = action === "voice-spot-guide" ? "voice" : "text";
+    const api = startSpotGuide(spotId, mode);
+    state.lastApiResult = api;
+    state.selectedSpotId = spotId;
+    state.currentMode = mode;
+    state.currentEmotion = api.data.spot.mood;
+    state.messages.push({
+      role: "assistant",
+      content: `${api.message}。${api.data.script}`,
+      meta: mode === "voice" ? "语音讲解接口" : "景点讲解接口"
+    });
+    renderApp();
+    animateMouth();
+    return;
+  }
+
+  if (action === "plan-to-spot") {
+    const spotId = event.currentTarget.dataset.spotId;
+    const api = planRouteToSpot(spotId, state.visitorProfile.interest);
+    state.lastApiResult = api;
+    state.selectedSpotId = spotId;
+    state.currentRouteId = api.data.route.id;
+    state.messages.push({
+      role: "assistant",
+      content: `${api.message}，预计 ${api.data.eta} 到达。${api.data.navigationTips.join(" ")}`,
+      meta: "路线规划接口"
+    });
+    renderApp();
+    return;
+  }
+
+  if (action === "quick-question") {
+    state.messageInput = event.currentTarget.dataset.question;
+    renderTourist();
+    return;
+  }
+
+  if (action === "fill-voice") {
+    state.currentMode = "voice";
+    state.messageInput = state.voiceDraft;
+    renderTourist();
+    return;
+  }
+
+  if (action === "save-profile") {
+    state.visitorProfile = {
+      name: document.querySelector("#visitor-name").value.trim() || "游客001",
+      groupType: document.querySelector("#visitor-group").value,
+      interest: document.querySelector("#visitor-interest").value,
+      duration: document.querySelector("#visitor-duration").value,
+      language: document.querySelector("#visitor-language").value
+    };
+    state.lastApiResult = updateVisitorProfile(state.visitorProfile);
+    state.currentRouteId = recommendedRouteId(state.visitorProfile.interest);
+    state.currentEmotion = interestEmotion(state.visitorProfile.interest);
+    state.messages.push({
+      role: "assistant",
+      content: `好的，已更新你的游览偏好。我已为你切换到${routeNameById(state.currentRouteId)}，讲解会更偏向${interestLabel(state.visitorProfile.interest)}。`,
+      meta: "偏好更新"
+    });
+    renderApp();
+    animateMouth();
+    return;
+  }
+
+  if (action === "select-route") {
+    state.currentRouteId = event.currentTarget.dataset.routeId;
+    state.lastApiResult = switchRoute(state.currentRouteId);
+    state.messages.push({
+      role: "assistant",
+      content: `已为你切换到${routeNameById(state.currentRouteId)}。如果需要，我可以继续细讲每个站点的停留建议。`,
+      meta: "路线切换"
+    });
+    renderTourist();
+    animateMouth();
+    return;
+  }
+
+  if (action === "submit-feedback") {
+    state.feedbackForm = {
+      score: Number(document.querySelector("#feedback-score").value),
+      emotion: document.querySelector("#feedback-emotion").value,
+      content: document.querySelector("#feedback-content").value.trim()
+    };
+    state.lastApiResult = submitVisitorFeedback({
+      user: state.visitorProfile.name,
+      score: state.feedbackForm.score,
+      emotion: state.feedbackForm.emotion,
+      content: state.feedbackForm.content
+    });
+    state.feedbackForm.content = "";
+    alert("反馈已提交，后台报告已同步更新。");
+    renderApp();
+    return;
+  }
+
+  if (action === "send-message") {
+    await sendAiMessage(document.querySelector("#message-input").value);
+    return;
+  }
+
+  if (action === "send-quick-ai") {
+    await sendAiMessage(document.querySelector("#quick-ai-input").value);
+  }
+}
+
+async function sendAiMessage(rawValue) {
+  const value = rawValue.trim();
+  if (!value || state.aiLoading) return;
+
+  state.messageInput = "";
+  state.messages.push({
+    role: "user",
+    content: value,
+    meta: state.currentMode === "voice" ? "游客语音输入" : "游客文本输入"
+  });
+  state.aiLoading = true;
+  renderApp();
+  scrollChatToBottom();
+
+  const api = await chatWithQwenGuide(value, {
+    channel: state.currentMode,
+    interest: state.visitorProfile.interest,
+    spotId: state.selectedSpotId,
+    visitorName: state.visitorProfile.name
+  });
+
+  state.aiLoading = false;
+  state.lastApiResult = api;
+  const reply = api.data;
+  state.currentEmotion = reply.emotion;
+  state.currentRouteId = reply.route.id;
+  state.messages.push({
+    role: "assistant",
+    content: reply.answer,
+    meta: reply.provider === "qwen"
+      ? `AI来源：千问 ${reply.model} · ${reply.sourceTitle}`
+      : `本地降级：${reply.sourceTitle} · ${reply.error || "未启用千问接口"}`
+  });
+  renderApp();
+  animateMouth();
+  scrollChatToBottom();
+}
+
+function scrollChatToBottom() {
+  requestAnimationFrame(() => {
+    const chat = document.querySelector(".chat-messages");
+    if (chat) chat.scrollTop = chat.scrollHeight;
+  });
+}
+
+function handleAdminAction(event) {
+  const action = event.currentTarget.dataset.action;
+
+  if (action === "switch-admin-tab") {
+    state.adminTab = event.currentTarget.dataset.tab;
+    renderAdmin();
+    return;
+  }
+
+  if (action === "toggle-kb") {
+    state.lastApiResult = toggleKnowledgeStatus(event.currentTarget.dataset.kbId);
+    renderAdmin();
+    return;
+  }
+
+  if (action === "delete-kb") {
+    state.lastApiResult = removeKnowledgeItem(event.currentTarget.dataset.kbId);
+    renderApp();
+    return;
+  }
+
+  if (action === "add-kb") {
+    const title = document.querySelector("#kb-title").value.trim();
+    const category = document.querySelector("#kb-category").value;
+    const keywords = document.querySelector("#kb-keywords").value.trim();
+    const content = document.querySelector("#kb-content").value.trim();
+    if (!title || !content) {
+      alert("请先填写文档名称和内容摘要。");
+      return;
+    }
+    state.lastApiResult = addKnowledgeItem({ title, category, keywords, content });
+    state.newKnowledge = { title: "", category: "历史文化", keywords: "", content: "" };
+    alert("知识条目已入库，游客端问答可立即使用。");
+    renderApp();
+    return;
+  }
+
+  if (action === "save-avatar-config") {
+    const nextProfile = {
+      ...state.activeAvatar,
+      voice: document.querySelector("#avatar-voice").value.trim(),
+      costume: document.querySelector("#avatar-costume").value.trim(),
+      style: document.querySelector("#avatar-style").value.trim(),
+      summary: document.querySelector("#avatar-summary").value.trim()
+    };
+    state.lastApiResult = saveAvatarProfile(nextProfile);
+    state.activeAvatar = nextProfile;
+    alert("数字人配置已保存，游客端已同步更新。");
+    renderApp();
+    return;
+  }
+}
+
+adminView.addEventListener("change", (event) => {
+  if (event.target.id === "avatar-select") {
+    const profile = getAvatarProfiles().find((item) => item.id === event.target.value);
+    if (profile) {
+      state.activeAvatar = profile;
+      state.currentEmotion = profile.mood;
+      renderApp();
+    }
+  }
+});
+
+function renderMessage(message) {
+  return `
+    <div class="bubble ${message.role}">
+      <div>${escapeHtml(message.content)}</div>
+      <small>${escapeHtml(message.meta || "")}</small>
+    </div>
+  `;
+}
+
+function renderRouteCard(route) {
+  return `
+    <div class="route-card">
+      <h4>${route.audience}</h4>
+      <p class="muted">${route.focus}</p>
+      <div class="route-meta">
+        <span class="tag">${route.duration}</span>
+        <span class="tag">${route.pace}</span>
+        ${route.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+      </div>
+      <div class="route-meta">
+        ${route.stops.map((stop) => `<span class="route-stop">${stop}</span>`).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function routeNameById(id) {
+  const route = getRoutes().find((item) => item.id === id);
+  return route ? route.audience : "推荐路线";
+}
+
+function recommendedRouteId(interest) {
+  return {
+    history: "history",
+    nature: "nature",
+    family: "family",
+    service: "family"
+  }[interest] || "history";
+}
+
+function interestEmotion(interest) {
+  return {
+    history: "thinking",
+    nature: "smile",
+    family: "excited",
+    service: "calm"
+  }[interest] || "smile";
+}
+
+function interestLabel(interest) {
+  return {
+    history: "历史文化",
+    nature: "自然风光",
+    family: "亲子互动",
+    service: "便民服务"
+  }[interest] || "综合导览";
+}
+
+function emotionLabel(emotion) {
+  return {
+    smile: "微笑讲解",
+    calm: "平和陪伴",
+    thinking: "思考回答",
+    excited: "活泼互动"
+  }[emotion] || "自然讲解";
+}
+
+function animateMouth() {
+  const mouth = document.querySelector("#mouth");
+  const brows = document.querySelectorAll(".brow");
+  if (!mouth) return;
+  mouth.classList.add("talking");
+  brows.forEach((item) => {
+    item.style.transform = state.currentEmotion === "thinking" ? "translateY(-2px)" : "translateY(0)";
+  });
+  setTimeout(() => mouth.classList.remove("talking"), 550);
+}
+
+function escapeHtml(text) {
+  return String(text)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+state.currentRouteId = recommendedRouteId(state.visitorProfile.interest);
+state.currentEmotion = state.activeAvatar.mood;
+renderApp();
+
+</script>
+</body>
+</html>
