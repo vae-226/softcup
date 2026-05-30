@@ -220,6 +220,16 @@
   color: #1a1a1a;
 }
 
+.form-input {
+  width: 100%;
+  height: 58rpx;
+  margin-top: 8rpx;
+  color: #1a1a1a;
+  font-size: 28rpx;
+  font-weight: 700;
+  background: transparent;
+}
+
 .primary-btn,
 .upload-btn,
 .icon-btn,
@@ -393,6 +403,11 @@
   background: rgba(95, 94, 94, 0.12);
 }
 
+.status.disabled {
+  color: #8f000d;
+  background: rgba(143, 0, 13, 0.1);
+}
+
 .icon-btn {
   width: 100%;
   height: 46rpx;
@@ -463,6 +478,12 @@
   color: #8f000d;
   background: transparent;
   line-height: 64rpx;
+}
+
+.outline-btn.handled {
+  border-color: rgba(95, 94, 94, 0.22);
+  color: #5f5e5e;
+  background: rgba(95, 94, 94, 0.08);
 }
 
 .admin-tabbar {

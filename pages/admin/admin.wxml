@@ -39,21 +39,21 @@
           </view>
           <view class="form-row">
             <text class="form-label">名字</text>
-            <text class="form-value">{{dashboard.avatarConfig.name}}</text>
+            <input class="form-input" value="{{avatarForm.name}}" data-field="name" bindinput="onAvatarInput" />
           </view>
           <view class="form-row">
             <text class="form-label">服饰</text>
-            <text class="form-value">{{dashboard.avatarConfig.costume}}</text>
+            <input class="form-input" value="{{avatarForm.costume}}" data-field="costume" bindinput="onAvatarInput" />
           </view>
           <view class="form-row">
             <text class="form-label">音色</text>
-            <text class="form-value">{{dashboard.avatarConfig.voice}}</text>
+            <input class="form-input" value="{{avatarForm.voice}}" data-field="voice" bindinput="onAvatarInput" />
           </view>
           <view class="form-row">
             <text class="form-label">风格</text>
-            <text class="form-value">{{dashboard.avatarConfig.style}}</text>
+            <input class="form-input" value="{{avatarForm.style}}" data-field="style" bindinput="onAvatarInput" />
           </view>
-          <button class="primary-btn">保存配置</button>
+          <button class="primary-btn" bindtap="saveAvatar">保存配置</button>
         </view>
 
         <view class="panel sentiment-panel">
@@ -92,7 +92,7 @@
             <text class="panel-icon">库</text>
             <text>知识库管理</text>
           </view>
-          <button class="upload-btn">上传资料</button>
+          <button class="upload-btn" bindtap="uploadKnowledge">上传资料</button>
         </view>
         <view class="knowledge-row" wx:for="{{dashboard.knowledge}}" wx:key="title">
           <view class="knowledge-main">
@@ -104,8 +104,8 @@
           </view>
           <view class="knowledge-actions">
             <text class="status {{item.statusClass}}">{{item.status}}</text>
-            <button class="icon-btn">编辑</button>
-            <button class="icon-btn">停用</button>
+            <button class="icon-btn" bindtap="editKnowledge">编辑</button>
+            <button class="icon-btn" bindtap="toggleKnowledge" data-title="{{item.title}}">{{item.statusAction}}</button>
           </view>
         </view>
       </view>
@@ -124,7 +124,7 @@
           </view>
           <view class="sentiment-tag {{item.sentiment}}">{{item.sentiment}}</view>
           <text class="feedback-content">“{{item.content}}”</text>
-          <button class="outline-btn">{{item.action}}</button>
+          <button class="outline-btn {{item.handledClass}}" bindtap="handleFeedback" data-content="{{item.content}}">{{item.action}}</button>
         </view>
       </view>
     </view>
