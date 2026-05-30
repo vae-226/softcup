@@ -14,7 +14,7 @@ Page({
     question: "",
     showQuestionBox: false,
     isPlaying: false,
-    playLabel: "播",
+    playIconClass: "play",
     progress: 48,
     navItems: [
       { label: "首页", icon: "⌂", activeClass: "active" },
@@ -74,7 +74,7 @@ Page({
     const isPlaying = !this.data.isPlaying;
     this.setData({
       isPlaying,
-      playLabel: isPlaying ? "停" : "播"
+      playIconClass: isPlaying ? "pause" : "play"
     });
   },
 
