@@ -196,22 +196,16 @@
   z-index: 5;
 }
 
-.side-action,
-.voice-action,
 .send-btn,
-.start-btn,
-.play-btn {
+.start-btn {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   line-height: 1;
 }
 
-.side-action::after,
-.voice-action::after,
 .send-btn::after,
-.start-btn::after,
-.play-btn::after {
+.start-btn::after {
   border: 0;
 }
 
@@ -227,6 +221,9 @@
 .side-action {
   width: 104rpx;
   height: 104rpx;
+  min-width: 104rpx;
+  max-width: 104rpx;
+  flex: 0 0 104rpx;
   background: rgba(255, 255, 255, 0.82);
   border: 1rpx solid rgba(43, 43, 43, 0.08);
   color: #68615b;
@@ -236,6 +233,9 @@
 .voice-action {
   width: 150rpx;
   height: 150rpx;
+  min-width: 150rpx;
+  max-width: 150rpx;
+  flex: 0 0 150rpx;
   background: #c5a55a;
   color: white;
   box-shadow: 0 22rpx 42rpx rgba(125, 91, 22, 0.32);
@@ -660,6 +660,8 @@
 .play-btn {
   width: 68rpx;
   height: 68rpx;
+  min-width: 68rpx;
+  max-width: 68rpx;
   border-radius: 50%;
   background: #c5a55a;
   color: white;

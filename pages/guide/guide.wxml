@@ -33,7 +33,7 @@
     </view>
 
     <view class="control-row">
-      <button class="side-action" bindtap="toggleQuestionBox" aria-label="文本输入">
+      <view class="side-action" bindtap="toggleQuestionBox" role="button" aria-label="文本输入">
         <view class="icon-keyboard">
           <view class="key-row">
             <view></view><view></view><view></view>
@@ -42,13 +42,13 @@
             <view></view><view></view><view></view>
           </view>
         </view>
-      </button>
-      <button class="voice-action" bindtap="askQuestion" aria-label="语音提问">
+      </view>
+      <view class="voice-action" bindtap="askQuestion" role="button" aria-label="语音提问">
         <view class="icon-mic"></view>
-      </button>
-      <button class="side-action" bindtap="useQuickQuestion" data-question="九龙灌浴适合孩子看吗？" aria-label="拍照识别">
+      </view>
+      <view class="side-action" bindtap="useQuickQuestion" data-question="九龙灌浴适合孩子看吗？" role="button" aria-label="拍照识别">
         <view class="icon-camera"></view>
-      </button>
+      </view>
     </view>
 
     <view class="question-box" wx:if="{{showQuestionBox}}">
@@ -117,9 +117,9 @@
       </view>
       <text class="player-desc">云端俯瞰太湖全景，感受灵山胜境的佛国气象</text>
     </view>
-    <button class="play-btn" bindtap="togglePlay" aria-label="播放讲解">
+    <view class="play-btn" bindtap="togglePlay" role="button" aria-label="播放讲解">
       <view class="icon-audio {{playIconClass}}"></view>
-    </button>
+    </view>
   </view>
 
   <view class="tabbar">
