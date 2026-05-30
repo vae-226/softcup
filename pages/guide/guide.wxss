@@ -557,7 +557,7 @@
 .tile-card.orange .tile-icon { color: #c7662a; }
 
 .service-section {
-  margin-bottom: 174rpx;
+  margin-bottom: 72rpx;
 }
 
 .service-panel {
@@ -588,6 +588,85 @@
   align-items: center;
   justify-content: center;
   font-weight: 700;
+}
+
+.profile-section {
+  margin-bottom: 250rpx;
+}
+
+.profile-card {
+  margin-top: 28rpx;
+  border-radius: 28rpx;
+  padding: 28rpx;
+  background: rgba(255, 255, 255, 0.68);
+  border: 1rpx solid rgba(197, 165, 90, 0.18);
+  display: flex;
+  align-items: center;
+  gap: 22rpx;
+  box-shadow: 0 12rpx 30rpx rgba(42, 33, 22, 0.08);
+}
+
+.profile-avatar {
+  width: 84rpx;
+  height: 84rpx;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #b22222, #c5a55a);
+  color: #fff;
+  font-size: 42rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.profile-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.profile-title {
+  font-size: 29rpx;
+  font-weight: 700;
+}
+
+.profile-desc {
+  color: #666;
+  font-size: 22rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-stats {
+  margin-top: 20rpx;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16rpx;
+}
+
+.profile-stats view {
+  border-radius: 22rpx;
+  padding: 22rpx 12rpx;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1rpx solid rgba(43, 43, 43, 0.08);
+  text-align: center;
+}
+
+.profile-num {
+  display: block;
+  color: #c5a55a;
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.profile-label {
+  display: block;
+  margin-top: 6rpx;
+  color: #777;
+  font-size: 20rpx;
 }
 
 .player-bar {
