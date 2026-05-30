@@ -4,19 +4,18 @@
       <text class="time">09:41</text>
       <view class="status-right">
         <text class="location">{{scenic.name}}</text>
-        <text>信号</text>
-        <text>WiFi</text>
-        <text>电量</text>
+        <text class="signal">信</text>
+        <text class="signal">网</text>
+        <text class="battery"></text>
       </view>
     </view>
 
     <view class="hero">
       <view class="ink-bg"></view>
+      <view class="lotus-decoration">莲</view>
+
       <view class="avatar-wrap {{currentMood}}">
-        <view class="avatar-face">
-          <text class="avatar-mark">灵</text>
-          <text class="avatar-sub">AI</text>
-        </view>
+        <image class="avatar-image" src="/assets/guide/avatar.jpg" mode="aspectFill"></image>
         <view class="listening">正在聆听...</view>
       </view>
 
@@ -24,27 +23,27 @@
         <view class="bubble-tip"></view>
         <text class="dialogue-text">{{dialogue}}</text>
         <view class="wave-row">
-          <view class="wave wave-1"></view>
-          <view class="wave wave-2"></view>
-          <view class="wave wave-3"></view>
-          <view class="wave wave-4"></view>
-          <view class="wave wave-5"></view>
+          <view class="wave wave-gold wave-1"></view>
+          <view class="wave wave-red wave-2"></view>
+          <view class="wave wave-gold wave-3"></view>
+          <view class="wave wave-red wave-4"></view>
+          <view class="wave wave-gold wave-5"></view>
         </view>
       </view>
     </view>
 
     <view class="control-row">
-      <button class="side-action" bindtap="useQuickQuestion" data-question="灵山梵宫有什么特色？">文</button>
+      <button class="side-action" bindtap="toggleQuestionBox">键</button>
       <button class="voice-action" bindtap="askQuestion">麦</button>
       <button class="side-action" bindtap="useQuickQuestion" data-question="九龙灌浴适合孩子看吗？">拍</button>
     </view>
 
-    <view class="question-box">
-      <input class="question-input" placeholder="问问灵灵：灵山大佛有什么特色？" value="{{question}}" bindinput="onQuestionInput" confirm-type="send" bindconfirm="askQuestion" />
+    <view class="question-box" wx:if="{{showQuestionBox}}">
+      <input class="question-input" placeholder="问问小灵：灵山大佛有什么特色？" value="{{question}}" bindinput="onQuestionInput" confirm-type="send" bindconfirm="askQuestion" />
       <button class="send-btn" bindtap="askQuestion">发送</button>
     </view>
 
-    <view class="section">
+    <view class="section route-section">
       <view class="section-head">
         <view class="section-title">推荐路线</view>
         <text class="more">更多路线 ></text>
@@ -52,17 +51,18 @@
       <scroll-view class="route-scroll" scroll-x enhanced show-scrollbar="{{false}}">
         <view class="route-list">
           <view class="route-card" wx:for="{{routes}}" wx:key="id">
-            <view class="route-cover {{item.id}}">
-              <text>{{item.tag}}</text>
-            </view>
+            <image class="route-image" src="{{item.image}}" mode="aspectFill"></image>
             <view class="route-body">
               <view class="route-title-row">
-                <text class="route-title">{{item.audience}}</text>
-                <text class="route-tag">{{item.tag}}</text>
+                <text class="route-title">{{item.displayTitle}}</text>
+                <text class="route-tag {{item.id}}">{{item.category}}</text>
               </view>
-              <text class="route-focus">{{item.focus}}</text>
+              <text class="route-path">{{item.path}}</text>
+              <view class="tag-row">
+                <text class="hash-tag">{{item.hashTag}}</text>
+              </view>
               <view class="route-bottom">
-                <text class="duration">约{{item.duration}}</text>
+                <text class="duration">约{{item.displayDuration}}</text>
                 <button class="start-btn" bindtap="chooseRoute" data-interest="{{item.id}}">开始游览</button>
               </view>
             </view>
@@ -93,21 +93,22 @@
   </scroll-view>
 
   <view class="player-bar">
-    <view class="thumb">佛</view>
+    <image class="thumb" src="/assets/guide/player-thumb.jpg" mode="aspectFill"></image>
     <view class="player-main">
       <view class="player-line">
-        <text class="player-title">正在讲解：{{currentSpotName}}</text>
+        <text class="player-title">正在讲解：{{currentSpotName}} · 佛手广场</text>
         <text class="player-time">02:15 / 04:30</text>
       </view>
       <view class="progress-track">
         <view class="progress-fill" style="width: {{progress}}%;"></view>
       </view>
+      <text class="player-desc">云端俯瞰太湖全景，感受灵山胜境的佛国气象</text>
     </view>
-    <button class="play-btn" bindtap="togglePlay">{{isPlaying ? '停' : '播'}}</button>
+    <button class="play-btn" bindtap="togglePlay">{{playLabel}}</button>
   </view>
 
   <view class="tabbar">
-    <view class="tab-item {{item.active ? 'active' : ''}}" wx:for="{{navItems}}" wx:key="label">
+    <view class="tab-item {{item.activeClass}}" wx:for="{{navItems}}" wx:key="label" bindtap="handleNav" data-page="{{item.page}}">
       <text class="tab-icon">{{item.icon}}</text>
       <text>{{item.label}}</text>
     </view>

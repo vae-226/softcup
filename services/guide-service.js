@@ -1,4 +1,13 @@
-const { knowledgeBase, routes, scenic } = require("../data/scenic");
+const {
+  adminKnowledge,
+  adminMetrics,
+  avatarConfig,
+  feedbacks,
+  knowledgeBase,
+  routes,
+  scenic,
+  sentimentReport
+} = require("../data/scenic");
 
 function answerQuestion(question) {
   const text = String(question || "");
@@ -26,7 +35,18 @@ function recommendRoute(profile = {}) {
   return routes.find((route) => route.id === "history");
 }
 
+function getAdminDashboard() {
+  return {
+    metrics: adminMetrics,
+    avatarConfig,
+    sentimentReport,
+    knowledge: adminKnowledge,
+    feedbacks
+  };
+}
+
 module.exports = {
   answerQuestion,
+  getAdminDashboard,
   recommendRoute
 };

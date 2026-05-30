@@ -12,22 +12,23 @@ Page({
     currentMood: "thinking",
     currentRoute: null,
     question: "",
+    showQuestionBox: false,
     isPlaying: false,
+    playLabel: "播",
     progress: 48,
     navItems: [
-      { label: "首页", icon: "⌂", active: true },
-      { label: "讲解", icon: "言", active: false },
-      { label: "路线", icon: "线", active: false },
-      { label: "我的", icon: "人", active: false }
+      { label: "首页", icon: "⌂", activeClass: "active" },
+      { label: "讲解", icon: "言", activeClass: "" },
+      { label: "路线", icon: "线", activeClass: "" },
+      { label: "我的", icon: "人", activeClass: "" }
     ]
   },
 
   onLoad() {
-    const result = answerQuestion("灵山大佛有什么特色？");
     this.setData({
-      dialogue: `“${result.answer}”`,
-      currentSpotName: result.spotName,
-      currentMood: result.mood,
+      dialogue: "“您好，我是灵山胜境的智能导览小灵，欢迎来到太湖佛国！”",
+      currentSpotName: "灵山大佛",
+      currentMood: "smile",
       currentRoute: routes[0]
     });
   },
@@ -36,13 +37,18 @@ Page({
     this.setData({ question: event.detail.value });
   },
 
+  toggleQuestionBox() {
+    this.setData({ showQuestionBox: !this.data.showQuestionBox });
+  },
+
   askQuestion() {
     const result = answerQuestion(this.data.question || "灵山大佛有什么特色？");
     this.setData({
       dialogue: `“${result.answer}”`,
       currentSpotName: result.spotName,
       currentMood: result.mood,
-      question: ""
+      question: "",
+      showQuestionBox: false
     });
   },
 
@@ -60,11 +66,22 @@ Page({
     const route = recommendRoute({ interest: event.currentTarget.dataset.interest });
     this.setData({
       currentRoute: route,
-      dialogue: `“已为您切换到${route.audience}路线：${route.focus}”`
+      dialogue: `“已为您切换到${route.displayTitle || route.audience}：${route.path || route.focus}”`
     });
   },
 
   togglePlay() {
-    this.setData({ isPlaying: !this.data.isPlaying });
+    const isPlaying = !this.data.isPlaying;
+    this.setData({
+      isPlaying,
+      playLabel: isPlaying ? "停" : "播"
+    });
+  },
+
+  handleNav(event) {
+    const page = event.currentTarget.dataset.page;
+    if (page) {
+      wx.navigateTo({ url: page });
+    }
   }
 });

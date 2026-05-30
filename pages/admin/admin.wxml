@@ -1,0 +1,155 @@
+<view class="admin-page">
+  <scroll-view class="admin-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="topbar">
+      <view class="brand">
+        <view class="avatar">灵</view>
+        <view>
+          <view class="title">灵境导游 | 智慧中枢</view>
+          <view class="subtitle">灵山胜境管理端</view>
+        </view>
+      </view>
+      <view class="notice">铃</view>
+    </view>
+
+    <view class="content">
+      <view class="section-title">
+        <text class="title-mark">●</text>
+        <text>顶部概览区</text>
+      </view>
+
+      <view class="metric-grid">
+        <view class="metric-card {{item.tone}} {{item.layoutClass}}" wx:for="{{dashboard.metrics}}" wx:key="label">
+          <text class="metric-label">{{item.label}}</text>
+          <text class="metric-value">{{item.value}}</text>
+          <view wx:if="{{item.delta}}" class="metric-delta">{{item.delta}}</view>
+          <view wx:if="{{item.progress}}" class="metric-track">
+            <view class="metric-fill" style="width: {{item.progress}}%;"></view>
+          </view>
+        </view>
+      </view>
+
+      <view class="bento-grid">
+        <view class="panel avatar-panel">
+          <view class="panel-title">
+            <text class="panel-icon">人</text>
+            <text>数字人形象管理</text>
+          </view>
+          <view class="avatar-preview">
+            <text>灵</text>
+          </view>
+          <view class="form-row">
+            <text class="form-label">名字</text>
+            <text class="form-value">{{dashboard.avatarConfig.name}}</text>
+          </view>
+          <view class="form-row">
+            <text class="form-label">服饰</text>
+            <text class="form-value">{{dashboard.avatarConfig.costume}}</text>
+          </view>
+          <view class="form-row">
+            <text class="form-label">音色</text>
+            <text class="form-value">{{dashboard.avatarConfig.voice}}</text>
+          </view>
+          <view class="form-row">
+            <text class="form-label">风格</text>
+            <text class="form-value">{{dashboard.avatarConfig.style}}</text>
+          </view>
+          <button class="primary-btn">保存配置</button>
+        </view>
+
+        <view class="panel sentiment-panel">
+          <view class="panel-title">
+            <text class="panel-icon">感</text>
+            <text>游客感受度报告</text>
+          </view>
+          <view class="subhead">情绪趋势</view>
+          <view class="trend-row" wx:for="{{dashboard.sentimentReport.trends}}" wx:key="label">
+            <view class="trend-head">
+              <text>{{item.label}}</text>
+              <text class="{{item.tone}}">{{item.value}}%</text>
+            </view>
+            <view class="trend-track">
+              <view class="trend-fill {{item.tone}}" style="width: {{item.value}}%;"></view>
+            </view>
+          </view>
+
+          <view class="subhead focus-head">游客关注点</view>
+          <view class="tag-wrap">
+            <view class="focus-tag" wx:for="{{dashboard.sentimentReport.focusTags}}" wx:key="label">
+              {{item.label}} {{item.value}}
+            </view>
+          </view>
+
+          <view class="suggestion">
+            <view class="suggestion-title">服务优化建议</view>
+            <text>{{dashboard.sentimentReport.suggestion}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="panel">
+        <view class="panel-head">
+          <view class="panel-title">
+            <text class="panel-icon">库</text>
+            <text>知识库管理</text>
+          </view>
+          <button class="upload-btn">上传资料</button>
+        </view>
+        <view class="knowledge-row" wx:for="{{dashboard.knowledge}}" wx:key="title">
+          <view class="knowledge-main">
+            <text class="knowledge-title">{{item.title}}</text>
+            <view class="knowledge-tags">
+              <text>{{item.category}}</text>
+              <text>关联: {{item.spot}}</text>
+            </view>
+          </view>
+          <view class="knowledge-actions">
+            <text class="status {{item.statusClass}}">{{item.status}}</text>
+            <button class="icon-btn">编辑</button>
+            <button class="icon-btn">停用</button>
+          </view>
+        </view>
+      </view>
+
+      <view class="panel feedback-panel">
+        <view class="panel-title">
+          <text class="panel-icon">问</text>
+          <text>热门问答与反馈</text>
+        </view>
+        <view class="feedback-card" wx:for="{{dashboard.feedbacks}}" wx:key="content">
+          <view class="feedback-top">
+            <view class="stars">
+              <text wx:for="{{item.stars}}" wx:for-item="star" wx:key="*this" class="{{star}}">★</text>
+            </view>
+            <text class="feedback-time">{{item.time}}</text>
+          </view>
+          <view class="sentiment-tag {{item.sentiment}}">{{item.sentiment}}</view>
+          <text class="feedback-content">“{{item.content}}”</text>
+          <button class="outline-btn">{{item.action}}</button>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="admin-tabbar">
+    <view class="tab-item" bindtap="goGuide">
+      <text class="tab-icon">⌂</text>
+      <text>首页</text>
+    </view>
+    <view class="tab-item">
+      <text class="tab-icon">言</text>
+      <text>讲解</text>
+    </view>
+    <view class="tab-item">
+      <text class="tab-icon">线</text>
+      <text>路线</text>
+    </view>
+    <view class="tab-item active">
+      <text class="tab-icon">管</text>
+      <text>管理</text>
+    </view>
+    <view class="tab-item">
+      <text class="tab-icon">人</text>
+      <text>我的</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>灵山胜境 · 智能导览 - 沉浸式数字人景区导览</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #F2E6CE; /* 绢本色 */
+            color: #2B2B2B; /* 墨黑 */
+            overflow: hidden;
+        }
+
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            margin: 20px auto;
+            position: relative;
+            background-color: #F2E6CE;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border-radius: 40px;
+            border: 8px solid #1A1A1A;
+            overflow: hidden;
+        }
+
+        /* 隐藏滚动条但保持功能 */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 数字人呼吸光晕 - 融入金色佛光 */
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.6; box-shadow: 0 0 20px rgba(197, 165, 90, 0.3), 0 0 40px rgba(178, 34, 34, 0.15); }
+            50% { transform: scale(1.05); opacity: 0.9; box-shadow: 0 0 40px rgba(197, 165, 90, 0.5), 0 0 60px rgba(178, 34, 34, 0.3); }
+        }
+        .avatar-glow {
+            animation: breathe 3s ease-in-out infinite;
+        }
+
+        /* 声波动画 */
+        @keyframes wave {
+            0% { height: 4px; }
+            50% { height: 16px; }
+            100% { height: 4px; }
+        }
+        .wave-bar {
+            width: 2px;
+            margin: 0 1px;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        /* 语音按钮脉冲 */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        .pulse-btn::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            animation: pulse-ring 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+        }
+
+        /* 背景水墨动态 - 融入佛光 */
+        .ink-bg {
+            background: radial-gradient(circle at 50% 50%, #E8D5B5 0%, #F2E6CE 100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            z-index: 0;
+        }
+
+        /* 莲花祥云装饰 */
+        .lotus-decoration {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            opacity: 0.08;
+            font-size: 60px;
+            z-index: 1;
+            pointer-events: none;
+            color: #C5A55A;
+        }
+
+        /* 磁贴效果 */
+        .tile-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(43, 43, 43, 0.1);
+            transition: all 0.3s ease;
+        }
+        .tile-card:hover {
+            border-color: rgba(197, 165, 90, 0.3);
+        }
+        .tile-card:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        /* 回纹装饰 */
+        .border-pattern {
+            border: 2px solid #2B2B2B;
+            position: relative;
+        }
+        .border-pattern::after {
+            content: '';
+            position: absolute;
+            top: 2px; left: 2px; right: 2px; bottom: 2px;
+            border: 1px solid #2B2B2B;
+            pointer-events: none;
+        }
+
+        /* 鎏金强调 */
+        .gold-accent {
+            color: #C5A55A;
+        }
+        .gold-border {
+            border-color: #C5A55A;
+        }
+        .gold-bg {
+            background-color: #C5A55A;
+        }
+        .gold-bg-light {
+            background-color: rgba(197, 165, 90, 0.15);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-200">
+<div class="phone-container flex flex-col">
+<!-- 顶部状态区 -->
+<div class="h-12 flex items-center justify-between px-8 z-20">
+<div class="text-xs font-bold">09:41</div>
+<div class="flex items-center space-x-2">
+<span class="text-[10px] font-medium px-2 py-0.5 border border-[#C5A55A]/40 rounded-full text-[#C5A55A]">灵山胜境</span>
+<iconify-icon class="text-sm" icon="mdi:signal"></iconify-icon>
+<iconify-icon class="text-sm" icon="mdi:wifi"></iconify-icon>
+<iconify-icon class="text-sm" icon="mdi:battery"></iconify-icon>
+</div>
+</div>
+<!-- 主内容滚动区 -->
+<div class="flex-1 overflow-y-auto no-scrollbar pb-32">
+<!-- 数字人对话区 (沉浸式主体) -->
+<div class="relative h-[400px] flex flex-col items-center justify-center">
+<div class="ink-bg"></div>
+<div class="lotus-decoration">
+<iconify-icon icon="mdi:flower-lotus"></iconify-icon>
+</div>
+<!-- 数字人形象容器 -->
+<div class="relative z-10 mt-4">
+<div class="w-48 h-48 rounded-full border-4 border-[#C5A55A]/30 avatar-glow overflow-hidden relative">
+<img alt="A digital human guide in Buddhist-inspired attire welcoming visitors to Lingshan Grand Buddha Scenic Area" class="w-full h-full object-cover" src="https://modao.cc/agent-py/media/generated_images/2026-05-30/cef617a1b5b144f7b814a6ac4158e7ec.jpg"/>
+</div>
+<!-- 交互光晕 -->
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#C5A55A] text-white text-[10px] px-3 py-1 rounded-full shadow-lg">
+                        正在聆听...
+                    </div>
+</div>
+<!-- 语音文字气泡 -->
+<div class="relative z-10 mt-8 px-6 w-full">
+<div class="bg-white/70 backdrop-blur-md p-4 rounded-2xl border border-[#C5A55A]/20 shadow-sm relative">
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white/70 rotate-45 border-l border-t border-[#C5A55A]/20"></div>
+<p class="text-sm leading-relaxed text-center" id="dialogue-text">
+                            “您好，我是灵山胜境的智能导览小灵，欢迎来到太湖佛国！”
+                        </p>
+<div class="flex justify-center items-end h-4 mt-2 space-x-0.5">
+<div class="wave-bar bg-[#C5A55A]" style="animation-delay: 0.1s"></div>
+<div class="wave-bar bg-[#B22222]" style="animation-delay: 0.3s"></div>
+<div class="wave-bar bg-[#C5A55A]" style="animation-delay: 0.5s"></div>
+<div class="wave-bar bg-[#B22222]" style="animation-delay: 0.2s"></div>
+<div class="wave-bar bg-[#C5A55A]" style="animation-delay: 0.4s"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- 功能快捷入口区 -->
+<div class="px-6 -mt-4 relative z-20 flex items-center justify-center space-x-8">
+<button class="w-12 h-12 rounded-full bg-white/80 border border-gray-200 flex items-center justify-center shadow-md active:scale-90 transition-transform">
+<iconify-icon class="text-xl text-gray-600" icon="mdi:keyboard-outline"></iconify-icon>
+</button>
+<button class="w-20 h-20 rounded-full bg-[#C5A55A] flex items-center justify-center shadow-xl pulse-btn relative active:scale-95 transition-transform" style="--pulse-color: #C5A55A;">
+<iconify-icon class="text-4xl text-white relative z-10" icon="mdi:microphone"></iconify-icon>
+</button>
+<button class="w-12 h-12 rounded-full bg-white/80 border border-gray-200 flex items-center justify-center shadow-md active:scale-90 transition-transform">
+<iconify-icon class="text-xl text-gray-600" icon="mdi:camera-outline"></iconify-icon>
+</button>
+</div>
+<!-- 个性化游览路径 -->
+<div class="mt-10 px-6">
+<div class="flex justify-between items-end mb-4">
+<h3 class="font-bold text-lg border-l-4 border-[#C5A55A] pl-3">推荐路线</h3>
+<span class="text-xs text-gray-500">更多路线 &gt;</span>
+</div>
+<div class="flex space-x-4 overflow-x-auto no-scrollbar snap-x">
+<!-- 路线卡片 1：历史朝圣之旅 -->
+<div class="flex-none w-[260px] snap-start bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+<img alt="Xiangfu Temple entrance at Lingshan scenic area" class="w-full h-32 object-cover" src="https://modao.cc/agent-py/media/generated_images/2026-05-30/c7daee6f95bc4a80acd3943cc859bc97.jpg"/>
+<div class="p-4">
+<div class="flex justify-between items-start">
+<h4 class="font-bold">历史朝圣之旅</h4>
+<span class="bg-[#F2E6CE] text-[#C5A55A] text-[10px] px-2 py-0.5 rounded font-medium">历史文化</span>
+</div>
+<p class="text-[11px] text-gray-500 mt-1">祥符禅寺 → 灵山大佛 → 玄奘纪念堂</p>
+<div class="mt-2 flex flex-wrap gap-1">
+<span class="text-[9px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">#历史</span>
+</div>
+<div class="mt-3 flex justify-between items-center">
+<span class="text-xs text-gray-400"><iconify-icon class="align-middle mr-1" icon="mdi:clock-outline"></iconify-icon>约2.5小时</span>
+<button class="bg-[#2B2B2B] text-white text-xs px-4 py-1.5 rounded-full">开始游览</button>
+</div>
+</div>
+</div>
+<!-- 路线卡片 2：文化探秘之旅 -->
+<div class="flex-none w-[260px] snap-start bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+<img alt="Lingshan Brahma Palace magnificent architecture interior" class="w-full h-32 object-cover" src="https://modao.cc/agent-py/media/generated_images/2026-05-30/686ee01ad6d4407899d7e5ca32ff51e2.jpg"/>
+<div class="p-4">
+<div class="flex justify-between items-start">
+<h4 class="font-bold">文化探秘之旅</h4>
+<span class="bg-blue-50 text-blue-600 text-[10px] px-2 py-0.5 rounded font-medium">建筑艺术</span>
+</div>
+<p class="text-[11px] text-gray-500 mt-1">灵山梵宫 → 五印坛城 → 九龙灌浴</p>
+<div class="mt-2 flex flex-wrap gap-1">
+<span class="text-[9px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">#文化</span>
+</div>
+<div class="mt-3 flex justify-between items-center">
+<span class="text-xs text-gray-400"><iconify-icon class="align-middle mr-1" icon="mdi:clock-outline"></iconify-icon>约3小时</span>
+<button class="bg-[#2B2B2B] text-white text-xs px-4 py-1.5 rounded-full">开始游览</button>
+</div>
+</div>
+</div>
+<!-- 路线卡片 3：自然禅意之旅 -->
+<div class="flex-none w-[260px] snap-start bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+<img alt="Taihu Lake shoreline near Lingshan mountain scenery" class="w-full h-32 object-cover" src="https://modao.cc/agent-py/media/generated_images/2026-05-30/69fa940902654229a9d79c3aabaeab7b.jpg"/>
+<div class="p-4">
+<div class="flex justify-between items-start">
+<h4 class="font-bold">自然禅意之旅</h4>
+<span class="bg-green-50 text-green-600 text-[10px] px-2 py-0.5 rounded font-medium">自然风光</span>
+</div>
+<p class="text-[11px] text-gray-500 mt-1">太湖漫步 → 小灵山登高 → 禅意生态步道</p>
+<div class="mt-2 flex flex-wrap gap-1">
+<span class="text-[9px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">#自然</span>
+</div>
+<div class="mt-3 flex justify-between items-center">
+<span class="text-xs text-gray-400"><iconify-icon class="align-middle mr-1" icon="mdi:clock-outline"></iconify-icon>约2小时</span>
+<button class="bg-[#2B2B2B] text-white text-xs px-4 py-1.5 rounded-full">开始游览</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 景区百科磁贴区 -->
+<div class="mt-10 px-6">
+<h3 class="font-bold text-lg border-l-4 border-[#C5A55A] pl-3 mb-4">景区百科</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="tile-card p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<iconify-icon class="text-3xl text-[#C5A55A] mb-2" icon="mdi:temple-buddhist"></iconify-icon>
+<span class="text-sm font-bold">灵山大佛</span>
+<span class="text-[10px] text-gray-500">88米青铜大佛，东方佛之代表</span>
+</div>
+<div class="tile-card p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<iconify-icon class="text-3xl text-[#1A2C42] mb-2" icon="mdi:fountain"></iconify-icon>
+<span class="text-sm font-bold">九龙灌浴</span>
+<span class="text-[10px] text-gray-500">动态再现佛祖诞生场景</span>
+</div>
+<div class="tile-card p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<iconify-icon class="text-3xl text-[#B22222] mb-2" icon="mdi:palace"></iconify-icon>
+<span class="text-sm font-bold">灵山梵宫</span>
+<span class="text-[10px] text-gray-500">造价18亿的东方艺术殿堂</span>
+</div>
+<div class="tile-card p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<iconify-icon class="text-3xl text-[#C5A55A] mb-2" icon="mdi:castle"></iconify-icon>
+<span class="text-sm font-bold">五印坛城</span>
+<span class="text-[10px] text-gray-500">江南独有的藏传佛教体验中心</span>
+</div>
+<div class="tile-card p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<iconify-icon class="text-3xl text-green-700 mb-2" icon="mdi:shrine-outline"></iconify-icon>
+<span class="text-sm font-bold">祥符禅寺</span>
+<span class="text-[10px] text-gray-500">千年古刹，玄奘赐名发源地</span>
+</div>
+<div class="tile-card p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<iconify-icon class="text-3xl text-orange-600 mb-2" icon="mdi:book-open-variant"></iconify-icon>
+<span class="text-sm font-bold">玄奘与灵山</span>
+<span class="text-[10px] text-gray-500">开启灵山佛教千年文脉</span>
+</div>
+</div>
+</div>
+<!-- 周边服务设施 -->
+<div class="mt-10 px-6 mb-10">
+<div class="bg-[#2B2B2B] rounded-2xl p-4 flex justify-around items-center shadow-lg">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-1">
+<iconify-icon class="text-xl text-white" icon="mdi:toilet"></iconify-icon>
+</div>
+<span class="text-[10px] text-gray-300">洗手间</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-1">
+<iconify-icon class="text-xl text-white" icon="mdi:silverware-fork-knife"></iconify-icon>
+</div>
+<span class="text-[10px] text-gray-300">餐厅</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-1">
+<iconify-icon class="text-xl text-white" icon="mdi:car-connected"></iconify-icon>
+</div>
+<span class="text-[10px] text-gray-300">停车场</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-1">
+<iconify-icon class="text-xl text-white" icon="mdi:information-outline"></iconify-icon>
+</div>
+<span class="text-[10px] text-gray-300">游客中心</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 实时语音讲解控制条 (悬浮) -->
+<div class="absolute bottom-20 left-4 right-4 z-30">
+<div class="bg-white/90 backdrop-blur-md rounded-2xl p-3 shadow-xl border border-[#C5A55A]/30 flex items-center space-x-3">
+<div class="w-10 h-10 rounded-lg overflow-hidden flex-none">
+<img alt="Lingshan Grand Buddha hand square scenic view" class="w-full h-full object-cover" src="https://modao.cc/agent-py/media/generated_images/2026-05-30/0a1ec0ee9d7247d2acc868a0eba8b0f4.jpg"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<h5 class="text-xs font-bold truncate">正在讲解：灵山大佛 · 佛手广场</h5>
+<span class="text-[10px] text-gray-400">02:15 / 04:30</span>
+</div>
+<div class="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
+<div class="h-full bg-[#C5A55A] w-1/2"></div>
+</div>
+<div class="mt-1">
+<p class="text-[9px] text-gray-400 truncate">云端俯瞰太湖全景，感受"八风吹不动，端坐紫金莲"的吉相格局</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-[#C5A55A] flex items-center justify-center flex-none" id="play-btn">
+<iconify-icon class="text-white text-lg" icon="mdi:play"></iconify-icon>
+</button>
+</div>
+</div>
+<!-- 底部导航栏 -->
+<div class="h-20 bg-white border-t border-gray-100 flex items-center justify-around px-4 z-40">
+<div class="flex flex-col items-center text-[#C5A55A]">
+<iconify-icon class="text-2xl" icon="mdi:home-variant"></iconify-icon>
+<span class="text-[10px] mt-1 font-bold">首页</span>
+</div>
+<div class="flex flex-col items-center text-gray-400">
+<iconify-icon class="text-2xl" icon="mdi:comment-quote"></iconify-icon>
+<span class="text-[10px] mt-1">讲解</span>
+</div>
+<div class="flex flex-col items-center text-gray-400">
+<iconify-icon class="text-2xl" icon="mdi:map-marker-path"></iconify-icon>
+<span class="text-[10px] mt-1">路线</span>
+</div>
+<div class="flex flex-col items-center text-gray-400">
+<iconify-icon class="text-2xl" icon="mdi:account-circle"></iconify-icon>
+<span class="text-[10px] mt-1">我的</span>
+</div>
+</div>
+</div>
+<script>
+        // 模拟播放/暂停交互
+        const playBtn = document.getElementById('play-btn');
+        let isPlaying = false;
+        playBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            const icon = playBtn.querySelector('iconify-icon');
+            icon.setAttribute('icon', isPlaying ? 'mdi:pause' : 'mdi:play');
+        });
+
+        // 模拟对话文本切换
+        const dialogueText = document.getElementById('dialogue-text');
+        const dialogues = [
+            "“您好，我是灵山胜境的智能导览小灵，欢迎来到太湖佛国！”",
+            "“灵山大佛高88米，由725吨铸铜铸造，是目前中国最高的青铜佛像之一。”",
+            "“您对历史文化感兴趣吗？我可以为您推荐一条朝圣探秘路线。”",
+            "“前方就是九龙灌浴广场，每日多场次动态演出再现佛祖诞生场景。”"
+        ];
+        let currentDialogue = 0;
+
+        // 每6秒自动切换一段对话演示
+        setInterval(() => {
+            currentDialogue = (currentDialogue + 1) % dialogues.length;
+            dialogueText.style.opacity = 0;
+            setTimeout(() => {
+                dialogueText.innerText = dialogues[currentDialogue];
+                dialogueText.style.opacity = 1;
+            }, 500);
+        }, 6000);
+
+        // 磁贴点击反馈
+        document.querySelectorAll('.tile-card').forEach(tile => {
+            tile.addEventListener('click', function() {
+                const title = this.querySelector('span.font-bold').innerText;
+                console.log('点击了百科：' + title);
+                // 这里可以扩展弹出详情页的逻辑
+            });
+        });
+
+        // 脉冲按钮颜色同步
+        const pulseBtn = document.querySelector('.pulse-btn');
+        if (pulseBtn) {
+            const style = document.createElement('style');
+            style.textContent = `
+                .pulse-btn::before {
+                    background-color: #C5A55A;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    </script>
+</body>
+</html>

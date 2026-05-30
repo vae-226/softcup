@@ -1,6 +1,7 @@
 {
   "pages": [
-    "pages/guide/guide"
+    "pages/guide/guide",
+    "pages/admin/admin"
   ],
   "window": {
     "navigationBarTitleText": "灵境导游",

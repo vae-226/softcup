@@ -1,0 +1,429 @@
+<!DOCTYPE html><html lang="zh-CN" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>灵境导游 | 智慧中枢</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=jetbrainsMono:wght@100..900&amp;family=notoSerif:wght@100..900&amp;family=workSans:wght@100..900&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#eaead1",
+                        "surface": "#fbfbe2",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#4e3d00",
+                        "tertiary-container": "#cca72f",
+                        "ink-deep": "#1A1A1A",
+                        "cinnabar-light": "#E55B5B",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#ffe088",
+                        "inverse-surface": "#303221",
+                        "on-primary-fixed": "#410003",
+                        "primary-fixed": "#ffdad6",
+                        "primary-fixed-dim": "#ffb4ac",
+                        "outline": "#8e706d",
+                        "shale-gray": "#666666",
+                        "surface-container-low": "#f5f5dc",
+                        "surface-container-highest": "#e4e4cc",
+                        "secondary": "#5f5e5e",
+                        "surface-variant": "#e4e4cc",
+                        "secondary-fixed": "#e4e2e1",
+                        "on-surface-variant": "#5a403e",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#92030f",
+                        "surface-container": "#efefd7",
+                        "inverse-primary": "#ffb4ac",
+                        "on-surface": "#1b1d0e",
+                        "gold-leaf": "#C5A028",
+                        "surface-dim": "#dbdcc3",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "on-primary-container": "#ffc8c2",
+                        "background": "#fbfbe2",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#fbfbe2",
+                        "error": "#ba1a1a",
+                        "primary-container": "#b22222",
+                        "on-secondary": "#ffffff",
+                        "primary": "#8f000d",
+                        "on-secondary-fixed-variant": "#474747",
+                        "secondary-container": "#e4e2e1",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#735c00",
+                        "paper-silk": "#FAF9F6",
+                        "inverse-on-surface": "#f2f2d9",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-secondary-container": "#656464",
+                        "outline-variant": "#e2beba",
+                        "surface-tint": "#b52424",
+                        "on-background": "#1b1d0e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "max-width": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["notoSerif"],
+                        "data-num": ["workSans"],
+                        "headline-md": ["notoSerif"],
+                        "body-lg": ["workSans"],
+                        "body-md": ["workSans"],
+                        "label-sm": ["jetbrainsMono"],
+                        "display-lg": ["notoSerif"],
+                        "headline-lg": ["notoSerif"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "data-num": ["28px", { "lineHeight": "34px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "60px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #FAF9F6;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            color: #1b1d0e;
+        }
+    </style>
+</head>
+<body class="antialiased pb-24 md:pb-0 md:pl-64">
+<!-- Mobile TopAppBar -->
+<header class="bg-paper-silk dark:bg-ink-deep flex justify-between items-center px-margin-mobile w-full z-40 border-b border-secondary/10 dark:border-secondary-container/10 md:hidden py-4 sticky top-0 backdrop-blur-md">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-secondary/20">
+<img alt="Ling Ling Digital Human Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0oJGb_FW-W5qWaqR0phjwXDj30slg9z4PUbpI8wnyyKODdMOZL6V35mo0qZX4EK0U1sjgdGA3FKJEnb7fIswvPM5KF52Xh5kp57ZoSZ2YybJa6Gie3WH_P8tSNl_BBh7QuIHu4wkKbOpKNxm3zLjuKEQQiHKf0CSe5aU2nFU9xi1BgREX7l0m8VXvn0OichVlvHk435Eado_b1R4rL2-Yqy003d8PDkSkWDUo8m0vjuiF2czjgyf0hgeHQWsuwkoyq2ebqCaRnL0">
+</div>
+<h1 class="font-headline-md text-headline-md font-semibold text-primary dark:text-primary-fixed-dim">灵境导游 | 智慧中枢</h1>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="notifications">notifications</span>
+</header>
+<!-- Desktop NavigationDrawer -->
+<nav class="bg-paper-silk dark:bg-ink-deep fixed left-0 top-0 h-full w-64 z-50 border-r border-secondary/10 dark:border-secondary-container/10 flex flex-col h-full py-8 hidden md:flex">
+<div class="px-6 mb-8 flex flex-col items-start gap-4 border-b border-secondary/10 pb-6">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-secondary/20 shadow-sm">
+<img alt="Admin Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0oJGb_FW-W5qWaqR0phjwXDj30slg9z4PUbpI8wnyyKODdMOZL6V35mo0qZX4EK0U1sjgdGA3FKJEnb7fIswvPM5KF52Xh5kp57ZoSZ2YybJa6Gie3WH_P8tSNl_BBh7QuIHu4wkKbOpKNxm3zLjuKEQQiHKf0CSe5aU2nFU9xi1BgREX7l0m8VXvn0OichVlvHk435Eado_b1R4rL2-Yqy003d8PDkSkWDUo8m0vjuiF2czjgyf0hgeHQWsuwkoyq2ebqCaRnL0">
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md font-semibold text-primary">管理员</h2>
+<p class="font-label-sm text-label-sm text-secondary">灵境导游管理端</p>
+</div>
+</div>
+</div>
+<ul class="flex-1 space-y-2 px-4">
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-tertiary/5 dark:hover:bg-tertiary-fixed/5 text-secondary dark:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">工作台</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-tertiary/5 dark:hover:bg-tertiary-fixed/5 text-secondary dark:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-body-md text-body-md">知识库</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-tertiary/5 dark:hover:bg-tertiary-fixed/5 text-secondary dark:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="face_5">face_5</span>
+<span class="font-body-md text-body-md">数字人配置</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-tertiary/5 dark:hover:bg-tertiary-fixed/5 text-secondary dark:text-secondary-fixed transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body-md text-body-md">情感分析</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary dark:text-primary-fixed font-bold border-primary bg-primary-container/10 translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings" data-weight="fill">settings</span>
+<span class="font-body-md text-body-md">系统设置</span>
+</a>
+</li>
+</ul>
+</nav>
+<main class="max-w-max-width mx-auto p-margin-mobile md:p-margin-desktop space-y-12">
+<!-- 1. Top Overview -->
+<section>
+<h2 class="font-headline-md text-headline-md text-ink-deep mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">monitoring</span>
+                顶部概览区
+            </h2>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+<div class="bg-paper-silk p-4 rounded-xl border border-secondary/10 relative overflow-hidden group hover:bg-tertiary/5 transition-colors">
+
+<p class="font-body-md text-body-md text-secondary mb-1">今日服务人次</p>
+<p class="font-data-num text-data-num text-ink-deep">1,280</p>
+<div class="mt-2 text-primary font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> +5%
+                    </div>
+</div>
+<div class="bg-paper-silk p-4 rounded-xl border border-secondary/10 relative overflow-hidden group hover:bg-tertiary/5 transition-colors">
+<p class="font-body-md text-body-md text-secondary mb-1">本周服务人次</p>
+<p class="font-data-num text-data-num text-ink-deep">8,450</p>
+<div class="mt-2 text-primary font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> +12%
+                    </div>
+</div>
+<div class="bg-paper-silk p-4 rounded-xl border border-secondary/10 relative overflow-hidden group hover:bg-tertiary/5 transition-colors">
+<p class="font-body-md text-body-md text-secondary mb-1">平均响应时间</p>
+<p class="font-data-num text-data-num text-ink-deep">1.2<span class="text-lg">s</span></p>
+<div class="w-full bg-surface-container-high rounded-full h-1 mt-3">
+<div class="bg-primary h-1 rounded-full" style="width: 20%"></div>
+</div>
+</div>
+<div class="bg-paper-silk p-4 rounded-xl border border-secondary/10 relative overflow-hidden group hover:bg-tertiary/5 transition-colors">
+
+<p class="font-body-md text-body-md text-secondary mb-1">游客满意度</p>
+<p class="font-data-num text-data-num text-ink-deep">98.5<span class="text-lg">%</span></p>
+
+</div>
+<div class="bg-paper-silk p-4 rounded-xl border border-secondary/10 relative overflow-hidden group hover:bg-tertiary/5 transition-colors">
+<p class="font-body-md text-body-md text-secondary mb-1">问答准确率</p>
+<p class="font-data-num text-data-num text-ink-deep">96<span class="text-lg">%</span></p>
+<div class="w-full bg-surface-container-high rounded-full h-1 mt-3">
+<div class="bg-primary h-1 rounded-full" style="width: 96%"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Digital Human Config & 4. Sentiment Report Bento -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Digital Human Config -->
+<section class="md:col-span-1 bg-paper-silk rounded-xl border border-secondary/10 p-6 flex flex-col items-center">
+<h2 class="font-headline-md text-headline-md text-ink-deep mb-6 w-full text-left flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">face</span>
+                    数字人形象管理
+                </h2>
+<div class="w-32 h-32 rounded-full overflow-hidden border-2 border-primary/20 mb-6 relative group">
+<img alt="Ling Ling Preview" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0oJGb_FW-W5qWaqR0phjwXDj30slg9z4PUbpI8wnyyKODdMOZL6V35mo0qZX4EK0U1sjgdGA3FKJEnb7fIswvPM5KF52Xh5kp57ZoSZ2YybJa6Gie3WH_P8tSNl_BBh7QuIHu4wkKbOpKNxm3zLjuKEQQiHKf0CSe5aU2nFU9xi1BgREX7l0m8VXvn0OichVlvHk435Eado_b1R4rL2-Yqy003d8PDkSkWDUo8m0vjuiF2czjgyf0hgeHQWsuwkoyq2ebqCaRnL0">
+<div class="absolute inset-0 bg-ink-deep/40 hidden group-hover:flex items-center justify-center cursor-pointer transition-opacity">
+<span class="material-symbols-outlined text-paper-silk">edit</span>
+</div>
+</div>
+<form class="w-full space-y-4">
+<div>
+<label class="font-label-sm text-label-sm text-secondary block mb-1">名字</label>
+<input class="w-full bg-transparent border-b border-secondary/20 py-2 font-body-md text-ink-deep focus:border-primary focus:outline-none transition-colors" type="text" value="灵灵">
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-secondary block mb-1">服饰</label>
+<select class="w-full bg-transparent border-b border-secondary/20 py-2 font-body-md text-ink-deep focus:border-primary focus:outline-none transition-colors appearance-none">
+<option>禅意青瓷款</option>
+<option>汉服经典款</option>
+</select>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-secondary block mb-1">音色</label>
+<select class="w-full bg-transparent border-b border-secondary/20 py-2 font-body-md text-ink-deep focus:border-primary focus:outline-none transition-colors appearance-none">
+<option>温婉解说</option>
+<option>专业导游</option>
+</select>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-secondary block mb-1">风格</label>
+<input class="w-full bg-transparent border-b border-secondary/20 py-2 font-body-md text-ink-deep focus:border-primary focus:outline-none transition-colors" type="text" value="佛系禅意">
+</div>
+<button class="w-full mt-6 bg-primary text-paper-silk font-body-md py-3 rounded-lg hover:bg-primary/90 transition-colors shadow-sm" type="button">
+                        保存配置
+                    </button>
+</form>
+</section>
+<!-- Sentiment Report -->
+<section class="md:col-span-2 bg-paper-silk rounded-xl border border-secondary/10 p-6 flex flex-col">
+<h2 class="font-headline-md text-headline-md text-ink-deep mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">sentiment_satisfied</span>
+                    游客感受度报告
+                </h2>
+<div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<h3 class="font-body-md text-secondary mb-4">情绪趋势</h3>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between font-label-sm mb-1"><span class="text-ink-deep">开心 / 满意</span><span class="text-gold-leaf font-bold">75%</span></div>
+<div class="w-full bg-surface-container-high rounded-full h-2">
+<div class="bg-gold-leaf h-2 rounded-full" style="width: 75%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-sm mb-1"><span class="text-ink-deep">平静 / 专注</span><span class="text-shale-gray font-bold">20%</span></div>
+<div class="w-full bg-surface-container-high rounded-full h-2">
+<div class="bg-shale-gray h-2 rounded-full" style="width: 20%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-sm mb-1"><span class="text-ink-deep">困惑 / 抱怨</span><span class="text-primary font-bold">5%</span></div>
+<div class="w-full bg-surface-container-high rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 5%"></div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h3 class="font-body-md text-secondary mb-4">游客关注点</h3>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="px-4 py-1.5 bg-gradient-to-br from-paper-silk to-surface-container border border-primary/10 rounded-full font-label-sm text-ink-deep font-medium shadow-sm hover:border-primary/30 transition-all cursor-default">演出时间 (45%)</span>
+<span class="px-4 py-1.5 bg-gradient-to-br from-paper-silk to-surface-container border border-primary/10 rounded-full font-label-sm text-ink-deep font-medium shadow-sm hover:border-primary/30 transition-all cursor-default">素食餐饮 (30%)</span>
+<span class="px-4 py-1.5 bg-gradient-to-br from-paper-silk to-surface-container border border-primary/10 rounded-full font-label-sm text-ink-deep font-medium shadow-sm hover:border-primary/30 transition-all cursor-default">交通接驳 (15%)</span>
+<span class="px-4 py-1.5 bg-gradient-to-br from-paper-silk to-surface-container border border-primary/10 rounded-full font-label-sm text-ink-deep font-medium shadow-sm hover:border-primary/30 transition-all cursor-default">文创周边 (10%)</span>
+</div>
+<div class="bg-paper-silk p-5 rounded-xl border border-tertiary/20 shadow-inner flex flex-col gap-2">
+    <h4 class="font-headline-md text-[16px] text-tertiary flex items-center gap-2 font-semibold">
+        <span class="material-symbols-outlined text-[18px]">lightbulb</span>
+        服务优化建议
+    </h4>
+    <p class="font-body-md text-ink-deep/80 leading-relaxed">
+        建议增加「<span class="text-tertiary font-medium">九龙灌浴</span>」互动引导，游客对此环节的提问频率上升了 <span class="text-primary font-bold">12%</span>。
+    </p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- 2. Knowledge Base Management & 5. Hot FAQ -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Knowledge Base -->
+<section class="bg-paper-silk rounded-xl border border-secondary/10 p-6">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline-md text-headline-md text-ink-deep flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">library_books</span>
+                        知识库管理
+                    </h2>
+<button class="bg-primary text-paper-silk font-label-sm px-4 py-2 rounded flex items-center gap-1 hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-[16px]">upload</span> 上传资料
+                    </button>
+</div>
+<div class="space-y-0">
+<div class="flex items-center justify-between py-3 border-b border-ink-deep/10 hover:bg-tertiary/5 px-2 rounded transition-colors">
+<div class="flex-1">
+<h3 class="font-body-md text-ink-deep font-medium">灵山大佛历史</h3>
+<div class="flex gap-2 mt-1">
+<span class="text-[10px] bg-surface-container px-2 py-0.5 rounded text-secondary">历史文化</span>
+<span class="text-[10px] bg-surface-container px-2 py-0.5 rounded text-secondary">关联: 灵山胜境</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-gold-leaf bg-gold-leaf/10 px-2 py-1 rounded">已启用</span>
+<div class="flex gap-2 text-secondary">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">power_settings_new</span></button>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between py-3 border-b border-ink-deep/10 hover:bg-tertiary/5 px-2 rounded transition-colors">
+<div class="flex-1">
+<h3 class="font-body-md text-ink-deep font-medium">九龙灌浴演艺时间</h3>
+<div class="flex gap-2 mt-1">
+<span class="text-[10px] bg-surface-container px-2 py-0.5 rounded text-secondary">游客服务</span>
+<span class="text-[10px] bg-surface-container px-2 py-0.5 rounded text-secondary">关联: 灵山胜境</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-gold-leaf bg-gold-leaf/10 px-2 py-1 rounded">已启用</span>
+<div class="flex gap-2 text-secondary">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">edit</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">power_settings_new</span></button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Hot FAQ & Feedback -->
+<section class="bg-paper-silk rounded-xl border border-secondary/10 p-6">
+<h2 class="font-headline-md text-headline-md text-ink-deep mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">forum</span>
+                    热门问答与反馈
+                </h2>
+<div class="space-y-4">
+<div class="p-4 border border-secondary/10 rounded-lg bg-paper-silk shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="text-gold-leaf flex text-[14px]">
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+</span>
+<span class="font-label-sm bg-tertiary-fixed-dim/20 text-tertiary px-2 py-0.5 rounded text-[10px]">Positive</span>
+</div>
+<span class="font-label-sm text-secondary">10 mins ago</span>
+</div>
+<p class="font-body-md text-ink-deep mb-3">"讲解很清晰，非常有文化内涵，声音也很好听。"</p>
+<div class="flex items-center gap-2">
+<button class="text-[12px] text-primary border border-primary px-3 py-1 rounded hover:bg-primary/5 transition-colors">
+                                采纳为金牌讲解词
+                            </button>
+</div>
+</div>
+<div class="p-4 border border-secondary/10 rounded-lg bg-paper-silk shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="text-gold-leaf flex text-[14px]">
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined" data-weight="fill">star</span>
+<span class="material-symbols-outlined">star</span>
+<span class="material-symbols-outlined">star</span>
+</span>
+<span class="font-label-sm bg-secondary/10 text-secondary px-2 py-0.5 rounded text-[10px]">Neutral</span>
+</div>
+<span class="font-label-sm text-secondary">1 hour ago</span>
+</div>
+<p class="font-body-md text-ink-deep mb-3">"找不到去梵宫的路，希望能有更直接的导航引导。"</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Mobile BottomNavBar -->
+<nav class="bg-paper-silk/95 dark:bg-ink-deep backdrop-blur-md fixed bottom-0 w-full z-50 rounded-t-full border-t border-secondary/10 dark:border-secondary-container/10 flex justify-around items-center w-full px-margin-mobile py-2 shadow-lg md:hidden">
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed hover:text-primary dark:hover:text-primary-fixed" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm mt-1">首页</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed hover:text-primary dark:hover:text-primary-fixed" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label-sm text-label-sm mt-1">导览</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed hover:text-primary dark:hover:text-primary-fixed" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-label-sm text-label-sm mt-1">路线</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed bg-primary-container/10 rounded-xl px-3 py-1 scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings" data-weight="fill">admin_panel_settings</span>
+<span class="font-label-sm text-label-sm mt-1 font-bold">管理</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed hover:text-primary dark:hover:text-primary-fixed" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm mt-1">我的</span>
+</a>
+</nav>
+
+
+</body></html>
