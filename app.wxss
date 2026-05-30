@@ -1,0 +1,17 @@
+page {
+  min-height: 100vh;
+  background: #f2e6ce;
+  color: #2b2b2b;
+  font-family: "Noto Serif SC", "PingFang SC", "Microsoft YaHei", serif;
+}
+
+button {
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  background: transparent;
+}
+
+button::after {
+  border: 0;
+}

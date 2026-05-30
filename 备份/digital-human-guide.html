@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>灵境导览 - 沉浸式数字人景区导览</title>
+<script src="https://modao.cc/agent-py/static/source/js/tailwindcss.js"></script>
+<script src="https://modao.cc/agent-py/static/source/js/iconify-icon.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: #F2E6CE; /* 绢本色 */
+            color: #2B2B2B; /* 墨黑 */
+            overflow: hidden;
+        }
+
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            margin: 20px auto;
+            position: relative;
+            background-color: #F2E6CE;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border-radius: 40px;
+            border: 8px solid #1A1A1A;
+            overflow: hidden;
+        }
+
+        /* 隐藏滚动条但保持功能 */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 数字人呼吸光晕 */
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.6; box-shadow: 0 0 20px rgba(178, 34, 34, 0.3); }
+            50% { transform: scale(1.05); opacity: 0.9; box-shadow: 0 0 40px rgba(178, 34, 34, 0.6); }
+        }
+        .avatar-glow {
+            animation: breathe 3s ease-in-out infinite;
+        }
+
+        /* 声波动画 */
+        @keyframes wave {
+            0% { height: 4px; }
+            50% { height: 16px; }
+            100% { height: 4px; }
+        }
+        .wave-bar {
+            width: 2px;
+            background-color: #B22222; /* 朱砂红 */
+            margin: 0 1px;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        /* 语音按钮脉冲 */
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        .pulse-btn::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #B22222;
+            animation: pulse-ring 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+        }
+
+        /* 背景水墨动态 */
+        .ink-bg {
+            background: radial-gradient(circle at 50% 50%, #E8D5B5 0%, #F2E6CE 100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            z-index: 0;
+        }
+
+        /* 磁贴效果 */
+        .tile-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(43, 43, 43, 0.1);
+            transition: all 0.3s ease;
+        }
+        .tile-card:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        /* 回纹装饰 */
+        .border-pattern {
+            border: 2px solid #2B2B2B;
+            position: relative;
+        }
+        .border-pattern::after {
+            content: '';
+            position: absolute;
+            top: 2px; left: 2px; right: 2px; bottom: 2px;
+            border: 1px solid #2B2B2B;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-200">
+<div class="phone-container flex flex-col">
+<!-- 顶部状态区 -->
+<div class="h-12 flex items-center justify-between px-8 z-20">
+<div class="text-xs font-bold">09:41</div>
+<div class="flex items-center space-x-2">
+<span class="text-[10px] font-medium px-2 py-0.5 border border-black/20 rounded-full">敦煌莫高窟</span>
+<iconify-icon class="text-sm" icon="mdi:signal"></iconify-icon>
+<iconify-icon class="text-sm" icon="mdi:wifi"></iconify-icon>
+<iconify-icon class="text-sm" icon="mdi:battery"></iconify-icon>
+</div>
+</div>
+<!-- 主内容滚动区 -->
+<div class="flex-1 overflow-y-auto no-scrollbar pb-32">
+<!-- 数字人对话区 (沉浸式主体) -->
+<div class="relative h-[400px] flex flex-col items-center justify-center">
+<div class="ink-bg"></div>
+<!-- 数字人形象容器 -->
+<div class="relative z-10 mt-4">
+<div class="w-48 h-48 rounded-full border-4 border-[#B22222]/30 avatar-glow overflow-hidden relative">
+<img alt="A digital human guide dressed in traditional Dunhuang attire" class="w-full h-full object-cover" src="https://modao.cc/agent-py/media/generated_images/2026-05-30/03758e6e136d40f68d29e8bce520b24c.jpg"/>
+</div>
+<!-- 交互光晕 -->
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#B22222] text-white text-[10px] px-3 py-1 rounded-full shadow-lg">
+                        正在聆听...
+                    </div>
+</div>
+<!-- 语音文字气泡 -->
+<div class="relative z-10 mt-8 px-6 w-full">
+<div class="bg-white/70 backdrop-blur-md p-4 rounded-2xl border border-[#2B2B2B]/10 shadow-sm relative">
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white/70 rotate-45 border-l border-t border-[#2B2B2B]/10"></div>
+<p class="text-sm leading-relaxed text-center" id="dialogue-text">
+                            “欢迎来到莫高窟。我是您的数字向导‘灵儿’。请问您想先了解哪座洞窟的历史故事？”
+                        </p>
+<div class="flex justify-center items-end h-4 mt-2 space-x-0.5">
+<div class="wave-bar" style="animation-delay: 0.1s"></div>
+<div class="wave-bar" style="animation-delay: 0.3s"></div>
+<div class="wave-bar" style="animation-delay: 0.5s"></div>
+<div class="wave-bar" style="animation-delay: 0.2s"></div>
+<div class="wave-bar" style="animation-delay: 0.4s"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- 功能快捷入口区 -->
+<div class="px-6 -mt-4 relative z-20 flex items-center justify-center space-x-8">
+<button class="w-12 h-12 rounded-full bg-white/80 border border-gray-200 flex items-center justify-center shadow-md active:scale-90 transition-transform">
+<iconify-icon class="text-xl text-gray-600" icon="mdi:keyboard-outline"></iconify-icon>
+</button>
+<button class="w-20 h-20 rounded-full bg-[#B22222] flex items-center justify-center shadow-xl pulse-btn relative active:scale-95 transition-transform">
+<iconify-icon class="text-4xl text-white relative z-10" icon="mdi:microphone"></iconify-icon>
+</button>
+<button class="w-12 h-12 rounded-full bg-white/80 border border-gray-200 flex items-center justify-center shadow-md active:scale-90 transition-transform">
+<iconify-icon class="text-xl text-gray-600" icon="mdi:camera-outline"></iconify-icon>
+</button>
+</div>
+<!-- 个性化游览路径 -->
+<div class="mt-10 px-6">
+<div class="flex justify-between items-end mb-4">
+<h3 class="font-bold text-lg border-l-4 border-[#B22222] pl-3">推荐路线</h3>
+<span class="text-xs text-gray-500">更多路线 &gt;</span>
+</div>
+<div class="flex space-x-4 overflow-x-auto no-scrollbar snap-x">
+<!-- 路线卡片 1 -->
+<div class="flex-none w-[260px] snap-start bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+<img alt="Grottoes Art Tour path" class="w-full h-32 object-cover" src="https://modao.cc/agent-py/media/generated_images/2026-05-30/4506e8d4906049c4a179ec36fcd477e8.jpg"/>
+<div class="p-4">
+<div class="flex justify-between items-start">
+<h4 class="font-bold">壁画艺术瑰宝之旅</h4>
+<span class="bg-[#F2E6CE] text-[#A0522D] text-[10px] px-2 py-0.5 rounded">深度</span>
+</div>
+<p class="text-[11px] text-gray-500 mt-1">涵盖第96、130、148等核心洞窟</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-xs text-gray-400"><iconify-icon class="align-middle mr-1" icon="mdi:clock-outline"></iconify-icon>约120分钟</span>
+<button class="bg-[#2B2B2B] text-white text-xs px-4 py-1.5 rounded-full">开始游览</button>
+</div>
+</div>
+</div>
+<!-- 路线卡片 2 -->
+<div class="flex-none w-[260px] snap-start bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+<img alt="History and Culture path" class="w-full h-32 object-cover" src="https://modao.cc/agent-py/media/generated_images/2026-05-30/3fbf0d5b38cb49a5a369749da2551a3b.jpg"/>
+<div class="p-4">
+<div class="flex justify-between items-start">
+<h4 class="font-bold">莫高窟历史漫谈</h4>
+<span class="bg-blue-50 text-blue-600 text-[10px] px-2 py-0.5 rounded">科普</span>
+</div>
+<p class="text-[11px] text-gray-500 mt-1">从藏经洞发现到现代保护历程</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-xs text-gray-400"><iconify-icon class="align-middle mr-1" icon="mdi:clock-outline"></iconify-icon>约60分钟</span>
+<button class="bg-[#2B2B2B] text-white text-xs px-4 py-1.5 rounded-full">开始游览</button>
+</div>
+</div>
+</div>
+<!-- 路线卡片 3 -->
+<div class="flex-none w-[260px] snap-start bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+<img alt="Quick Visit path" class="w-full h-32 object-cover" src="https://modao.cc/agent-py/media/generated_images/2026-05-30/3524e5b0bb6d4f31b59995a4c54d05b8.jpg"/>
+<div class="p-4">
+<div class="flex justify-between items-start">
+<h4 class="font-bold">精华速览路线</h4>
+<span class="bg-green-50 text-green-600 text-[10px] px-2 py-0.5 rounded">快捷</span>
+</div>
+<p class="text-[11px] text-gray-500 mt-1">适合时间有限的游客，不留遗憾</p>
+<div class="mt-4 flex justify-between items-center">
+<span class="text-xs text-gray-400"><iconify-icon class="align-middle mr-1" icon="mdi:clock-outline"></iconify-icon>约45分钟</span>
+<button class="bg-[#2B2B2B] text-white text-xs px-4 py-1.5 rounded-full">开始游览</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 景区百科磁贴区 -->
+<div class="mt-10 px-6">
+<h3 class="font-bold text-lg border-l-4 border-[#B22222] pl-3 mb-4">景区百科</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="tile-card p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<iconify-icon class="text-3xl text-[#A0522D] mb-2" icon="mdi:temple-buddhist"></iconify-icon>
+<span class="text-sm font-bold">建筑艺术</span>
+<span class="text-[10px] text-gray-500">洞窟构造与演变</span>
+</div>
+<div class="tile-card p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<iconify-icon class="text-3xl text-[#1A2C42] mb-2" icon="mdi:image-filter-hdr"></iconify-icon>
+<span class="text-sm font-bold">壁画故事</span>
+<span class="text-[10px] text-gray-500">经变图深度解析</span>
+</div>
+<div class="tile-card p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<iconify-icon class="text-3xl text-[#B22222] mb-2" icon="mdi:book-open-variant"></iconify-icon>
+<span class="text-sm font-bold">藏经秘闻</span>
+<span class="text-[10px] text-gray-500">十七号窟的秘密</span>
+</div>
+<div class="tile-card p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<iconify-icon class="text-3xl text-gray-600 mb-2" icon="mdi:account-group"></iconify-icon>
+<span class="text-sm font-bold">供养人像</span>
+<span class="text-[10px] text-gray-500">千年的服饰变迁</span>
+</div>
+<div class="tile-card p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<iconify-icon class="text-3xl text-green-700 mb-2" icon="mdi:shield-check"></iconify-icon>
+<span class="text-sm font-bold">数字保护</span>
+<span class="text-[10px] text-gray-500">让敦煌永久留存</span>
+</div>
+<div class="tile-card p-4 rounded-xl flex flex-col items-center justify-center text-center">
+<iconify-icon class="text-3xl text-orange-600 mb-2" icon="mdi:map-marker-radius"></iconify-icon>
+<span class="text-sm font-bold">丝路文明</span>
+<span class="text-[10px] text-gray-500">东西方文化交汇</span>
+</div>
+</div>
+</div>
+<!-- 周边服务设施 -->
+<div class="mt-10 px-6 mb-10">
+<div class="bg-[#2B2B2B] rounded-2xl p-4 flex justify-around items-center shadow-lg">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-1">
+<iconify-icon class="text-xl text-white" icon="mdi:toilet"></iconify-icon>
+</div>
+<span class="text-[10px] text-gray-300">洗手间</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-1">
+<iconify-icon class="text-xl text-white" icon="mdi:silverware-fork-knife"></iconify-icon>
+</div>
+<span class="text-[10px] text-gray-300">餐厅</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-1">
+<iconify-icon class="text-xl text-white" icon="mdi:car-connected"></iconify-icon>
+</div>
+<span class="text-[10px] text-gray-300">停车场</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-1">
+<iconify-icon class="text-xl text-white" icon="mdi:information-outline"></iconify-icon>
+</div>
+<span class="text-[10px] text-gray-300">游客中心</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 实时语音讲解控制条 (悬浮) -->
+<div class="absolute bottom-20 left-4 right-4 z-30">
+<div class="bg-white/90 backdrop-blur-md rounded-2xl p-3 shadow-xl border border-[#B22222]/20 flex items-center space-x-3">
+<div class="w-10 h-10 rounded-lg overflow-hidden flex-none">
+<img alt="Grotto artwork thumbnail" class="w-full h-full object-cover" src="https://modao.cc/agent-py/media/generated_images/2026-05-30/caeb225d6df4473ebb677b48e4189286.jpg"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<h5 class="text-xs font-bold truncate">正在讲解：第96窟“九层楼”大佛</h5>
+<span class="text-[10px] text-gray-400">02:15 / 04:30</span>
+</div>
+<div class="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
+<div class="h-full bg-[#B22222] w-1/2"></div>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-[#B22222] flex items-center justify-center flex-none" id="play-btn">
+<iconify-icon class="text-white text-lg" icon="mdi:play"></iconify-icon>
+</button>
+</div>
+</div>
+<!-- 底部导航栏 -->
+<div class="h-20 bg-white border-t border-gray-100 flex items-center justify-around px-4 z-40">
+<div class="flex flex-col items-center text-[#B22222]">
+<iconify-icon class="text-2xl" icon="mdi:home-variant"></iconify-icon>
+<span class="text-[10px] mt-1 font-bold">首页</span>
+</div>
+<div class="flex flex-col items-center text-gray-400">
+<iconify-icon class="text-2xl" icon="mdi:comment-quote"></iconify-icon>
+<span class="text-[10px] mt-1">讲解</span>
+</div>
+<div class="flex flex-col items-center text-gray-400">
+<iconify-icon class="text-2xl" icon="mdi:map-marker-path"></iconify-icon>
+<span class="text-[10px] mt-1">路线</span>
+</div>
+<div class="flex flex-col items-center text-gray-400">
+<iconify-icon class="text-2xl" icon="mdi:account-circle"></iconify-icon>
+<span class="text-[10px] mt-1">我的</span>
+</div>
+</div>
+</div>
+<script>
+        // 模拟播放/暂停交互
+        const playBtn = document.getElementById('play-btn');
+        let isPlaying = false;
+        playBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            const icon = playBtn.querySelector('iconify-icon');
+            icon.setAttribute('icon', isPlaying ? 'mdi:pause' : 'mdi:play');
+        });
+
+        // 模拟对话文本切换
+        const dialogueText = document.getElementById('dialogue-text');
+        const dialogues = [
+            "“欢迎来到莫高窟。我是您的数字向导‘灵儿’。请问您想先了解哪座洞窟的历史故事？”",
+            "“第96窟是莫高窟的标志性建筑，内有高35.5米的弥勒大佛像，气势恢宏。”",
+            "“如果您对丝绸之路的贸易史感兴趣，我推荐您去看看第17号藏经洞。”",
+            "“前方左转就是洗手间，您可以稍作休息，我也为您准备了关于壁画修复的小知识。”"
+        ];
+        let currentDialogue = 0;
+
+        // 每6秒自动切换一段对话演示
+        setInterval(() => {
+            currentDialogue = (currentDialogue + 1) % dialogues.length;
+            dialogueText.style.opacity = 0;
+            setTimeout(() => {
+                dialogueText.innerText = dialogues[currentDialogue];
+                dialogueText.style.opacity = 1;
+            }, 500);
+        }, 6000);
+
+        // 磁贴点击反馈
+        document.querySelectorAll('.tile-card').forEach(tile => {
+            tile.addEventListener('click', function() {
+                const title = this.querySelector('span.font-bold').innerText;
+                console.log('点击了百科：' + title);
+                // 这里可以扩展弹出详情页的逻辑
+            });
+        });
+    </script>
+</body>
+</html>

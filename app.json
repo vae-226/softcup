@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "pages/guide/guide"
+  ],
+  "window": {
+    "navigationBarTitleText": "灵境导游",
+    "navigationBarBackgroundColor": "#F2E6CE",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F2E6CE"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
