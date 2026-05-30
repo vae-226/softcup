@@ -1,6 +1,8 @@
 const { encyclopedia, routes, scenic, services } = require("../../data/scenic");
 const { answerQuestion, recommendRoute } = require("../../services/guide-service");
 
+const ADMIN_TAP_THRESHOLD = 5;
+
 Page({
   data: {
     scenic,
@@ -14,6 +16,7 @@ Page({
     question: "",
     showQuestionBox: false,
     currentTab: "home",
+    profileTapCount: 0,
     scrollTarget: "",
     isPlaying: false,
     playIconClass: "play",
@@ -86,12 +89,19 @@ Page({
       wx.navigateTo({ url: page });
       return;
     }
+    const profileTapCount = tab === "profile" ? this.data.profileTapCount + 1 : 0;
+    if (profileTapCount >= ADMIN_TAP_THRESHOLD) {
+      this.setData({ profileTapCount: 0 });
+      wx.navigateTo({ url: "/pages/admin/admin" });
+      return;
+    }
     const navItems = this.data.navItems.map((item) => ({
       ...item,
       activeClass: item.tab === tab ? "active" : ""
     }));
     this.setData({
       currentTab: tab,
+      profileTapCount,
       navItems,
       scrollTarget: target
     });
