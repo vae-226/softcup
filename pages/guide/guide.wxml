@@ -66,7 +66,7 @@
               </view>
               <view class="route-bottom">
                 <text class="duration">约{{item.displayDuration}}</text>
-                <button class="start-btn" bindtap="chooseRoute" data-interest="{{item.id}}">开始游览</button>
+                <button class="start-btn route-start-btn" bindtap="chooseRoute" data-interest="{{item.id}}">开始</button>
               </view>
             </view>
           </view>

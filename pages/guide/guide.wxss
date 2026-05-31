@@ -359,7 +359,9 @@
 }
 
 .route-card {
-  width: 520rpx;
+  width: 312rpx;
+  flex: 0 0 312rpx;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   background: white;
@@ -457,6 +459,17 @@
   color: white;
   font-size: 22rpx;
   line-height: 56rpx;
+}
+
+.route-start-btn {
+  width: 72rpx;
+  height: 72rpx;
+  min-width: 72rpx;
+  max-width: 72rpx;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 20rpx;
+  line-height: 72rpx;
 }
 
 .tile-grid {

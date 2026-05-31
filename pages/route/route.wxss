@@ -43,4 +43,5 @@
 
 .route-card-full {
   width: 100%;
+  flex: none;
 }

@@ -8,6 +8,10 @@
   height: 760rpx;
 }
 
+.explain-content .control-row {
+  margin-top: 32rpx;
+}
+
 .explain-section {
   margin-top: 64rpx;
   margin-bottom: 72rpx;
