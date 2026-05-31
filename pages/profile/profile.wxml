@@ -1,0 +1,41 @@
+<view class="page-shell">
+  <scroll-view class="content profile-page-content" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="status-bar">
+      <text class="time">09:41</text>
+      <view class="status-right">
+        <text class="location">{{scenic.name}}</text>
+        <text class="signal">信</text>
+        <text class="signal">网</text>
+        <text class="battery"></text>
+      </view>
+    </view>
+
+    <view class="section profile-section profile-page-main">
+      <view class="section-title">我的导览</view>
+      <view class="profile-card">
+        <view class="profile-avatar">灵</view>
+        <view class="profile-main">
+          <text class="profile-title">游客体验档案</text>
+          <text class="profile-desc">偏好：文化讲解 / 当前路线：{{currentRoute.displayTitle}}</text>
+        </view>
+      </view>
+      <view class="profile-stats">
+        <view wx:for="{{stats}}" wx:key="label">
+          <text class="profile-num">{{item.value}}</text>
+          <text class="profile-label">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="section service-section profile-service-section">
+      <view class="section-title">常用服务</view>
+      <view class="service-panel">
+        <view class="service-item" wx:for="{{services}}" wx:key="label">
+          <view class="service-icon">{{item.icon}}</view>
+          <text>{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+</view>

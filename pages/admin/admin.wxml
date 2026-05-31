@@ -130,26 +130,5 @@
     </view>
   </scroll-view>
 
-  <view class="admin-tabbar">
-    <view class="tab-item" bindtap="goGuide">
-      <text class="tab-icon">⌂</text>
-      <text>首页</text>
-    </view>
-    <view class="tab-item">
-      <text class="tab-icon">言</text>
-      <text>讲解</text>
-    </view>
-    <view class="tab-item">
-      <text class="tab-icon">线</text>
-      <text>路线</text>
-    </view>
-    <view class="tab-item active">
-      <text class="tab-icon">管</text>
-      <text>管理</text>
-    </view>
-    <view class="tab-item">
-      <text class="tab-icon">人</text>
-      <text>我的</text>
-    </view>
-  </view>
+  <app-tabbar active="admin" show-admin="{{true}}"></app-tabbar>
 </view>

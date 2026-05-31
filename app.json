@@ -1,6 +1,9 @@
 {
   "pages": [
     "pages/guide/guide",
+    "pages/explain/explain",
+    "pages/route/route",
+    "pages/profile/profile",
     "pages/admin/admin"
   ],
   "window": {
@@ -8,6 +11,38 @@
     "navigationBarBackgroundColor": "#F2E6CE",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#F2E6CE"
+  },
+  "tabBar": {
+    "color": "#6f6a62",
+    "selectedColor": "#8f000d",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/guide/guide",
+        "text": "首页",
+        "iconPath": "assets/tabbar/native/home.png",
+        "selectedIconPath": "assets/tabbar/native/home-active.png"
+      },
+      {
+        "pagePath": "pages/explain/explain",
+        "text": "讲解",
+        "iconPath": "assets/tabbar/native/guide.png",
+        "selectedIconPath": "assets/tabbar/native/guide-active.png"
+      },
+      {
+        "pagePath": "pages/route/route",
+        "text": "路线",
+        "iconPath": "assets/tabbar/native/route.png",
+        "selectedIconPath": "assets/tabbar/native/route-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "assets/tabbar/native/profile.png",
+        "selectedIconPath": "assets/tabbar/native/profile-active.png"
+      }
+    ]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

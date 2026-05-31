@@ -1,0 +1,69 @@
+<view class="page-shell">
+  <scroll-view class="content explain-content" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="status-bar">
+      <text class="time">09:41</text>
+      <view class="status-right">
+        <text class="location">{{scenic.name}}</text>
+        <text class="signal">信</text>
+        <text class="signal">网</text>
+        <text class="battery"></text>
+      </view>
+    </view>
+
+    <view class="hero explain-hero">
+      <view class="ink-bg"></view>
+      <view class="lotus-decoration">讲</view>
+
+      <view class="avatar-wrap {{currentMood}}">
+        <image class="avatar-image" src="/assets/guide/avatar.jpg" mode="aspectFill"></image>
+        <view class="listening">正在讲解...</view>
+      </view>
+
+      <view class="dialogue-card">
+        <view class="bubble-tip"></view>
+        <text class="dialogue-text">{{dialogue}}</text>
+        <view class="wave-row">
+          <view class="wave wave-gold wave-1"></view>
+          <view class="wave wave-red wave-2"></view>
+          <view class="wave wave-gold wave-3"></view>
+          <view class="wave wave-red wave-4"></view>
+          <view class="wave wave-gold wave-5"></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="control-row">
+      <view class="side-action" bindtap="toggleQuestionBox" role="button" aria-label="文本输入">
+        <view class="icon-keyboard">
+          <view class="key-row">
+            <view></view><view></view><view></view>
+          </view>
+          <view class="key-row">
+            <view></view><view></view><view></view>
+          </view>
+        </view>
+      </view>
+      <view class="voice-action" bindtap="askQuestion" role="button" aria-label="语音提问">
+        <view class="icon-mic"></view>
+      </view>
+      <view class="side-action" bindtap="useQuickQuestion" data-question="九龙灌浴适合孩子看吗？" role="button" aria-label="拍照识别">
+        <view class="icon-camera"></view>
+      </view>
+    </view>
+
+    <view class="question-box" wx:if="{{showQuestionBox}}">
+      <input class="question-input" placeholder="问问小灵：灵山梵宫有什么看点？" value="{{question}}" bindinput="onQuestionInput" confirm-type="send" bindconfirm="askQuestion" />
+      <button class="send-btn" bindtap="askQuestion">发送</button>
+    </view>
+
+    <view class="section explain-section">
+      <view class="section-title">快速讲解</view>
+      <view class="quick-grid">
+        <view class="quick-card" wx:for="{{quickQuestions}}" wx:key="*this" bindtap="useQuickQuestion" data-question="{{item}}">
+          <text>{{item}}</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+</view>

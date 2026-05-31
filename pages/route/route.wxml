@@ -1,0 +1,53 @@
+<view class="page-shell">
+  <scroll-view class="content route-page-content" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="status-bar">
+      <text class="time">09:41</text>
+      <view class="status-right">
+        <text class="location">{{scenic.name}}</text>
+        <text class="signal">信</text>
+        <text class="signal">网</text>
+        <text class="battery"></text>
+      </view>
+    </view>
+
+    <view class="section route-overview">
+      <view class="section-head">
+        <view class="section-title">推荐路线</view>
+        <text class="more">智能匹配</text>
+      </view>
+      <view class="featured-route">
+        <image class="featured-image" src="{{currentRoute.image}}" mode="aspectFill"></image>
+        <view class="featured-body">
+          <view class="route-title-row">
+            <text class="route-title">{{currentRoute.displayTitle}}</text>
+            <text class="route-tag {{currentRoute.id}}">{{currentRoute.category}}</text>
+          </view>
+          <text class="route-path">{{currentRoute.path}}</text>
+          <text class="route-focus">{{currentRoute.focus}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="section route-list-section">
+      <view class="route-card route-card-full" wx:for="{{routes}}" wx:key="id">
+        <image class="route-image" src="{{item.image}}" mode="aspectFill"></image>
+        <view class="route-body">
+          <view class="route-title-row">
+            <text class="route-title">{{item.displayTitle}}</text>
+            <text class="route-tag {{item.id}}">{{item.category}}</text>
+          </view>
+          <text class="route-path">{{item.path}}</text>
+          <view class="tag-row">
+            <text class="hash-tag">{{item.hashTag}}</text>
+            <text class="hash-tag">{{item.tag}}</text>
+          </view>
+          <view class="route-bottom">
+            <text class="duration">约{{item.displayDuration}}</text>
+            <button class="start-btn" bindtap="chooseRoute" data-interest="{{item.id}}">选中路线</button>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+</view>

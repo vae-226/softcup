@@ -1,6 +1,6 @@
 <view class="page-shell">
-  <scroll-view class="content" scroll-y enhanced show-scrollbar="{{false}}" scroll-into-view="{{scrollTarget}}" scroll-with-animation>
-    <view id="home-section" class="status-bar">
+  <scroll-view class="content" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="status-bar">
       <text class="time">09:41</text>
       <view class="status-right">
         <text class="location">{{scenic.name}}</text>
@@ -10,7 +10,7 @@
       </view>
     </view>
 
-    <view id="guide-section" class="hero">
+    <view class="hero">
       <view class="ink-bg"></view>
       <view class="lotus-decoration">莲</view>
 
@@ -56,7 +56,7 @@
       <button class="send-btn" bindtap="askQuestion">发送</button>
     </view>
 
-    <view id="route-section" class="section route-section">
+    <view class="section route-section">
       <view class="section-head">
         <view class="section-title">推荐路线</view>
         <text class="more">更多路线 ></text>
@@ -104,30 +104,6 @@
       </view>
     </view>
 
-    <view id="profile-section" class="section profile-section">
-      <view class="section-title">我的导览</view>
-      <view class="profile-card">
-        <view class="profile-avatar">灵</view>
-        <view class="profile-main">
-          <text class="profile-title">游客体验档案</text>
-          <text class="profile-desc">偏好：文化讲解 / 当前路线：{{currentRoute.displayTitle}}</text>
-        </view>
-      </view>
-      <view class="profile-stats">
-        <view>
-          <text class="profile-num">3</text>
-          <text class="profile-label">已推荐路线</text>
-        </view>
-        <view>
-          <text class="profile-num">6</text>
-          <text class="profile-label">百科条目</text>
-        </view>
-        <view>
-          <text class="profile-num">98%</text>
-          <text class="profile-label">匹配度</text>
-        </view>
-      </view>
-    </view>
   </scroll-view>
 
   <view class="player-bar">
@@ -147,10 +123,4 @@
     </view>
   </view>
 
-  <view class="tabbar">
-    <view class="tab-item {{item.activeClass}}" wx:for="{{navItems}}" wx:key="label" bindtap="handleNav" data-page="{{item.page}}" data-tab="{{item.tab}}" data-target="{{item.target}}">
-      <text class="tab-icon">{{item.icon}}</text>
-      <text>{{item.label}}</text>
-    </view>
-  </view>
 </view>

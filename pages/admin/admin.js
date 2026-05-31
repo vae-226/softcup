@@ -70,9 +70,5 @@ Page({
   handleFeedback(event) {
     markFeedbackHandled(event.currentTarget.dataset.content);
     this.refreshDashboard();
-  },
-
-  goGuide() {
-    wx.navigateTo({ url: "/pages/guide/guide" });
   }
 });

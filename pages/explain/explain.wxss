@@ -1,0 +1,35 @@
+@import "../guide/guide.wxss";
+
+.explain-content {
+  padding-bottom: 190rpx;
+}
+
+.explain-hero {
+  height: 760rpx;
+}
+
+.explain-section {
+  margin-top: 64rpx;
+  margin-bottom: 190rpx;
+}
+
+.quick-grid {
+  margin-top: 28rpx;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18rpx;
+}
+
+.quick-card {
+  min-height: 92rpx;
+  padding: 0 28rpx;
+  border-radius: 22rpx;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1rpx solid rgba(197, 165, 90, 0.22);
+  box-shadow: 0 10rpx 24rpx rgba(42, 33, 22, 0.08);
+  color: #2b2b2b;
+  font-size: 27rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}

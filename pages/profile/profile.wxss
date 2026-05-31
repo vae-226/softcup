@@ -1,0 +1,15 @@
+@import "../guide/guide.wxss";
+
+.profile-page-content {
+  padding-bottom: 190rpx;
+}
+
+.profile-page-main {
+  margin-top: 64rpx;
+  margin-bottom: 0;
+}
+
+.profile-service-section {
+  margin-top: 56rpx;
+  margin-bottom: 190rpx;
+}

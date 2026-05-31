@@ -1,8 +1,6 @@
 const { encyclopedia, routes, scenic, services } = require("../../data/scenic");
 const { answerQuestion, recommendRoute } = require("../../services/guide-service");
 
-const ADMIN_TAP_THRESHOLD = 5;
-
 Page({
   data: {
     scenic,
@@ -15,18 +13,9 @@ Page({
     currentRoute: null,
     question: "",
     showQuestionBox: false,
-    currentTab: "home",
-    profileTapCount: 0,
-    scrollTarget: "",
     isPlaying: false,
     playIconClass: "play",
-    progress: 48,
-    navItems: [
-      { label: "首页", icon: "⌂", tab: "home", target: "home-section", activeClass: "active" },
-      { label: "讲解", icon: "言", tab: "guide", target: "guide-section", activeClass: "" },
-      { label: "路线", icon: "线", tab: "route", target: "route-section", activeClass: "" },
-      { label: "我的", icon: "人", tab: "profile", target: "profile-section", activeClass: "" }
-    ]
+    progress: 48
   },
 
   onLoad() {
@@ -80,30 +69,6 @@ Page({
     this.setData({
       isPlaying,
       playIconClass: isPlaying ? "pause" : "play"
-    });
-  },
-
-  handleNav(event) {
-    const { page, tab, target } = event.currentTarget.dataset;
-    if (page) {
-      wx.navigateTo({ url: page });
-      return;
-    }
-    const profileTapCount = tab === "profile" ? this.data.profileTapCount + 1 : 0;
-    if (profileTapCount >= ADMIN_TAP_THRESHOLD) {
-      this.setData({ profileTapCount: 0 });
-      wx.navigateTo({ url: "/pages/admin/admin" });
-      return;
-    }
-    const navItems = this.data.navItems.map((item) => ({
-      ...item,
-      activeClass: item.tab === tab ? "active" : ""
-    }));
-    this.setData({
-      currentTab: tab,
-      profileTapCount,
-      navItems,
-      scrollTarget: target
     });
   }
 });
