@@ -9,7 +9,7 @@
 
 .content {
   height: 100vh;
-  padding-bottom: 300rpx;
+  padding-bottom: 220rpx;
   box-sizing: border-box;
 }
 
@@ -621,7 +621,7 @@
   position: fixed;
   left: 32rpx;
   right: 32rpx;
-  bottom: 150rpx;
+  bottom: 56rpx;
   z-index: 20;
   border-radius: 28rpx;
   border: 1rpx solid rgba(197, 165, 90, 0.3);

@@ -1,7 +1,7 @@
 @import "../guide/guide.wxss";
 
 .explain-content {
-  padding-bottom: 190rpx;
+  padding-bottom: 72rpx;
 }
 
 .explain-hero {
@@ -10,7 +10,7 @@
 
 .explain-section {
   margin-top: 64rpx;
-  margin-bottom: 190rpx;
+  margin-bottom: 72rpx;
 }
 
 .quick-grid {

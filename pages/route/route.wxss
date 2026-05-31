@@ -1,7 +1,7 @@
 @import "../guide/guide.wxss";
 
 .route-page-content {
-  padding-bottom: 170rpx;
+  padding-bottom: 72rpx;
 }
 
 .route-overview {
@@ -36,7 +36,7 @@
 
 .route-list-section {
   margin-top: 32rpx;
-  margin-bottom: 188rpx;
+  margin-bottom: 72rpx;
   display: grid;
   gap: 24rpx;
 }
