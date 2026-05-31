@@ -70,5 +70,9 @@ Page({
   handleFeedback(event) {
     markFeedbackHandled(event.currentTarget.dataset.content);
     this.refreshDashboard();
+  },
+
+  backToGuide() {
+    wx.switchTab({ url: "/pages/guide/guide" });
   }
 });

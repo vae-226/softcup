@@ -8,7 +8,7 @@
           <view class="subtitle">灵山胜境管理端</view>
         </view>
       </view>
-      <view class="notice">铃</view>
+      <button class="back-btn" bindtap="backToGuide">返回用户端</button>
     </view>
 
     <view class="content">
@@ -130,5 +130,4 @@
     </view>
   </scroll-view>
 
-  <app-tabbar active="admin" show-admin="{{true}}"></app-tabbar>
 </view>

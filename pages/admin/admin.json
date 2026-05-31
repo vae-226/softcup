@@ -1,6 +1,3 @@
 {
-  "navigationBarTitleText": "智慧中枢",
-  "usingComponents": {
-    "app-tabbar": "/components/app-tabbar/app-tabbar"
-  }
+  "navigationBarTitleText": "智慧中枢"
 }

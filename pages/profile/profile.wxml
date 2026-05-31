@@ -1,15 +1,5 @@
 <view class="page-shell">
   <scroll-view class="content profile-page-content" scroll-y enhanced show-scrollbar="{{false}}">
-    <view class="status-bar">
-      <text class="time">09:41</text>
-      <view class="status-right">
-        <text class="location">{{scenic.name}}</text>
-        <text class="signal">信</text>
-        <text class="signal">网</text>
-        <text class="battery"></text>
-      </view>
-    </view>
-
     <view class="section profile-section profile-page-main">
       <view class="section-title">我的导览</view>
       <view class="profile-card">
