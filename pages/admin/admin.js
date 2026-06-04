@@ -6,12 +6,10 @@ const {
   uploadKnowledgeItem
 } = require("../../services/guide-service");
 
-const dashboard = getAdminDashboard();
-
 Page({
   data: {
-    dashboard,
-    avatarForm: dashboard.avatarConfig
+    dashboard: getAdminDashboard(),
+    avatarForm: getAdminDashboard().avatarConfig
   },
 
   onLoad() {
@@ -19,10 +17,10 @@ Page({
   },
 
   refreshDashboard() {
-    const nextDashboard = getAdminDashboard();
+    const dashboard = getAdminDashboard();
     this.setData({
-      dashboard: nextDashboard,
-      avatarForm: nextDashboard.avatarConfig
+      dashboard,
+      avatarForm: dashboard.avatarConfig
     });
   },
 
@@ -62,7 +60,7 @@ Page({
 
   editKnowledge() {
     wx.showToast({
-      title: "编辑入口已保留",
+      title: "编辑入口已预留",
       icon: "none"
     });
   },

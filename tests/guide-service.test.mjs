@@ -5,6 +5,8 @@ import test from "node:test";
 const require = createRequire(import.meta.url);
 const {
   answerQuestion,
+  askAiGuide,
+  buildAiContext,
   configureAdminStorage,
   getAdminDashboard,
   markFeedbackHandled,
@@ -34,6 +36,45 @@ test("游客询问灵山大佛时获得相关景点讲解", () => {
   assert.match(result.answer, /五方五佛|216级|青铜|抱佛脚/);
 });
 
+test("构造千问接口上下文时包含知识库和景区身份", () => {
+  const payload = buildAiContext("梵宫有什么艺术亮点？");
+
+  assert.equal(payload.model, "qwen-plus");
+  assert.equal(payload.context.scenicName, "灵山胜境");
+  assert.ok(payload.knowledge.length >= 3);
+  assert.match(payload.message, /梵宫/);
+});
+
+test("AI接口不可用时降级为本地知识库回答", async () => {
+  const result = await askAiGuide("九龙灌浴适合孩子看吗？", {
+    request: null,
+    apiBase: ""
+  });
+
+  assert.equal(result.source, "local-rag");
+  assert.match(result.answer, /九龙灌浴/);
+});
+
+test("AI接口成功时返回千问回答并保留景点上下文", async () => {
+  const result = await askAiGuide("灵山大佛最值得看什么？", {
+    apiBase: "http://mock.local",
+    request(options) {
+      options.success({
+        statusCode: 200,
+        data: {
+          provider: "qwen",
+          model: "qwen-plus",
+          answer: "千问生成：灵山大佛值得看佛像手印、登云道和太湖山水格局。"
+        }
+      });
+    }
+  });
+
+  assert.equal(result.source, "qwen");
+  assert.equal(result.model, "qwen-plus");
+  assert.match(result.answer, /千问生成/);
+});
+
 test("游客选择亲子兴趣时推荐亲子家庭路线", () => {
   const route = recommendRoute({ interest: "family", duration: "4小时" });
 
@@ -57,13 +98,13 @@ test("管理后台保存数字人配置后再次读取仍使用新配置", () =>
 
   const saved = saveAvatarConfig({
     name: "小灵",
-    costume: "朱砂礼服",
+    costume: "朱檐礼服",
     voice: "沉稳讲解",
     style: "文化专家"
   });
 
   assert.equal(saved.name, "小灵");
-  assert.equal(getAdminDashboard().avatarConfig.costume, "朱砂礼服");
+  assert.equal(getAdminDashboard().avatarConfig.costume, "朱檐礼服");
   assert.equal(getAdminDashboard().avatarConfig.voice, "沉稳讲解");
 });
 
@@ -83,7 +124,7 @@ test("管理后台可以停用并重新启用知识库条目", () => {
 test("管理后台可以标记游客反馈为已处理", () => {
   configureAdminStorage(createMemoryStorage());
 
-  const handled = markFeedbackHandled("讲解很清晰，非常有文化内涵，声音也很好听。");
+  const handled = markFeedbackHandled("讲解很清晰，非常有文化内容，声音也很好听。");
 
   assert.equal(handled.handled, true);
   assert.equal(handled.action, "已处理");

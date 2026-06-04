@@ -6,12 +6,13 @@
 
       <view class="avatar-wrap {{currentMood}}">
         <image class="avatar-image" src="/assets/guide/avatar.jpg" mode="aspectFill"></image>
-        <view class="listening">正在聆听...</view>
+        <view class="listening">{{isAsking ? '思考中...' : '在线导览'}}</view>
       </view>
 
       <view class="dialogue-card">
         <view class="bubble-tip"></view>
         <text class="dialogue-text">{{dialogue}}</text>
+        <text class="ai-source">{{aiSourceText}}</text>
         <view class="wave-row">
           <view class="wave wave-gold wave-1"></view>
           <view class="wave wave-red wave-2"></view>
@@ -22,28 +23,25 @@
       </view>
     </view>
 
-    <view class="control-row">
-      <view class="side-action" bindtap="toggleQuestionBox" role="button" aria-label="文本输入">
-        <view class="icon-keyboard">
-          <view class="key-row">
-            <view></view><view></view><view></view>
-          </view>
-          <view class="key-row">
-            <view></view><view></view><view></view>
-          </view>
+    <view class="chat-panel">
+      <view class="section-title">和灵灵对话</view>
+      <view class="message-list">
+        <view class="message {{item.role}}" wx:for="{{messages}}" wx:key="index">
+          <text class="message-content">{{item.content}}</text>
+          <text class="message-meta">{{item.meta}}</text>
         </view>
       </view>
-      <view class="voice-action" bindtap="askQuestion" role="button" aria-label="语音提问">
-        <view class="icon-mic"></view>
-      </view>
-      <view class="side-action" bindtap="useQuickQuestion" data-question="九龙灌浴适合孩子看吗？" role="button" aria-label="拍照识别">
-        <view class="icon-camera"></view>
+      <view class="question-box">
+        <input class="question-input" placeholder="直接问：灵山大佛最值得看什么？" value="{{question}}" bindinput="onQuestionInput" confirm-type="send" bindconfirm="askQuestion" />
+        <button class="send-btn" loading="{{isAsking}}" bindtap="askQuestion">{{isAsking ? '生成中' : '发送'}}</button>
       </view>
     </view>
 
-    <view class="question-box" wx:if="{{showQuestionBox}}">
-      <input class="question-input" placeholder="问问小灵：灵山大佛有什么特色？" value="{{question}}" bindinput="onQuestionInput" confirm-type="send" bindconfirm="askQuestion" />
-      <button class="send-btn" bindtap="askQuestion">发送</button>
+    <view class="quick-panel">
+      <view class="section-title">快速提问</view>
+      <view class="quick-grid">
+        <button class="quick-btn" wx:for="{{quickQuestions}}" wx:key="item" bindtap="useQuickQuestion" data-question="{{item}}">{{item}}</button>
+      </view>
     </view>
 
     <view class="section route-section">
@@ -93,24 +91,22 @@
         </view>
       </view>
     </view>
-
   </scroll-view>
 
   <view class="player-bar">
     <image class="thumb" src="/assets/guide/player-thumb.jpg" mode="aspectFill"></image>
     <view class="player-main">
       <view class="player-line">
-        <text class="player-title">正在讲解：{{currentSpotName}} · 佛手广场</text>
+        <text class="player-title">正在讲解：{{currentSpotName}}</text>
         <text class="player-time">02:15 / 04:30</text>
       </view>
       <view class="progress-track">
         <view class="progress-fill" style="width: {{progress}}%;"></view>
       </view>
-      <text class="player-desc">云端俯瞰太湖全景，感受灵山胜境的佛国气象</text>
+      <text class="player-desc">数字人灵灵正在根据您的问题生成讲解内容</text>
     </view>
     <view class="play-btn" bindtap="togglePlay" role="button" aria-label="播放讲解">
       <view class="icon-audio {{playIconClass}}"></view>
     </view>
   </view>
-
 </view>

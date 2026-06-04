@@ -105,6 +105,14 @@
   line-height: 1.72;
 }
 
+.ai-source {
+  display: block;
+  margin-top: 16rpx;
+  text-align: center;
+  color: #8f000d;
+  font-size: 21rpx;
+}
+
 .wave-row {
   height: 32rpx;
   margin-top: 16rpx;
@@ -291,8 +299,61 @@
   box-sizing: border-box;
 }
 
+.chat-panel,
+.quick-panel {
+  margin: 44rpx 48rpx 0;
+  padding: 28rpx;
+  border-radius: 30rpx;
+  background: rgba(255, 255, 255, 0.76);
+  border: 1rpx solid rgba(197, 165, 90, 0.2);
+  box-shadow: 0 12rpx 30rpx rgba(42, 33, 22, 0.08);
+}
+
+.message-list {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.message {
+  max-width: 86%;
+  padding: 20rpx 22rpx;
+  border-radius: 22rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+  box-sizing: border-box;
+}
+
+.message.assistant {
+  align-self: flex-start;
+  background: #fffaf0;
+  border: 1rpx solid rgba(197, 165, 90, 0.22);
+}
+
+.message.user {
+  align-self: flex-end;
+  background: #2b2b2b;
+  color: #fff;
+}
+
+.message-content {
+  font-size: 25rpx;
+  line-height: 1.65;
+}
+
+.message-meta {
+  color: #888;
+  font-size: 20rpx;
+}
+
+.message.user .message-meta {
+  color: rgba(255, 255, 255, 0.72);
+}
+
 .question-box {
-  margin: 36rpx 48rpx 0;
+  margin-top: 24rpx;
   display: flex;
   gap: 16rpx;
 }
@@ -317,6 +378,28 @@
   color: white;
   font-size: 24rpx;
   line-height: 76rpx;
+}
+
+.quick-grid {
+  margin-top: 24rpx;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
+}
+
+.quick-btn {
+  margin: 0;
+  padding: 18rpx 14rpx;
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.72);
+  color: #3a3128;
+  font-size: 22rpx;
+  line-height: 1.35;
+  border: 1rpx solid rgba(43, 43, 43, 0.08);
+}
+
+.quick-btn::after {
+  border: 0;
 }
 
 .section {

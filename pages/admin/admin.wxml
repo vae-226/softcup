@@ -5,16 +5,16 @@
         <view class="avatar">灵</view>
         <view>
           <view class="title">灵境导游 | 智慧中枢</view>
-          <view class="subtitle">灵山胜境管理端</view>
+          <view class="subtitle">灵山胜境管理后台</view>
         </view>
       </view>
-      <button class="back-btn" bindtap="backToGuide">返回用户端</button>
+      <button class="back-btn" bindtap="backToGuide">返回游客端</button>
     </view>
 
     <view class="content">
       <view class="section-title">
         <text class="title-mark">●</text>
-        <text>顶部概览区</text>
+        <text>运营概览</text>
       </view>
 
       <view class="metric-grid">
@@ -99,7 +99,7 @@
             <text class="knowledge-title">{{item.title}}</text>
             <view class="knowledge-tags">
               <text>{{item.category}}</text>
-              <text>关联: {{item.spot}}</text>
+              <text>关联：{{item.spot}}</text>
             </view>
           </view>
           <view class="knowledge-actions">
@@ -129,5 +129,4 @@
       </view>
     </view>
   </scroll-view>
-
 </view>
