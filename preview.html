@@ -3,573 +3,1772 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>灵山胜境 AI 数字人导览小程序</title>
+  <title>灵山胜境 AI 数字人导览</title>
   <style>
     :root{
-      --bg:#f3efe7;
-      --paper:#fffdf8;
-      --ink:#20201d;
-      --sub:#756e63;
-      --line:#e8ded0;
-      --gold:#b7852d;
-      --green:#2e8b73;
-      --red:#ba594d;
-      --blue:#3d6f97;
-      --shadow:0 14px 34px rgba(44,35,22,.12);
+      --bg:#f6efe4;
+      --panel:#fffdf9;
+      --panel-2:#fbf4e7;
+      --ink:#201b16;
+      --muted:#75685b;
+      --line:#e8dcc9;
+      --gold:#ba8432;
+      --green:#2c8b72;
+      --red:#ba5a48;
+      --shadow:0 16px 32px rgba(45,34,18,.10);
+      --radius:20px;
+      --nav-h:74px;
     }
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      min-height:100vh;
-      background:linear-gradient(135deg,#ead9af,#f8f4ec 46%,#e8f0e7);
       color:var(--ink);
-      font-family:"PingFang SC","Microsoft YaHei",Arial,sans-serif;
+      font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,.8), transparent 38%),
+        linear-gradient(135deg,#efdfbc 0%, #f8f3ea 42%, #e3f0e8 100%);
     }
     button,input,select,textarea{font:inherit}
     button{cursor:pointer}
-    .phone{
+    .app{
       width:min(430px,100vw);
       min-height:100vh;
       margin:0 auto;
-      background:var(--bg);
       position:relative;
+      background:rgba(246,239,228,.96);
+      box-shadow:0 0 0 1px rgba(0,0,0,.05), 0 18px 56px rgba(0,0,0,.12);
       overflow:hidden;
-      box-shadow:0 0 0 1px rgba(0,0,0,.05),0 20px 60px rgba(0,0,0,.12);
     }
-    .app-head{
-      height:70px;
-      padding:12px 16px 10px;
-      background:rgba(255,253,248,.96);
-      border-bottom:1px solid var(--line);
+    .topbar{
       position:sticky;
       top:0;
-      z-index:10;
+      z-index:40;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px 10px;
+      background:rgba(255,253,249,.96);
+      border-bottom:1px solid var(--line);
+      backdrop-filter:blur(10px);
     }
-    .head-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
     .back{
-      border:0;
-      background:#efe5d6;
-      color:#5d4a2e;
-      border-radius:12px;
-      width:40px;
-      height:40px;
-      display:none;
+      width:38px;height:38px;border:0;border-radius:12px;
+      background:#f1e5d0;color:#5e492b;display:none;align-items:center;justify-content:center;
       flex:none;
     }
-    .back.show{display:block}
-    .title-wrap{min-width:0;flex:1}
-    .page-title{font-size:18px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .page-sub{font-size:12px;color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .ai-pill{background:var(--green);color:#fff;border-radius:999px;padding:7px 10px;font-size:12px;white-space:nowrap}
-    .main{height:calc(100vh - 70px);overflow:auto;padding:14px 14px 88px}
+    .back.show{display:flex}
+    .brand{min-width:0;flex:1}
+    .brand .title{font-size:18px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .brand .sub{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .status{
+      flex:none;
+      padding:7px 10px;
+      border-radius:999px;
+      background:#2c8b72;
+      color:#fff;
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .content{
+      height:calc(100vh - 62px - var(--nav-h));
+      overflow:auto;
+      padding:14px 14px 92px;
+    }
     .page{display:none}
     .page.active{display:block}
     .hero{
-      background:linear-gradient(135deg,#fff8e7,#e4f4ee);
+      background:linear-gradient(135deg,#fff8e8,#e7f4ee);
       border:1px solid var(--line);
-      border-radius:22px;
+      border-radius:24px;
       padding:16px;
       box-shadow:var(--shadow);
     }
-    .guide{display:flex;gap:14px;align-items:center}
-    .avatar{
-      width:104px;height:104px;border-radius:28px;object-fit:cover;
-      background:#fff;border:4px solid #fff;box-shadow:0 14px 28px rgba(0,0,0,.12);
-      flex:none;
+    .hero-row{display:flex;gap:14px;align-items:center}
+    .avatar-ring{
+      width:116px;height:116px;flex:none;position:relative;
+      display:grid;place-items:center;
     }
+    .avatar-ring::before,
+    .avatar-ring::after{
+      content:"";
+      position:absolute;inset:0;
+      border-radius:34px;
+      border:1px solid rgba(56,118,104,.15);
+      transform:scale(1);
+    }
+    .avatar-ring::after{inset:10px;border-color:rgba(186,132,50,.18)}
+    .avatar{
+      width:104px;height:104px;border-radius:30px;object-fit:cover;z-index:1;
+      border:4px solid #fff;background:#fff;
+      box-shadow:0 14px 30px rgba(0,0,0,.12);
+    }
+    .hero-copy{min-width:0;flex:1}
     h1,h2,h3,p{margin:0}
-    h1{font-size:22px;line-height:1.25}
+    h1{font-size:22px;line-height:1.2}
     h2{font-size:18px}
     h3{font-size:16px}
-    p{color:#554f47;line-height:1.6;font-size:14px}
+    p{font-size:14px;line-height:1.7;color:#534b42}
     .speech{
-      margin-top:14px;
-      background:#fff;
+      margin-top:12px;
       border:1px solid var(--line);
       border-radius:18px;
+      background:#fff;
       padding:12px;
+      line-height:1.75;
       font-size:14px;
-      line-height:1.65;
-      color:#3d382f;
+      color:#40372f;
+      min-height:76px;
     }
-    .section{margin-top:14px;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:var(--shadow)}
-    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
-    .muted{color:var(--sub);font-size:12px}
-    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    .tile,.list-btn,.route-card,.service-row,.ticket-row,.order-card{
-      border:1px solid var(--line);
-      background:#fff;
-      border-radius:16px;
-      padding:12px;
+    .speech .tagline{display:inline-block;margin-bottom:6px;font-size:12px;color:var(--muted)}
+    .icon-row{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:14px;
     }
-    .tile{min-height:102px;text-align:left;display:flex;flex-direction:column;justify-content:space-between}
-    .tile strong,.list-btn strong{font-size:15px}
-    .tile small,.list-btn small{color:var(--sub);line-height:1.45}
-    .quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
-    .quick-actions button{
-      min-height:72px;
+    .icon-btn{
       border:1px solid var(--line);
-      background:#fff;
       border-radius:18px;
-      box-shadow:0 8px 18px rgba(0,0,0,.06);
-      color:#3d352b;
+      background:#fff;
+      min-height:76px;
+      padding:10px 8px;
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      gap:5px;
+      gap:7px;
+      box-shadow:0 8px 18px rgba(0,0,0,.05);
+      color:#3d352c;
+    }
+    .icon-btn span{font-size:12px}
+    .icon{
+      width:23px;height:23px;display:block;color:currentColor;flex:none;
+    }
+    .section{
+      margin-top:14px;
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:14px;
+      box-shadow:var(--shadow);
+    }
+    .section-head{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      margin-bottom:12px;
+    }
+    .subtle{font-size:12px;color:var(--muted)}
+    .chip-row{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{
+      border:1px solid var(--line);
+      background:#fff;
+      color:#4b4136;
+      border-radius:999px;
+      padding:8px 11px;
       font-size:12px;
     }
-    .icon{font-size:20px;font-weight:800;color:var(--gold)}
-    .btn{
-      border:0;
-      border-radius:999px;
-      padding:9px 14px;
-      background:#252119;
+    .chip.active{
+      background:#1f1b17;
       color:#fff;
+      border-color:#1f1b17;
+    }
+    .stack{display:grid;gap:10px}
+    .card{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:18px;
+      padding:12px;
+      box-shadow:0 8px 18px rgba(0,0,0,.04);
+    }
+    .card.soft{background:#fffaf0}
+    .row{display:flex;gap:12px;align-items:flex-start}
+    .row .fill{min-width:0;flex:1}
+    .badge{
+      width:30px;height:30px;border-radius:999px;
+      display:grid;place-items:center;
+      background:#f0e1bf;color:#5d451d;flex:none;font-weight:800;
+    }
+    .route-thumb{
+      width:100%;height:160px;object-fit:cover;border-radius:18px;margin-bottom:12px;
+      background:#f2e7d4;
+    }
+    .list{display:grid;gap:10px}
+    .list-btn{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:16px;
+      padding:12px;
+      text-align:left;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      box-shadow:0 8px 18px rgba(0,0,0,.04);
+    }
+    .list-btn.active{border-color:#d2b16a;background:#fff8eb}
+    .detail-title{font-size:17px;font-weight:800}
+    .detail-desc{margin-top:8px;font-size:14px;line-height:1.75;color:#4d443b}
+    .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .tag{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#f2e9d8;
+      color:#715422;
+    }
+    .timeline{display:grid;gap:10px}
+    .stop{
+      display:flex;gap:10px;align-items:flex-start;
+      background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;
+    }
+    .stop.active{border-color:#d2b16a;background:#fff8e8}
+    .stop .num{
+      width:30px;height:30px;border-radius:50%;
+      background:#ead8af;color:#5c4219;
+      display:grid;place-items:center;font-weight:800;flex:none;
+    }
+    .controls{
+      display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;
+    }
+    .btn{
+      border:0;border-radius:999px;
+      padding:10px 14px;
+      background:#201b16;color:#fff;
       white-space:nowrap;
     }
-    .btn.light{background:#efe4d1;color:#624b25}
+    .btn.light{background:#efe2cf;color:#65461f}
     .btn.green{background:var(--green)}
     .btn.red{background:var(--red)}
-    .chat{display:flex;flex-direction:column;gap:10px;max-height:360px;overflow:auto;margin-bottom:12px}
-    .msg{max-width:88%;border-radius:16px;padding:10px 12px;font-size:14px;line-height:1.6;white-space:pre-wrap}
-    .msg.ai{align-self:flex-start;background:#fff7e7;border:1px solid #ecd8ad}
-    .msg.user{align-self:flex-end;background:#252119;color:#fff}
-    .input-row{display:flex;gap:8px}
-    .input-row input{flex:1;min-width:0;height:44px;border:1px solid var(--line);border-radius:14px;padding:0 12px;background:#fff}
-    .route-card{padding:0;overflow:hidden}
-    .route-card img{width:100%;height:138px;object-fit:cover;display:block}
-    .route-card .body{padding:12px}
-    .route-card p{font-size:12px;margin-top:6px}
-    .split{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
-    .steps{display:grid;gap:10px}
-    .step{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px}
-    .step-num{width:30px;height:30px;border-radius:50%;background:#ead8af;display:grid;place-items:center;color:#5a421b;font-weight:800;flex:none}
-    .progress{height:9px;background:#e2d8cc;border-radius:999px;overflow:hidden}
-    .progress span{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold));border-radius:inherit}
-    .service-map{
-      height:240px;
+    .btn.block{width:100%}
+    .chat{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      max-height:310px;
+      overflow:auto;
+      padding-right:2px;
+    }
+    .msg{
+      max-width:88%;
+      border-radius:16px;
+      padding:10px 12px;
+      font-size:14px;
+      line-height:1.7;
+      white-space:pre-wrap;
+    }
+    .msg.user{align-self:flex-end;background:#201b16;color:#fff}
+    .msg.ai{align-self:flex-start;background:#fff7e5;border:1px solid #ecd9b1}
+    .meta{display:block;margin-top:6px;font-size:11px;opacity:.75}
+    .input-row{display:flex;gap:8px;margin-top:12px}
+    .input-row input{
+      flex:1;min-width:0;height:44px;border:1px solid var(--line);border-radius:14px;padding:0 12px;background:#fff
+    }
+    .input-row button{
+      height:44px;border:0;border-radius:14px;padding:0 14px;background:#201b16;color:#fff
+    }
+    .route-strip{
+      display:flex;
+      gap:10px;
+      overflow:auto;
+      padding-bottom:4px;
+      scroll-snap-type:x proximity;
+    }
+    .route-mini{
+      min-width:240px;
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 8px 18px rgba(0,0,0,.04);
+      scroll-snap-align:start;
+    }
+    .route-mini img{display:block;width:100%;height:128px;object-fit:cover}
+    .route-mini .body{padding:12px}
+    .progress{
+      height:9px;background:#e4d9ca;border-radius:999px;overflow:hidden;
+    }
+    .progress span{
+      display:block;height:100%;border-radius:inherit;
+      background:linear-gradient(90deg,var(--green),var(--gold));
+    }
+    .qr-wrap{
+      display:grid;
+      place-items:center;
+      gap:10px;
+      padding:14px;
+      background:#fff;
       border-radius:18px;
       border:1px solid var(--line);
-      background:
-        linear-gradient(90deg,rgba(255,255,255,.65) 1px,transparent 1px),
-        linear-gradient(0deg,rgba(255,255,255,.65) 1px,transparent 1px),
-        linear-gradient(135deg,#dfeee4,#f7efd9);
-      background-size:42px 42px,42px 42px,auto;
-      position:relative;
-      overflow:hidden;
     }
-    .pin{position:absolute;transform:translate(-50%,-50%);border:0;border-radius:999px;padding:8px 10px;background:#252119;color:#fff;font-size:12px;box-shadow:0 8px 18px rgba(0,0,0,.2)}
-    .pin.gold{background:var(--gold)}
-    .pin.green{background:var(--green)}
-    .service-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;text-align:left;width:100%}
-    .ticket-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
-    .counter{display:flex;align-items:center;gap:8px}
-    .counter button{width:30px;height:30px;border:0;border-radius:50%;background:#ead8af}
-    .form{display:grid;gap:10px}
-    .form input,.form select,.form textarea{width:100%;border:1px solid var(--line);border-radius:14px;background:#fff;padding:11px 12px}
-    .form textarea{min-height:90px;resize:none}
-    .summary{background:#fff7e7;border:1px solid #ecd8ad;border-radius:16px;padding:12px;line-height:1.6;font-size:14px}
-    .tabbar{
-      position:fixed;
-      left:50%;
-      bottom:0;
-      transform:translateX(-50%);
-      width:min(430px,100vw);
-      height:72px;
+    canvas.qr{
+      width:210px;
+      height:210px;
+      border-radius:14px;
       background:#fff;
-      border-top:1px solid var(--line);
-      display:grid;
-      grid-template-columns:repeat(5,1fr);
-      z-index:30;
+      box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);
     }
-    .tabbar button{border:0;background:#fff;color:#786f63;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px}
-    .tabbar button.active{color:#955f15;font-weight:800}
-    .tabbar b{font-size:18px}
-    .hidden{display:none!important}
+    .ticket-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+    }
+    .ticket-price{font-size:28px;font-weight:800;color:#1f1b16}
+    .qty{
+      display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    }
+    .qty button{
+      width:34px;height:34px;border-radius:12px;border:1px solid var(--line);background:#fff;
+    }
+    .qty span{min-width:24px;text-align:center;font-weight:700}
+    .form-row{display:grid;gap:8px;margin-top:10px}
+    .form-row label{font-size:12px;color:var(--muted)}
+    .form-row input,.form-row select{
+      height:44px;border:1px solid var(--line);border-radius:14px;padding:0 12px;background:#fff
+    }
+    .order-card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fff;
+      padding:12px;
+      display:grid;
+      gap:8px;
+    }
+    .order-code{
+      font-size:12px;
+      color:var(--muted);
+      word-break:break-all;
+    }
+    .tabbar{
+      position:absolute;
+      left:0;right:0;bottom:0;
+      height:var(--nav-h);
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      background:rgba(255,255,255,.96);
+      border-top:1px solid var(--line);
+      backdrop-filter:blur(12px);
+    }
+    .tab{
+      border:0;background:transparent;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:4px;color:#6d675f;
+    }
+    .tab .icon{width:22px;height:22px}
+    .tab.active{color:#1f1b16}
+    .tab span{font-size:11px}
+    .admin-modal{
+      position:fixed;inset:0;z-index:100;
+      display:none;
+      background:rgba(18,14,11,.45);
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .admin-modal.show{display:flex}
+    .admin-box{
+      width:min(360px,100%);
+      background:#fff;
+      border-radius:24px;
+      padding:18px;
+      box-shadow:0 24px 70px rgba(0,0,0,.25);
+    }
+    .admin-box h3{font-size:18px;margin-bottom:8px}
+    .admin-box p{font-size:13px;color:var(--muted)}
+    .admin-box .input-row{margin-top:14px}
+    .admin-box input{height:44px}
+    .admin-box .controls{justify-content:flex-end}
+    .hidden{display:none !important}
+    .settings-row{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      padding:10px 0;
+      border-bottom:1px solid rgba(0,0,0,.06);
+    }
+    .settings-row:last-child{border-bottom:0}
+    .switch{
+      width:46px;height:28px;border-radius:999px;background:#d8d0c5;position:relative;flex:none;border:0;
+    }
+    .switch::before{
+      content:"";
+      position:absolute;top:3px;left:3px;
+      width:22px;height:22px;border-radius:50%;
+      background:#fff;transition:transform .18s ease;
+      box-shadow:0 2px 8px rgba(0,0,0,.15);
+    }
+    .switch.on{background:var(--green)}
+    .switch.on::before{transform:translateX(18px)}
+    .profile-banner{
+      padding:14px;
+      border-radius:22px;
+      border:1px solid var(--line);
+      background:linear-gradient(135deg,#fff8e8,#e6f3eb);
+      box-shadow:var(--shadow);
+    }
+    .profile-top{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .profile-avatar{
+      width:62px;height:62px;border-radius:20px;object-fit:cover;border:3px solid #fff;
+      box-shadow:0 10px 22px rgba(0,0,0,.12);
+    }
+    .small{font-size:12px;color:var(--muted)}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .mini-stat{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fff;
+      padding:12px;
+    }
+    .mini-stat strong{display:block;font-size:20px;margin-top:4px}
+    .panel-title{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#f2eadb;
+      font-size:12px;
+      color:#5f471d;
+    }
+    .feedback-item,.knowledge-item{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px;
+      background:#fff;
+      display:grid;
+      gap:8px;
+    }
+    .feedback-item .top,.knowledge-item .top{
+      display:flex;justify-content:space-between;gap:10px;align-items:center;
+    }
+    .stars{color:#bf7d16;letter-spacing:1px}
+    .admin-lock{
+      display:grid;
+      place-items:center;
+      min-height:48vh;
+      text-align:center;
+      gap:12px;
+      padding:20px;
+    }
+    .lock-icon{
+      width:74px;height:74px;border-radius:24px;background:#fff;border:1px solid var(--line);
+      display:grid;place-items:center;box-shadow:var(--shadow);
+    }
+    .lock-icon svg{width:34px;height:34px}
   </style>
 </head>
 <body>
-  <div class="phone">
-    <header class="app-head">
-      <div class="head-row">
-        <button class="back" id="backBtn">‹</button>
-        <div class="title-wrap">
-          <div class="page-title" id="pageTitle">首页</div>
-          <div class="page-sub" id="pageSub">灵山胜境 · AI 数字人导览</div>
-        </div>
-        <div class="ai-pill" id="aiState">千问已接入</div>
+  <div class="app">
+    <header class="topbar">
+      <button class="back" id="backBtn" aria-label="返回">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="brand">
+        <div class="title" id="pageTitle">灵山胜境 AI 数字人导览</div>
+        <div class="sub" id="pageSub">游客交互端</div>
       </div>
+      <div class="status" id="statusPill">在线讲解</div>
     </header>
-    <main class="main" id="main"></main>
-    <nav class="tabbar" id="tabbar">
-      <button data-tab="home" class="active"><b>首</b><span>首页</span></button>
-      <button data-tab="guide"><b>讲</b><span>讲解</span></button>
-      <button data-tab="ticket"><b>票</b><span>购票</span></button>
-      <button data-tab="route"><b>线</b><span>路线</span></button>
-      <button data-tab="profile"><b>我</b><span>我的</span></button>
+
+    <main class="content">
+      <section class="page active" data-page="home">
+        <div class="hero">
+          <div class="hero-row">
+            <div class="avatar-ring">
+              <img class="avatar" id="homeAvatar" src="/assets/guide/avatar-cute.svg" alt="数字人头像">
+            </div>
+            <div class="hero-copy">
+              <h1>灵灵在这里</h1>
+              <p class="small" id="avatarSummary">可爱亲切的景区数字人，支持语音、拍照和文本问答。</p>
+              <div class="speech" id="homeSpeech">
+                <span class="tagline">今日讲解</span>
+                <div>欢迎来到灵山胜境，我可以陪你看路线、讲景点、查服务，也能帮你生成门票二维码。</div>
+              </div>
+            </div>
+          </div>
+          <div class="icon-row">
+            <button class="icon-btn" data-action="voice">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>
+              <span>录音</span>
+            </button>
+            <button class="icon-btn" data-action="camera">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="12" rx="3"/><path d="M9 7l1.4-2h3.2L15 7"/><circle cx="12" cy="13" r="3"/></svg>
+              <span>拍照</span>
+            </button>
+            <button class="icon-btn" data-action="keyboard">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M6 9h2M10 9h2M14 9h2M18 9h0M6 13h2M10 13h2M14 13h2M18 13h0M8 17h8"/></svg>
+              <span>键盘</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h2>快捷入口</h2>
+            <span class="subtle">一键进入业务</span>
+          </div>
+          <div class="grid-2">
+            <button class="card soft" data-tab="explore">
+              <strong>路线讲解</strong>
+              <p>精选路线、景点百科和 AI 讲解放在同一页。</p>
+            </button>
+            <button class="card soft" data-tab="ticket">
+              <strong>购票核验</strong>
+              <p>选票、生成订单、生成验票二维码。</p>
+            </button>
+            <button class="card soft" data-tab="service">
+              <strong>景区服务</strong>
+              <p>停车、餐饮、洗手间、游客中心一目了然。</p>
+            </button>
+            <button class="card soft" data-tab="profile">
+              <strong>我的</strong>
+              <p>收藏、历史、设置和数字人形象切换。</p>
+            </button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h2>常问问题</h2>
+            <span class="subtle">直接点开问数字人</span>
+          </div>
+          <div class="stack" id="quickQ"></div>
+          <div class="input-row">
+            <input id="homeInput" placeholder="直接输入问题，向灵灵提问" />
+            <button id="homeSend">发送</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h2>今日推荐路线</h2>
+            <span class="subtle">可直接开始游览</span>
+          </div>
+          <div class="route-strip" id="homeRoutes"></div>
+        </div>
+      </section>
+
+      <section class="page" data-page="explore">
+        <div class="section">
+          <div class="section-head">
+            <h2>路线与讲解</h2>
+            <span class="subtle">选路线后查看景点与讲解</span>
+          </div>
+          <div class="chip-row" id="routeChips"></div>
+        </div>
+        <div class="section">
+          <div class="section-head">
+            <h2>路线详情</h2>
+            <span class="subtle" id="routeMeta">4 - 6 小时</span>
+          </div>
+          <img class="route-thumb" id="routeImg" alt="路线图" />
+          <div class="detail-title" id="routeTitle"></div>
+          <div class="detail-desc" id="routeDesc"></div>
+          <div class="tag-row" id="routeTags"></div>
+          <div class="controls">
+            <button class="btn green" id="startTourBtn">开始游览</button>
+            <button class="btn light" id="askRouteBtn">向数字人讲解</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h2>景点节点</h2>
+            <span class="subtle">点开看详情</span>
+          </div>
+          <div class="timeline" id="stopList"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h2>景区百科</h2>
+            <span class="subtle">基于 jqxx 资料整理</span>
+          </div>
+          <div class="grid-2" id="encyCards"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h2>AI 讲解</h2>
+            <span class="subtle" id="aiState">已接入本地代理</span>
+          </div>
+          <div class="chat" id="chatList"></div>
+          <div class="input-row">
+            <input id="askInput" placeholder="例如：这条路线适合亲子吗？" />
+            <button id="askSend">发送</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" data-page="ticket">
+        <div class="section">
+          <div class="section-head">
+            <h2>购票</h2>
+            <span class="subtle">生成验票二维码</span>
+          </div>
+          <div class="ticket-head">
+            <div>
+              <div class="small">当前订单金额</div>
+              <div class="ticket-price" id="ticketTotal">¥198</div>
+            </div>
+            <div class="pill" id="ticketStatus">待下单</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="panel-title">
+            <h2>票种选择</h2>
+            <span class="subtle">按需加减数量</span>
+          </div>
+          <div class="stack" id="ticketList"></div>
+        </div>
+
+        <div class="section">
+          <div class="panel-title">
+            <h2>订单信息</h2>
+            <span class="subtle">填写后即可生成二维码</span>
+          </div>
+          <div class="form-row">
+            <label>姓名</label>
+            <input id="buyerName" placeholder="请输入游客姓名" />
+          </div>
+          <div class="form-row">
+            <label>手机号</label>
+            <input id="buyerPhone" placeholder="请输入手机号" />
+          </div>
+          <div class="form-row">
+            <label>入园日期</label>
+            <select id="visitDate"></select>
+          </div>
+          <div class="controls">
+            <button class="btn green" id="createOrderBtn">生成订单</button>
+            <button class="btn light" id="resetCartBtn">清空选择</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="panel-title">
+            <h2>验票二维码</h2>
+            <span class="subtle">可用于核销演示</span>
+          </div>
+          <div class="qr-wrap">
+            <canvas id="qrCanvas" class="qr" width="210" height="210"></canvas>
+            <div class="small" id="qrLabel">请先生成订单</div>
+            <div class="order-code" id="orderCode">—</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="panel-title">
+            <h2>最近订单</h2>
+            <span class="subtle">支持切换查看</span>
+          </div>
+          <div class="stack" id="orderList"></div>
+        </div>
+      </section>
+
+      <section class="page" data-page="service">
+        <div class="section">
+          <div class="section-head">
+            <h2>景区服务</h2>
+            <span class="subtle">停车、餐饮、洗手间、游客中心</span>
+          </div>
+          <div class="grid-2" id="serviceGrid"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h2>服务地图</h2>
+            <span class="subtle">按当前位置检索最近服务点</span>
+          </div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <div style="height:240px;background:
+              linear-gradient(90deg,rgba(255,255,255,.8) 1px,transparent 1px),
+              linear-gradient(0deg,rgba(255,255,255,.8) 1px,transparent 1px),
+              linear-gradient(135deg,#dfeee4,#f6eed7);
+              background-size:44px 44px,44px 44px,auto;position:relative">
+              <div style="position:absolute;left:16px;top:18px;right:16px">
+                <div class="pill">停车场 260m</div>
+              </div>
+              <div style="position:absolute;left:28px;top:92px" class="pill">游客中心</div>
+              <div style="position:absolute;right:26px;top:140px" class="pill">洗手间</div>
+              <div style="position:absolute;left:120px;bottom:18px" class="pill">餐饮区</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" data-page="profile">
+        <div class="profile-banner">
+          <div class="profile-top">
+            <img class="profile-avatar" id="profileAvatar" src="/assets/guide/avatar-cute.svg" alt="数字人形象">
+            <div>
+              <h2 id="profileName">灵灵</h2>
+              <p class="small" id="profileStyle">可爱亲切的景区数字人</p>
+            </div>
+          </div>
+          <div class="controls">
+            <button class="btn light" data-admin-open>管理员入口</button>
+            <button class="btn" id="saveProfileBtn">保存设置</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h2>数字人形象</h2>
+            <span class="subtle">切换外观和语音风格</span>
+          </div>
+          <div class="stack">
+            <div class="settings-row">
+              <div>
+                <div>形象风格</div>
+                <div class="small">更换头像与整体展示气质</div>
+              </div>
+              <select id="avatarStyleSelect">
+                <option value="cute">可爱亲切</option>
+                <option value="classic">古风讲解</option>
+                <option value="realistic">沉稳专业</option>
+              </select>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div>语音风格</div>
+                <div class="small">影响讲解口吻</div>
+              </div>
+              <select id="voiceStyleSelect">
+                <option value="warm">温柔讲解</option>
+                <option value="lively">轻快互动</option>
+                <option value="steady">稳重专业</option>
+              </select>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div>沉浸式语音播报</div>
+                <div class="small">自动播报讲解内容</div>
+              </div>
+              <button class="switch on" id="voiceToggle" aria-label="语音开关"></button>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div>个性化路线推荐</div>
+                <div class="small">根据兴趣自动推荐路线</div>
+              </div>
+              <button class="switch on" id="routeToggle" aria-label="路线开关"></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h2>我的功能</h2>
+            <span class="subtle">更像一个真实小程序</span>
+          </div>
+          <div class="grid-2">
+            <button class="card soft" id="favBtn">
+              <strong>我的收藏</strong>
+              <p>常看景点和常用路线。</p>
+            </button>
+            <button class="card soft" id="historyBtn">
+              <strong>浏览历史</strong>
+              <p>最近查看的问答和路线。</p>
+            </button>
+            <button class="card soft" id="voicePermissionBtn">
+              <strong>录音权限</strong>
+              <p>用于语音问答与讲解。</p>
+            </button>
+            <button class="card soft" id="cameraPermissionBtn">
+              <strong>拍照权限</strong>
+              <p>用于识图导览和拍照提问。</p>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" data-page="admin">
+        <div class="admin-lock" id="adminLock">
+          <div class="lock-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="11" width="14" height="9" rx="2"></rect>
+              <path d="M8 11V8a4 4 0 0 1 8 0v3"></path>
+            </svg>
+          </div>
+          <div>
+            <h2>管理员入口</h2>
+            <p class="small">请输入管理员密码后进入数据后台。</p>
+          </div>
+          <button class="btn green" id="unlockAdminBtn">输入密码</button>
+        </div>
+
+        <div id="adminPanel" class="hidden">
+          <div class="section">
+            <div class="section-head">
+              <h2>运营概览</h2>
+              <span class="subtle">今日 / 本周数据</span>
+            </div>
+            <div class="grid-2" id="metricsGrid"></div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <h2>知识库管理</h2>
+              <span class="subtle">围绕 jqxx 公开资料维护</span>
+            </div>
+            <div class="controls">
+              <button class="btn green" id="uploadKbBtn">上传资料</button>
+              <button class="btn light" id="editKbBtn">编辑知识</button>
+            </div>
+            <div class="stack" id="knowledgeList"></div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <h2>游客感受度报告</h2>
+              <span class="subtle">关注点与情绪趋势</span>
+            </div>
+            <div id="sentimentBox" class="stack"></div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <h2>反馈处理</h2>
+              <span class="subtle">服务建议与待处理问题</span>
+            </div>
+            <div class="stack" id="feedbackList"></div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <h2>数字人配置</h2>
+              <span class="subtle">外观、服装、声音、风格</span>
+            </div>
+            <div class="stack">
+              <div class="settings-row">
+                <div>
+                  <div>姓名</div>
+                  <div class="small">对外显示名称</div>
+                </div>
+                <input id="adminName" style="height:40px;width:160px;border:1px solid var(--line);border-radius:12px;padding:0 10px" />
+              </div>
+              <div class="settings-row">
+                <div>
+                  <div>服装</div>
+                  <div class="small">景区文化主题外观</div>
+                </div>
+                <input id="adminCostume" style="height:40px;width:160px;border:1px solid var(--line);border-radius:12px;padding:0 10px" />
+              </div>
+              <div class="settings-row">
+                <div>
+                  <div>声音</div>
+                  <div class="small">讲解播报音色</div>
+                </div>
+                <input id="adminVoice" style="height:40px;width:160px;border:1px solid var(--line);border-radius:12px;padding:0 10px" />
+              </div>
+              <button class="btn green" id="saveAdminBtn">保存后台配置</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="tabbar">
+      <button class="tab active" data-tab="home">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6 8 6"/><path d="M6 10v10h12V10"/><path d="M10 20v-6h4v6"/></svg>
+        <span>首页</span>
+      </button>
+      <button class="tab" data-tab="explore">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.5 7.5L23 12l-7.5 2.5L12 22l-3.5-7.5L1 12l7.5-2.5L12 2z"/></svg>
+        <span>路线</span>
+      </button>
+      <button class="tab" data-tab="ticket">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 5v14"/><path d="M16 5v14"/></svg>
+        <span>购票</span>
+      </button>
+      <button class="tab" data-tab="profile">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="8" r="4"/></svg>
+        <span>我的</span>
+      </button>
     </nav>
   </div>
 
-  <input id="photoInput" class="hidden" type="file" accept="image/*" />
+  <div class="admin-modal" id="adminModal">
+    <div class="admin-box">
+      <h3>管理员密码</h3>
+      <p>输入密码后可进入数据后台与知识库管理。</p>
+      <div class="input-row">
+        <input id="adminPwd" type="password" placeholder="请输入管理员密码" />
+      </div>
+      <div class="controls">
+        <button class="btn light" id="adminCancel">取消</button>
+        <button class="btn green" id="adminEnter">进入后台</button>
+      </div>
+    </div>
+  </div>
+
+  <input id="photoInput" type="file" accept="image/*" capture="environment" class="hidden" />
 
   <script>
-    const facts = [
-      {id:"buddha", title:"灵山大佛", sub:"88米青铜大佛，灵山胜境核心地标", img:"/assets/guide/route-history.jpg", body:"灵山大佛高88米，1997年落成开光。游客可沿216级登云道上行，体验抱佛脚祈福，讲解重点包括五方五佛理念、青铜铸造工艺和灵山佛教文化脉络。", tips:["建议上午参观","适合拍照","核心讲解点"]},
-      {id:"bath", title:"九龙灌浴", sub:"莲花盛开、九龙吐水的动态演出", img:"/assets/guide/route-culture.jpg", body:"九龙灌浴再现佛陀诞生故事，莲花开启后太子佛像升起，九龙吐水形成仪式感强的演出场景。具体演出场次以景区当日公告为准。", tips:["亲子推荐","看演出时间","祈福体验"]},
-      {id:"palace", title:"灵山梵宫", sub:"佛教艺术殿堂与大型演艺空间", img:"/assets/guide/player-thumb.jpg", body:"灵山梵宫融合东阳木雕、敦煌壁画、琉璃、景泰蓝和声光电技术，是景区艺术含量最高的空间之一。建议预留完整参观时间。", tips:["建筑艺术","演出推荐","室内参观"]},
-      {id:"tantric", title:"五印坛城", sub:"藏传佛教建筑与转经体验", img:"/assets/guide/route-nature.jpg", body:"五印坛城集中展示藏传佛教建筑、曼荼罗文化和转经祈福体验，适合观察色彩、纹样和空间仪式感。", tips:["转经体验","建筑美学","慢游"]},
-      {id:"temple", title:"祥符禅寺", sub:"承载灵山历史文脉的古刹", img:"/assets/guide/route-history.jpg", body:"祥符禅寺连接灵山历史源流，适合安静参观。讲解可围绕寺院兴衰、灵山地名来源和佛教文化传承展开。", tips:["历史文化","安静参观","深度讲解"]},
-      {id:"center", title:"游客中心", sub:"问询、失物招领、应急与反馈", img:"/assets/guide/route-culture.jpg", body:"游客中心提供路线咨询、失物招领、应急帮助、投诉建议和无障碍服务，是景区运营服务的重要节点。", tips:["游客服务","应急帮助","反馈入口"]}
-    ];
-    const routes = [
-      {id:"history", title:"历史朝圣之旅", time:"6小时", img:"/assets/guide/route-history.jpg", desc:"适合历史文化爱好者，重点讲解佛教文化和建筑艺术。", stops:["祥符禅寺","灵山大佛","灵山梵宫","五印坛城"]},
-      {id:"family", title:"亲子祈福之旅", time:"4小时", img:"/assets/guide/route-culture.jpg", desc:"路线轻松，互动多，适合带孩子游览。", stops:["九龙灌浴","佛手广场","百子戏弥勒","灵山梵宫"]},
-      {id:"nature", title:"自然禅意之旅", time:"5小时", img:"/assets/guide/route-nature.jpg", desc:"突出太湖风光、园林和慢节奏讲解。", stops:["菩提大道","灵山大佛","曼飞龙塔","灵山精舍"]}
-    ];
-    const services = [
-      {id:"toilet", title:"洗手间", sub:"最近点位：九龙灌浴东侧，约180米", x:72, y:32, detail:"支持无障碍洗手间提示，可结合当前位置推荐最近设施。"},
-      {id:"food", title:"餐饮", sub:"素面、素斋、亲子简餐推荐", x:36, y:58, detail:"推荐梵宫素斋、景区素面和游客中心简餐，午高峰建议错峰。"},
-      {id:"parking", title:"停车场", sub:"P1/P2停车区与接驳路线", x:18, y:82, detail:"离园高峰建议提前规划停车区和出口，必要时使用接驳服务。"},
-      {id:"help", title:"游客中心", sub:"咨询、失物招领、应急帮助", x:60, y:72, detail:"提供人工咨询、失物登记、应急帮助和游客反馈受理。"}
-    ];
-    const tickets = [
-      {id:"adult", title:"成人票", price:198, count:1, desc:"普通成人游客"},
-      {id:"student", title:"学生票", price:99, count:0, desc:"需携带有效学生证"},
-      {id:"family", title:"亲子套票", price:328, count:0, desc:"一大一小亲子套票"}
-    ];
-    const state = {page:"home", stack:[], route:routes[0], orders:[], avatar:"/assets/guide/avatar-cute.svg", voice:"温柔讲解音", asking:false};
-    const main = document.getElementById("main");
-    const pageTitle = document.getElementById("pageTitle");
-    const pageSub = document.getElementById("pageSub");
-    const backBtn = document.getElementById("backBtn");
-    const aiState = document.getElementById("aiState");
-    const tabbar = document.getElementById("tabbar");
+    (() => {
+      const scenic = {
+        name: "灵山胜境",
+        location: "江苏无锡马山",
+        guideName: "灵灵",
+        theme: "佛教文化 / 太湖风光 / 祈福体验",
+        apiBase: "http://127.0.0.1:8000"
+      };
 
-    const pageMeta = {
-      home:["首页","灵山胜境 · AI 数字人导览"],
-      guide:["AI讲解","文本、语音、图片识别与千问问答"],
-      ticket:["购票","模拟票务业务流程"],
-      route:["路线","个性化游览与执行页"],
-      profile:["我的","偏好、订单、收藏与数字人设置"],
-      spot:["景点详情","基于 jqxx 景区资料的讲解页"],
-      service:["服务中心","景区设施、地图与运营服务"],
-      routeLive:["路线执行","站点打卡、进度与讲解"],
-      checkout:["确认订单","游客信息与模拟支付"],
-      success:["出票成功","订单结果与入园凭证"],
-      admin:["管理后台","游客反馈、热门问题与知识库"]
-    };
+      const routes = [
+        {
+          id: "history",
+          title: "历史朝圣之旅",
+          duration: "6小时",
+          category: "历史文化",
+          image: "/assets/guide/route-history.jpg",
+          tags: ["历史", "佛教文化", "造像艺术"],
+          desc: "从祥符禅寺出发，串联灵山大佛、灵山梵宫与五印坛城，适合想深度理解景区文化脉络的游客。",
+          path: ["祥符禅寺", "灵山大佛", "灵山梵宫", "五印坛城"],
+          highlight: "重点讲解灵山大佛造像艺术、佛教礼制与建筑语言。"
+        },
+        {
+          id: "family",
+          title: "亲子祈福之旅",
+          duration: "4小时",
+          category: "亲子互动",
+          image: "/assets/guide/route-culture.jpg",
+          tags: ["亲子", "互动", "轻松"],
+          desc: "用孩子容易理解的方式讲佛诞故事，配合祈福、雕塑观察和互动讲解，体验轻松不赶路。",
+          path: ["九龙灌浴", "佛手广场", "百子戏弥勒", "灵山梵宫"],
+          highlight: "适合家庭游客，节奏更轻松，互动更多。"
+        },
+        {
+          id: "nature",
+          title: "自然禅意之旅",
+          duration: "5小时",
+          category: "自然风光",
+          image: "/assets/guide/route-nature.jpg",
+          tags: ["山水", "慢游", "景观"],
+          desc: "突出太湖风光、菩提大道与园林景观，适合喜欢拍照、散步和慢节奏体验的游客。",
+          path: ["菩提大道", "灵山大佛", "曼飞龙塔", "灵山精舍"],
+          highlight: "风景、建筑与禅意空间并重。"
+        }
+      ];
 
-    function nav(page, params={}, push=true){
-      if(push && state.page) state.stack.push({page:state.page, params:state.params || {}});
-      state.page = page;
-      state.params = params;
-      const meta = pageMeta[page] || pageMeta.home;
-      pageTitle.textContent = meta[0];
-      pageSub.textContent = meta[1];
-      backBtn.classList.toggle("show", state.stack.length > 0 && !["home","guide","ticket","route","profile"].includes(page));
-      tabbar.querySelectorAll("button").forEach(b=>b.classList.toggle("active", b.dataset.tab===page));
-      main.scrollTop = 0;
-      render();
-    }
-    function back(){
-      const prev = state.stack.pop();
-      if(prev) nav(prev.page, prev.params, false);
-    }
-    function money(){return tickets.reduce((s,t)=>s+t.price*t.count,0)}
-    function count(){return tickets.reduce((s,t)=>s+t.count,0)}
-    function factByTitle(title){return facts.find(f=>f.title===title)||facts[0]}
-    function routeById(id){return routes.find(r=>r.id===id)||routes[0]}
-    function serviceById(id){return services.find(s=>s.id===id)||services[0]}
+      const encyclopedia = [
+        { title: "灵山大佛", subtitle: "88 米青铜大佛，景区标志", icon: "佛", mood: "金色" },
+        { title: "九龙灌浴", subtitle: "动态再现佛诞故事", icon: "浴", mood: "热闹" },
+        { title: "灵山梵宫", subtitle: "佛教艺术殿堂", icon: "宫", mood: "庄重" },
+        { title: "五印坛城", subtitle: "藏传佛教体验空间", icon: "城", mood: "静谧" },
+        { title: "祥符禅寺", subtitle: "千年古刹与灵山文脉", icon: "寺", mood: "古朴" },
+        { title: "游客服务", subtitle: "餐饮、停车、咨询与应急", icon: "服", mood: "实用" }
+      ];
 
-    function render(){
-      const page = state.page;
-      if(page==="home") return renderHome();
-      if(page==="guide") return renderGuide();
-      if(page==="ticket") return renderTicket();
-      if(page==="checkout") return renderCheckout();
-      if(page==="success") return renderSuccess();
-      if(page==="route") return renderRoute();
-      if(page==="routeLive") return renderRouteLive();
-      if(page==="spot") return renderSpot();
-      if(page==="service") return renderService();
-      if(page==="profile") return renderProfile();
-      if(page==="admin") return renderAdmin();
-    }
+      const services = [
+        { title: "停车场", desc: "停车指引、接驳路线、步行时间", icon: "P" },
+        { title: "餐饮", desc: "素食、简餐、亲子友好餐厅", icon: "餐" },
+        { title: "洗手间", desc: "最近卫生间与无障碍设施", icon: "厕" },
+        { title: "游客中心", desc: "咨询、失物招领、投诉建议", icon: "中" }
+      ];
 
-    function renderHome(){
-      main.innerHTML = `
-        <section class="hero">
-          <div class="guide">
-            <img class="avatar" src="${state.avatar}" alt="数字人灵灵">
-            <div><h1>你好，我是灵灵</h1><p>打开就能问，能讲景点、规划路线、识别图片、购票，也能给管理方沉淀游客反馈。</p></div>
+      const tickets = [
+        { id: "adult", name: "成人票", price: 198, desc: "适用于普通成人游客", count: 1 },
+        { id: "student", name: "学生票", price: 99, desc: "需有效学生证", count: 0 },
+        { id: "family", name: "亲子套票", price: 328, desc: "适合一大一小", count: 0 }
+      ];
+
+      const quickQuestions = [
+        "灵山大佛有什么看点？",
+        "亲子路线怎么安排？",
+        "九龙灌浴几点可以看？",
+        "景区里哪里能吃饭？"
+      ];
+
+      const knowledge = [
+        { title: "灵山大佛", content: "灵山大佛是灵山胜境的标志性景点，高约88米，主打青铜造像艺术与祈福体验。" },
+        { title: "九龙灌浴", content: "九龙灌浴以佛诞故事为核心，是景区里很受欢迎的动态表演节点，建议提前确认场次。" },
+        { title: "灵山梵宫", content: "梵宫融合佛教艺术、木雕壁画与光影效果，属于景区的重点室内参观点。" },
+        { title: "五印坛城", content: "五印坛城集中呈现藏传佛教建筑与转经祈福体验，是理解景区文化层次的重要节点。" },
+        { title: "游客服务", content: "游客中心可办理咨询、失物招领、投诉建议与紧急求助，也能获取餐饮和接驳信息。" }
+      ];
+
+      const adminMetrics = [
+        { label: "今日服务人次", value: "1,280", delta: "+5%" },
+        { label: "本周问答量", value: "8,450", delta: "+12%" },
+        { label: "平均响应", value: "1.2s", delta: "稳定" },
+        { label: "满意度", value: "98.5%", delta: "保持高位" }
+      ];
+
+      const sentiment = {
+        trends: [
+          { label: "满意", value: 75 },
+          { label: "中性", value: 20 },
+          { label: "待优化", value: 5 }
+        ],
+        focus: ["演出时间", "餐饮动线", "亲子设施", "接驳导航"],
+        suggestion: "建议在九龙灌浴与灵山大佛之间增加更明确的步行指引，并在高峰时段强化餐饮排队提示。"
+      };
+
+      const adminKnowledge = [
+        { title: "灵山大佛讲解词", category: "历史文化", spot: "灵山大佛", status: "已启用" },
+        { title: "九龙灌浴场次说明", category: "景区服务", spot: "九龙灌浴", status: "已启用" },
+        { title: "梵宫艺术说明", category: "佛教艺术", spot: "灵山梵宫", status: "待审核" }
+      ];
+
+      const feedbacks = [
+        { content: "讲解很完整，孩子也能听懂，体验不错。", time: "10分钟前", stars: 5, sentiment: "Positive", action: "已处理" },
+        { content: "希望路线页能更直接告诉我们该先去哪里。", time: "1小时前", stars: 4, sentiment: "Neutral", action: "待处理" }
+      ];
+
+      const ADMIN_PASSWORD = "123456";
+
+      const state = {
+        page: "home",
+        stack: [],
+        routeId: "history",
+        currentStop: 0,
+        tickets: structuredClone(tickets),
+        orders: JSON.parse(localStorage.getItem("softcup-orders") || "[]"),
+        avatarStyle: localStorage.getItem("softcup-avatar-style") || "cute",
+        voiceStyle: localStorage.getItem("softcup-voice-style") || "warm",
+        voiceOn: localStorage.getItem("softcup-voice-on") !== "0",
+        routeOn: localStorage.getItem("softcup-route-on") !== "0",
+        adminUnlocked: localStorage.getItem("softcup-admin-unlocked") === "1",
+        adminProfile: JSON.parse(localStorage.getItem("softcup-admin-profile") || "{}"),
+        chat: [
+          { role: "ai", content: "欢迎来到灵山胜境，我可以帮你规划路线、讲解景点、查询服务，也能生成门票二维码。", meta: "灵灵 · 在线讲解" }
+        ],
+        question: "",
+        asking: false,
+        currentTab: "home",
+        selectedRouteId: "history",
+        selectedTicketId: "adult",
+        selectedOrderId: null,
+        unlockPending: false,
+        favs: JSON.parse(localStorage.getItem("softcup-favs") || "[]"),
+        history: JSON.parse(localStorage.getItem("softcup-history") || "[]")
+      };
+
+      const els = {
+        topbarTitle: document.getElementById("pageTitle"),
+        topbarSub: document.getElementById("pageSub"),
+        statusPill: document.getElementById("statusPill"),
+        backBtn: document.getElementById("backBtn"),
+        homeAvatar: document.getElementById("homeAvatar"),
+        profileAvatar: document.getElementById("profileAvatar"),
+        avatarSummary: document.getElementById("avatarSummary"),
+        homeSpeech: document.getElementById("homeSpeech"),
+        quickQ: document.getElementById("quickQ"),
+        homeRoutes: document.getElementById("homeRoutes"),
+        homeInput: document.getElementById("homeInput"),
+        homeSend: document.getElementById("homeSend"),
+        routeChips: document.getElementById("routeChips"),
+        routeImg: document.getElementById("routeImg"),
+        routeTitle: document.getElementById("routeTitle"),
+        routeDesc: document.getElementById("routeDesc"),
+        routeTags: document.getElementById("routeTags"),
+        routeMeta: document.getElementById("routeMeta"),
+        stopList: document.getElementById("stopList"),
+        encyCards: document.getElementById("encyCards"),
+        chatList: document.getElementById("chatList"),
+        aiState: document.getElementById("aiState"),
+        askInput: document.getElementById("askInput"),
+        askSend: document.getElementById("askSend"),
+        startTourBtn: document.getElementById("startTourBtn"),
+        askRouteBtn: document.getElementById("askRouteBtn"),
+        ticketList: document.getElementById("ticketList"),
+        ticketTotal: document.getElementById("ticketTotal"),
+        ticketStatus: document.getElementById("ticketStatus"),
+        buyerName: document.getElementById("buyerName"),
+        buyerPhone: document.getElementById("buyerPhone"),
+        visitDate: document.getElementById("visitDate"),
+        createOrderBtn: document.getElementById("createOrderBtn"),
+        resetCartBtn: document.getElementById("resetCartBtn"),
+        qrCanvas: document.getElementById("qrCanvas"),
+        qrLabel: document.getElementById("qrLabel"),
+        orderCode: document.getElementById("orderCode"),
+        orderList: document.getElementById("orderList"),
+        serviceGrid: document.getElementById("serviceGrid"),
+        profileName: document.getElementById("profileName"),
+        profileStyle: document.getElementById("profileStyle"),
+        avatarStyleSelect: document.getElementById("avatarStyleSelect"),
+        voiceStyleSelect: document.getElementById("voiceStyleSelect"),
+        voiceToggle: document.getElementById("voiceToggle"),
+        routeToggle: document.getElementById("routeToggle"),
+        saveProfileBtn: document.getElementById("saveProfileBtn"),
+        favBtn: document.getElementById("favBtn"),
+        historyBtn: document.getElementById("historyBtn"),
+        voicePermissionBtn: document.getElementById("voicePermissionBtn"),
+        cameraPermissionBtn: document.getElementById("cameraPermissionBtn"),
+        adminModal: document.getElementById("adminModal"),
+        adminPwd: document.getElementById("adminPwd"),
+        adminEnter: document.getElementById("adminEnter"),
+        adminCancel: document.getElementById("adminCancel"),
+        unlockAdminBtn: document.getElementById("unlockAdminBtn"),
+        adminLock: document.getElementById("adminLock"),
+        adminPanel: document.getElementById("adminPanel"),
+        metricsGrid: document.getElementById("metricsGrid"),
+        knowledgeList: document.getElementById("knowledgeList"),
+        sentimentBox: document.getElementById("sentimentBox"),
+        feedbackList: document.getElementById("feedbackList"),
+        adminName: document.getElementById("adminName"),
+        adminCostume: document.getElementById("adminCostume"),
+        adminVoice: document.getElementById("adminVoice"),
+        saveAdminBtn: document.getElementById("saveAdminBtn"),
+        uploadKbBtn: document.getElementById("uploadKbBtn"),
+        editKbBtn: document.getElementById("editKbBtn"),
+        photoInput: document.getElementById("photoInput"),
+        tabButtons: [...document.querySelectorAll(".tab")],
+        pages: [...document.querySelectorAll(".page")],
+        adminOpenBtns: [...document.querySelectorAll("[data-admin-open]")]
+      };
+
+      const routeById = (id) => routes.find((r) => r.id === id) || routes[0];
+
+      function svgAvatar(style) {
+        const base = {
+          cute: "/assets/guide/avatar-cute.svg",
+          classic: "/assets/guide/avatar.jpg",
+          realistic: "/assets/guide/player-thumb.jpg"
+        };
+        return base[style] || base.cute;
+      }
+
+      function setPage(page, push = true) {
+        if (push && state.page !== page) {
+          state.stack.push(state.page);
+        }
+        state.page = page;
+        state.currentTab = ["home", "explore", "ticket", "profile"].includes(page) ? page : state.currentTab;
+        render();
+      }
+
+      function goBack() {
+        const prev = state.stack.pop();
+        if (prev) {
+          state.page = prev;
+          state.currentTab = ["home", "explore", "ticket", "profile"].includes(prev) ? prev : state.currentTab;
+          render();
+        }
+      }
+
+      function persist() {
+        localStorage.setItem("softcup-orders", JSON.stringify(state.orders));
+        localStorage.setItem("softcup-avatar-style", state.avatarStyle);
+        localStorage.setItem("softcup-voice-style", state.voiceStyle);
+        localStorage.setItem("softcup-voice-on", state.voiceOn ? "1" : "0");
+        localStorage.setItem("softcup-route-on", state.routeOn ? "1" : "0");
+        localStorage.setItem("softcup-admin-unlocked", state.adminUnlocked ? "1" : "0");
+        localStorage.setItem("softcup-admin-profile", JSON.stringify(state.adminProfile));
+        localStorage.setItem("softcup-favs", JSON.stringify(state.favs));
+        localStorage.setItem("softcup-history", JSON.stringify(state.history));
+      }
+
+      function iconSvg(name) {
+        const map = {
+          route: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c6 0 6-12 12-12h4"/><circle cx="6" cy="20" r="2"/><circle cx="18" cy="8" r="2"/></svg>`,
+          info: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`,
+          service: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M6 7v13h12V7"/><path d="M9 11h6"/><path d="M9 15h6"/></svg>`,
+          ticket: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 5v14"/><path d="M16 5v14"/></svg>`,
+          user: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="8" r="4"/></svg>`,
+          mic: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>`,
+          camera: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="12" rx="3"/><path d="M9 7l1.4-2h3.2L15 7"/><circle cx="12" cy="13" r="3"/></svg>`,
+          keyboard: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M6 9h2M10 9h2M14 9h2M18 9h0M6 13h2M10 13h2M14 13h2M18 13h0M8 17h8"/></svg>`,
+          lock: `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>`
+        };
+        return map[name] || map.info;
+      }
+
+      function renderHome() {
+        els.homeAvatar.src = svgAvatar(state.avatarStyle);
+        els.profileAvatar.src = svgAvatar(state.avatarStyle);
+        els.profileName.textContent = state.adminProfile.name || "灵灵";
+        els.profileStyle.textContent = {
+          cute: "可爱亲切，适合游客交互",
+          classic: "古风讲解，更贴近景区文化",
+          realistic: "沉稳专业，适合数据看板展示"
+        }[state.avatarStyle];
+        els.avatarSummary.textContent = `当前风格：${els.profileStyle.textContent}。`;
+        els.homeSpeech.querySelector("div").textContent = state.routeOn
+          ? "我会根据你的兴趣自动推荐路线，也能边走边讲、边问边答。"
+          : "我可以陪你看路线、讲景点、查服务，也能帮你生成门票二维码。";
+        els.quickQ.innerHTML = quickQuestions.map((q) => `
+          <button class="list-btn" data-ask="${q}">
+            <div class="badge">问</div>
+            <div class="fill">
+              <strong>${q}</strong>
+              <p>直接唤起数字人回答。</p>
+            </div>
+          </button>
+        `).join("");
+        els.homeRoutes.innerHTML = routes.map((route) => `
+          <button class="route-mini" data-open-route="${route.id}">
+            <img src="${route.image}" alt="${route.title}">
+            <div class="body">
+              <div class="row">
+                <div class="fill">
+                  <strong>${route.title}</strong>
+                  <p class="small">${route.duration} · ${route.category}</p>
+                </div>
+                <span class="pill">开始</span>
+              </div>
+            </div>
+          </button>
+        `).join("");
+      }
+
+      function renderExplore() {
+        const route = routeById(state.selectedRouteId);
+        els.routeChips.innerHTML = routes.map((r) => `
+          <button class="chip ${r.id === route.id ? "active" : ""}" data-select-route="${r.id}">${r.title}</button>
+        `).join("");
+        els.routeImg.src = route.image;
+        els.routeTitle.textContent = route.title;
+        els.routeDesc.textContent = route.desc;
+        els.routeTags.innerHTML = route.tags.map((t) => `<span class="tag">${t}</span>`).join("");
+        els.routeMeta.textContent = route.duration;
+        els.stopList.innerHTML = route.path.map((name, idx) => `
+          <button class="stop ${idx === state.currentStop ? "active" : ""}" data-stop="${idx}" data-spot="${name}">
+            <div class="num">${idx + 1}</div>
+            <div class="fill">
+              <strong>${name}</strong>
+              <p>点开查看该景点的图文讲解和相关问答。</p>
+            </div>
+          </button>
+        `).join("");
+        els.encyCards.innerHTML = encyclopedia.map((item) => `
+          <button class="card soft" data-spot="${item.title}">
+            <strong>${item.title}</strong>
+            <p>${item.subtitle}</p>
+          </button>
+        `).join("");
+        els.chatList.innerHTML = state.chat.map((m) => `
+          <div class="msg ${m.role}">
+            ${m.content}
+            <span class="meta">${m.meta || ""}</span>
           </div>
-          <div class="speech" id="speech">欢迎来到灵山胜境。你可以直接进入讲解，或从路线、购票、服务开始。</div>
-          <div class="quick-actions">
-            <button data-go="guide"><span class="icon">问</span><span>AI问答</span></button>
-            <button data-go="route"><span class="icon">线</span><span>路线</span></button>
-            <button data-go="ticket"><span class="icon">票</span><span>购票</span></button>
-            <button data-go="service" data-id="help"><span class="icon">服</span><span>服务</span></button>
-          </div>
-        </section>
-        <section class="section">
-          <div class="section-head"><h2>景区百科</h2><button class="btn light" data-go="guide">问数字人</button></div>
-          <div class="grid">${facts.slice(0,4).map(f=>tile(f.title,f.sub,`data-go="spot" data-title="${f.title}"`)).join("")}</div>
-        </section>
-        <section class="section">
-          <div class="section-head"><h2>今日推荐路线</h2><button class="btn light" data-go="route">全部路线</button></div>
-          ${routePreview(routes[1])}
-        </section>`;
-    }
+        `).join("");
+      }
 
-    function renderGuide(){
-      main.innerHTML = `
-        <section class="hero">
-          <div class="guide"><img class="avatar" src="${state.avatar}" alt="数字人"><div><h1>数字人实时讲解</h1><p>千问接口已接入，回答会结合本地景区知识库。语音会请求麦克风权限，图片入口可模拟多模态识别。</p></div></div>
-          <div class="quick-actions">
-            <button id="recordBtn"><span class="icon">录</span><span>录音权限</span></button>
-            <button id="photoBtn"><span class="icon">图</span><span>图片识别</span></button>
-            <button data-go="profile"><span class="icon">人</span><span>形象设置</span></button>
-            <button data-go="service" data-id="help"><span class="icon">服</span><span>游客服务</span></button>
+      function renderTicket() {
+        els.ticketList.innerHTML = state.tickets.map((item) => `
+          <div class="card">
+            <div class="ticket-head">
+              <div>
+                <strong>${item.name}</strong>
+                <p class="small">${item.desc}</p>
+              </div>
+              <div class="ticket-price">¥${item.price}</div>
+            </div>
+            <div class="qty">
+              <button data-ticket="${item.id}" data-delta="-1">-</button>
+              <span>${item.count}</span>
+              <button data-ticket="${item.id}" data-delta="1">+</button>
+            </div>
           </div>
-        </section>
-        <section class="section">
-          <div class="chat" id="chat"><div class="msg ai">我是灵灵，请问你想了解哪个景点或哪条路线？</div></div>
-          <div class="input-row"><input id="question" placeholder="例如：九龙灌浴几点开始？"><button class="btn" id="sendBtn">发送</button></div>
-        </section>
-        <section class="section">
-          <div class="section-head"><h2>快捷问题</h2><span class="muted">点击后真实调用 AI</span></div>
-          <div class="grid">
-            ${["灵山大佛最值得看什么？","九龙灌浴适合孩子看吗？","梵宫有什么艺术亮点？","帮我安排半日路线"].map(q=>tile(q,"发送给数字人",`data-ask="${q}"`)).join("")}
+        `).join("");
+        const total = state.tickets.reduce((sum, item) => sum + item.price * item.count, 0);
+        els.ticketTotal.textContent = `¥${total}`;
+        els.ticketStatus.textContent = state.orders.length ? "已生成订单" : "待下单";
+        els.visitDate.innerHTML = ["今天入园", "明天入园", "本周末入园"].map((x) => `<option value="${x}">${x}</option>`).join("");
+        els.orderList.innerHTML = state.orders.length ? state.orders.slice(0, 4).map((order) => `
+          <div class="order-card">
+            <div class="row">
+              <div class="fill">
+                <strong>${order.name}</strong>
+                <p class="small">${order.date} · ${order.count} 张</p>
+              </div>
+              <span class="pill">${order.total} 元</span>
+            </div>
+            <div class="small">${order.status}</div>
+            <div class="controls">
+              <button class="btn light" data-show-order="${order.id}">查看二维码</button>
+            </div>
           </div>
-        </section>`;
-      document.getElementById("sendBtn").onclick=()=>ask(document.getElementById("question").value);
-      document.getElementById("question").onkeydown=e=>{if(e.key==="Enter")ask(e.target.value)};
-      document.getElementById("recordBtn").onclick=requestRecord;
-      document.getElementById("photoBtn").onclick=()=>document.getElementById("photoInput").click();
-    }
+        `).join("") : `<div class="small">还没有订单，先选择票种并生成二维码。</div>`;
+        if (state.selectedOrderId) {
+          const order = state.orders.find((o) => o.id === state.selectedOrderId);
+          if (order) {
+            els.qrLabel.textContent = "验票二维码";
+            els.orderCode.textContent = order.code;
+            drawQr(order.code);
+          }
+        } else {
+          drawQr("WAITING");
+          els.qrLabel.textContent = "请先生成订单";
+          els.orderCode.textContent = "—";
+        }
+      }
 
-    function renderTicket(){
-      main.innerHTML = `
-        <section class="section">
-          <div class="section-head"><h2>选择票种</h2><span class="muted">真实业务流程模拟</span></div>
-          ${tickets.map(t=>`
-            <div class="ticket-row">
-              <div><strong>${t.title}</strong><p>${t.desc}</p><div class="muted">￥${t.price} / 张</div></div>
-              <div class="counter"><button data-ticket="${t.id}" data-delta="-1">-</button><strong>${t.count}</strong><button data-ticket="${t.id}" data-delta="1">+</button></div>
-            </div>`).join("")}
-        </section>
-        <section class="section">
-          <div class="split"><div><h2>合计 ￥${money()}</h2><p>共 ${count()} 张票，下一步填写游客信息。</p></div><button class="btn" data-go="checkout">下一步</button></div>
-        </section>
-        <section class="section">
-          <h2>购票须知</h2><p>本页为比赛演示用模拟购票，不产生真实支付。真实上线可接入景区票务系统、支付接口、核销二维码和退改规则。</p>
-        </section>`;
-    }
+      function renderService() {
+        els.serviceGrid.innerHTML = services.map((s) => `
+          <button class="card soft" data-service="${s.title}">
+            <strong>${s.title}</strong>
+            <p>${s.desc}</p>
+          </button>
+        `).join("");
+      }
 
-    function renderCheckout(){
-      main.innerHTML = `
-        <section class="section">
-          <h2>确认游客信息</h2>
-          <div class="form" style="margin-top:12px">
-            <input id="buyerName" placeholder="游客姓名">
-            <input id="buyerPhone" placeholder="手机号">
-            <select id="visitDate"><option>今天入园</option><option>明天入园</option><option>本周末入园</option></select>
-            <div class="summary">订单金额：￥${money()}，票数：${count()} 张。提交后生成模拟电子票。</div>
-            <button class="btn green" id="payBtn">提交模拟支付</button>
+      function renderProfile() {
+        els.avatarStyleSelect.value = state.avatarStyle;
+        els.voiceStyleSelect.value = state.voiceStyle;
+        els.voiceToggle.classList.toggle("on", state.voiceOn);
+        els.routeToggle.classList.toggle("on", state.routeOn);
+      }
+
+      function renderAdmin() {
+        els.adminLock.classList.toggle("hidden", state.adminUnlocked);
+        els.adminPanel.classList.toggle("hidden", !state.adminUnlocked);
+        if (!state.adminUnlocked) return;
+
+        els.metricsGrid.innerHTML = adminMetrics.map((m) => `
+          <div class="mini-stat">
+            <div class="small">${m.label}</div>
+            <strong>${m.value}</strong>
+            <div class="small">${m.delta}</div>
           </div>
-        </section>`;
-      document.getElementById("payBtn").onclick=()=>{
-        if(!count()) return alert("请先选择票数");
-        const order={id:"LS"+Date.now(),name:document.getElementById("buyerName").value||"游客",phone:document.getElementById("buyerPhone").value||"未填写",date:document.getElementById("visitDate").value,total:money(),count:count()};
+        `).join("");
+
+        els.knowledgeList.innerHTML = adminKnowledge.map((item) => `
+          <div class="knowledge-item">
+            <div class="top">
+              <strong>${item.title}</strong>
+              <span class="pill">${item.status}</span>
+            </div>
+            <div class="small">${item.category} · ${item.spot}</div>
+          </div>
+        `).join("");
+
+        els.sentimentBox.innerHTML = `
+          <div class="card">
+            <div class="small">情绪趋势</div>
+            ${sentiment.trends.map((item) => `
+              <div style="margin-top:10px">
+                <div class="row"><div class="fill">${item.label}</div><div>${item.value}%</div></div>
+                <div class="progress"><span style="width:${item.value}%"></span></div>
+              </div>
+            `).join("")}
+          </div>
+          <div class="card">
+            <strong>关注点</strong>
+            <div class="tag-row">${sentiment.focus.map((t) => `<span class="tag">${t}</span>`).join("")}</div>
+          </div>
+          <div class="card">
+            <strong>服务建议</strong>
+            <p>${sentiment.suggestion}</p>
+          </div>
+        `;
+
+        els.feedbackList.innerHTML = feedbacks.map((f) => `
+          <div class="feedback-item">
+            <div class="top">
+              <div class="stars">${"★".repeat(f.stars)}${"☆".repeat(5 - f.stars)}</div>
+              <span class="small">${f.time}</span>
+            </div>
+            <div><strong>${f.sentiment}</strong></div>
+            <p>${f.content}</p>
+            <div class="controls"><button class="btn light">${f.action}</button></div>
+          </div>
+        `).join("");
+
+        els.adminName.value = state.adminProfile.name || "灵灵";
+        els.adminCostume.value = state.adminProfile.costume || "青绿禅意导览服";
+        els.adminVoice.value = state.adminProfile.voice || "温柔讲解音色";
+      }
+
+      function renderNav() {
+        els.tabButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.tab === state.currentTab));
+      }
+
+      function renderHeader() {
+        const titleMap = {
+          home: "灵山胜境 AI 数字人导览",
+          explore: "路线与讲解",
+          ticket: "购票核验",
+          service: "景区服务",
+          profile: "我的",
+          admin: "管理后台"
+        };
+        const subMap = {
+          home: "游客交互端",
+          explore: "路线、景点与 AI 讲解",
+          ticket: "电子票与验票二维码",
+          service: "景区服务信息",
+          profile: "个人设置与数字人形象",
+          admin: "管理员登录后可见"
+        };
+        els.topbarTitle.textContent = titleMap[state.page] || titleMap.home;
+        els.topbarSub.textContent = subMap[state.page] || subMap.home;
+        els.statusPill.textContent = state.orders.length ? "电子票已生成" : "在线讲解";
+        els.backBtn.classList.toggle("show", state.stack.length > 0);
+      }
+
+      function renderPages() {
+        els.pages.forEach((page) => page.classList.toggle("active", page.dataset.page === state.page));
+      }
+
+      function drawQr(text) {
+        const canvas = els.qrCanvas;
+        const ctx = canvas.getContext("2d");
+        const size = canvas.width;
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, size, size);
+        const margin = 14;
+        const cell = 8;
+        const cols = Math.floor((size - margin * 2) / cell);
+        const hash = Array.from(String(text)).reduce((acc, ch, i) => (acc + ch.charCodeAt(0) * (i + 1)) % 100000, 7);
+        function bit(i, j) {
+          const n = (hash + i * 31 + j * 17 + (i * j) * 13) % 97;
+          return (n % 2) === 0 || i < 7 && j < 7 || i > cols - 8 && j < 7 || i < 7 && j > cols - 8;
+        }
+        ctx.fillStyle = "#111";
+        for (let y = 0; y < cols; y++) {
+          for (let x = 0; x < cols; x++) {
+            const inTopLeft = x < 7 && y < 7;
+            const inTopRight = x > cols - 8 && y < 7;
+            const inBottomLeft = x < 7 && y > cols - 8;
+            const finder = inTopLeft || inTopRight || inBottomLeft;
+            if (finder) {
+              const xx = margin + x * cell;
+              const yy = margin + y * cell;
+              const border = x === 0 || x === 6 || y === 0 || y === 6;
+              const core = x >= 2 && x <= 4 && y >= 2 && y <= 4;
+              if (border || core) ctx.fillRect(xx, yy, cell, cell);
+              continue;
+            }
+            if (bit(x, y)) ctx.fillRect(margin + x * cell, margin + y * cell, cell - 1, cell - 1);
+          }
+        }
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(size / 2 - 28, size / 2 - 28, 56, 56);
+        ctx.strokeStyle = "#111";
+        ctx.lineWidth = 4;
+        ctx.strokeRect(size / 2 - 28, size / 2 - 28, 56, 56);
+        ctx.fillStyle = "#111";
+        ctx.font = "bold 11px Microsoft YaHei, sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("验票", size / 2, size / 2 - 3);
+        ctx.fillText("核销", size / 2, size / 2 + 12);
+      }
+
+      function localAnswer(text) {
+        const t = String(text || "");
+        if (t.includes("大佛")) return "灵山大佛是景区标志，适合先看造像，再沿路线去梵宫与五印坛城。";
+        if (t.includes("亲子")) return "亲子路线建议先看九龙灌浴，再去佛手广场和灵山梵宫，节奏更轻松。";
+        if (t.includes("吃") || t.includes("餐")) return "游客中心和主游线附近都有餐饮点，素食和简餐都比较方便。";
+        if (t.includes("票")) return "你可以在购票页选择票种并生成二维码，订单会保存在最近订单里。";
+        return "我建议你先从路线页选择一条线，再结合景点节点逐个查看讲解。";
+      }
+
+      async function askGuide(text) {
+        const question = String(text || "").trim();
+        if (!question || state.asking) return;
+        state.asking = true;
+        state.chat.push({ role: "user", content: question, meta: "游客提问" });
+        state.chat.push({ role: "ai", content: "正在连接知识库与模型，请稍候…", meta: "灵灵" });
+        render();
+        try {
+          const resp = await fetch("/api/qwen/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              message: question,
+              context: {
+                scenicName: scenic.name,
+                guideName: scenic.guideName,
+                routeName: routeById(state.selectedRouteId).title
+              },
+              knowledge: knowledge,
+              model: "qwen-plus"
+            })
+          });
+          const data = await resp.json();
+          state.chat.pop();
+          state.chat.push({
+            role: "ai",
+            content: data.answer || localAnswer(question),
+            meta: resp.ok ? "千问返回" : "本地知识库"
+          });
+          els.aiState.textContent = resp.ok ? "千问已接入" : "本地知识库回答";
+        } catch (err) {
+          state.chat.pop();
+          state.chat.push({
+            role: "ai",
+            content: localAnswer(question),
+            meta: "本地知识库"
+          });
+          els.aiState.textContent = "本地知识库回答";
+        } finally {
+          state.asking = false;
+          state.history.unshift(question);
+          state.history = state.history.slice(0, 10);
+          persist();
+          render();
+          els.askInput.value = "";
+          els.homeInput.value = "";
+        }
+      }
+
+      function createOrder() {
+        const total = state.tickets.reduce((sum, item) => sum + item.price * item.count, 0);
+        const count = state.tickets.reduce((sum, item) => sum + item.count, 0);
+        if (!count) {
+          alert("请先选择票种数量");
+          return;
+        }
+        const name = (els.buyerName.value || "游客").trim();
+        const phone = (els.buyerPhone.value || "").trim() || "未填写";
+        const date = els.visitDate.value || "今天入园";
+        const id = `LS${Date.now()}`;
+        const code = `LS-${id.slice(-6)}-${count}-${total}`;
+        const order = {
+          id,
+          name,
+          phone,
+          date,
+          count,
+          total,
+          code,
+          status: "待验票"
+        };
         state.orders.unshift(order);
-        nav("success",{order},true);
-      };
-    }
-
-    function renderSuccess(){
-      const o=state.params.order||state.orders[0];
-      main.innerHTML = `
-        <section class="hero">
-          <h1>出票成功</h1><p>已生成模拟电子票，可在“我的-订单”查看。</p>
-          <div class="summary" style="margin-top:14px">订单号：${o.id}<br>游客：${o.name}<br>票数：${o.count} 张<br>金额：￥${o.total}<br>入园日期：${o.date}</div>
-          <div class="quick-actions"><button data-go="home"><span class="icon">首</span><span>回首页</span></button><button data-go="profile"><span class="icon">单</span><span>看订单</span></button></div>
-        </section>`;
-    }
-
-    function renderRoute(){
-      main.innerHTML = `
-        <section class="section">
-          <div class="section-head"><h2>选择游览路线</h2><span class="muted">进入后是执行页</span></div>
-          <div class="steps">${routes.map(r=>routePreview(r)).join("")}</div>
-        </section>`;
-    }
-
-    function renderRouteLive(){
-      const r=routeById(state.params.id);
-      state.route=r;
-      main.innerHTML = `
-        <section class="hero">
-          <h1>${r.title}</h1><p>${r.desc}</p>
-          <div class="speech">当前进度：第 1 / ${r.stops.length} 站。数字人会按站点切换讲解内容。</div>
-          <div class="progress"><span style="width:25%"></span></div>
-        </section>
-        <section class="section">
-          <div class="section-head"><h2>游览站点</h2><button class="btn light" data-ask="请为我讲解${r.stops[0]}">AI讲第一站</button></div>
-          <div class="steps">${r.stops.map((s,i)=>`<button class="step" data-go="spot" data-title="${s}"><span class="step-num">${i+1}</span><span><strong>${s}</strong><p>点击查看站点详情与讲解</p></span></button>`).join("")}</div>
-        </section>`;
-    }
-
-    function renderSpot(){
-      const f=factByTitle(state.params.title);
-      main.innerHTML = `
-        <section class="hero">
-          <img src="${f.img}" alt="${f.title}" style="width:100%;height:190px;object-fit:cover;border-radius:18px;margin-bottom:14px">
-          <h1>${f.title}</h1><p>${f.sub}</p>
-          <div class="speech">${f.body}</div>
-          <div class="quick-actions">
-            <button data-ask="请详细讲解${f.title}"><span class="icon">讲</span><span>AI讲解</span></button>
-            <button data-go="route"><span class="icon">线</span><span>相关路线</span></button>
-            <button data-go="service" data-id="help"><span class="icon">服</span><span>问服务</span></button>
-          </div>
-        </section>
-        <section class="section"><h2>游览建议</h2><div class="grid">${f.tips.map(t=>tile(t,"适合加入讲解词",`data-ask="关于${f.title}的${t}，请给游客讲解"`)).join("")}</div></section>`;
-    }
-
-    function renderService(){
-      main.innerHTML = `
-        <section class="section">
-          <div class="section-head"><h2>服务地图</h2><span class="muted">点击设施进入服务详情</span></div>
-          <div class="service-map">${services.map((s,i)=>`<button class="pin ${i%2?"green":"gold"}" style="left:${s.x}%;top:${s.y}%" data-service="${s.id}">${s.title}</button>`).join("")}</div>
-        </section>
-        <section class="section">
-          <h2>服务列表</h2>
-          ${services.map(s=>`<button class="service-row" data-service="${s.id}"><span><strong>${s.title}</strong><p>${s.sub}</p></span><span>›</span></button>`).join("")}
-        </section>`;
-    }
-
-    function renderServiceDetail(s){
-      main.innerHTML = `
-        <section class="hero">
-          <h1>${s.title}</h1><p>${s.sub}</p>
-          <div class="speech">${s.detail}</div>
-          <div class="quick-actions">
-            <button data-ask="请告诉我${s.title}在哪里"><span class="icon">问</span><span>问AI</span></button>
-            <button data-go="service"><span class="icon">图</span><span>回地图</span></button>
-            <button data-go="profile"><span class="icon">馈</span><span>反馈</span></button>
-          </div>
-        </section>`;
-      pageTitle.textContent=s.title;
-      pageSub.textContent="景区服务详情";
-    }
-
-    function renderProfile(){
-      main.innerHTML = `
-        <section class="hero">
-          <div class="guide"><img class="avatar" src="${state.avatar}" alt="数字人"><div><h1>我的导览</h1><p>管理数字人形象、声音、订单、收藏与游客反馈。</p></div></div>
-        </section>
-        <section class="section form">
-          <h2>数字人设置</h2>
-          <select id="avatarSelect"><option value="/assets/guide/avatar-cute.svg">可爱灵灵</option><option value="/assets/guide/player-thumb.jpg">古风讲解员</option><option value="/assets/guide/avatar.jpg">真实景区形象</option></select>
-          <select id="voiceSelect"><option>温柔讲解音</option><option>活泼亲子音</option><option>沉稳文化音</option></select>
-          <button class="btn green" id="saveProfile">保存配置</button>
-        </section>
-        <section class="section"><h2>我的订单</h2>${state.orders.length?state.orders.map(o=>`<div class="order-card"><strong>${o.name} · ${o.count}张</strong><p>${o.date} / ￥${o.total} / ${o.id}</p></div>`).join(""):`<p>暂无订单，去购票页可以生成模拟电子票。</p>`}</section>
-        <section class="section">
-          <h2>更多功能</h2>
-          <div class="grid">${[
-            ["浏览历史","查看最近访问的景点"],
-            ["我的收藏","收藏景点与路线"],
-            ["游客反馈","提交满意度与建议"],
-            ["管理后台","查看运营大屏"]
-          ].map(([a,b])=>tile(a,b, a==="管理后台" ? `data-go="admin"` : `data-ask="打开${a}功能"`)).join("")}</div>
-        </section>`;
-      document.getElementById("avatarSelect").value=state.avatar;
-      document.getElementById("saveProfile").onclick=()=>{
-        state.avatar=document.getElementById("avatarSelect").value;
-        state.voice=document.getElementById("voiceSelect").value;
-        alert("数字人配置已保存");
-        renderProfile();
-      };
-    }
-
-    function renderAdmin(){
-      main.innerHTML = `
-        <section class="section"><div class="section-head"><h2>运营概览</h2><span class="muted">管理方视角</span></div><div class="grid">${[
-          ["今日服务人次","1280"],
-          ["热门问答","九龙灌浴"],
-          ["满意度","98.5%"],
-          ["平均响应","1.2秒"]
-        ].map(([a,b])=>tile(a,b,"")).join("")}</div></section>
-        <section class="section"><h2>游客感受度报告</h2><p>游客关注点集中在演出时间、亲子路线、餐饮和停车。建议在首页增加“九龙灌浴场次”和“亲子轻松游”入口。</p></section>
-        <section class="section"><h2>知识库管理</h2><p>当前知识库来自 jqxx 示范景区资料包：灵山胜境结构化资料、历史文化指南与旅游行为数据。</p><button class="btn light" data-ask="请总结今天游客最关心的问题">生成服务建议</button></section>`;
-    }
-
-    function tile(title, sub, attr){return `<button class="tile" ${attr}><strong>${title}</strong><small>${sub}</small></button>`}
-    function routePreview(r){return `<article class="route-card"><img src="${r.img}" alt="${r.title}"><div class="body"><h3>${r.title}</h3><p>${r.desc}</p><div class="split"><span class="muted">${r.time}</span><button class="btn" data-go="routeLive" data-id="${r.id}">开始游览</button></div></div></article>`}
-
-    async function ask(text){
-      const question=String(text||"").trim();
-      if(!question||state.asking)return;
-      if(state.page!=="guide") nav("guide",{},true);
-      const chat=document.getElementById("chat");
-      chat.insertAdjacentHTML("beforeend",`<div class="msg user">${question}</div><div class="msg ai" id="thinking">正在检索景区资料并调用千问...</div>`);
-      chat.scrollTop=chat.scrollHeight;
-      state.asking=true;
-      try{
-        const res=await fetch("/api/qwen/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
-          message:question,
-          context:{scenicName:"灵山胜境",guideName:"灵灵",spotName:"灵山大佛"},
-          knowledge:facts.map(f=>({title:f.title,content:f.body})),
-          model:"qwen-plus"
-        })});
-        const data=await res.json();
-        document.getElementById("thinking").textContent=data.answer||localAnswer(question);
-        aiState.textContent=res.ok?"千问回复":"本地知识库";
-      }catch(e){
-        document.getElementById("thinking").textContent=localAnswer(question);
-        aiState.textContent="本地知识库";
-      }finally{
-        document.getElementById("thinking")?.removeAttribute("id");
-        state.asking=false;
+        state.selectedOrderId = id;
+        persist();
+        render();
+        state.page = "ticket";
+        state.currentTab = "ticket";
+        render();
+        alert(`订单已生成：${name}，共 ${count} 张，总计 ¥${total}`);
       }
-    }
-    function localAnswer(q){
-      const hit=facts.find(f=>q.includes(f.title)||q.includes(f.title.replace("灵山","")));
-      if(hit)return `${hit.title}：${hit.body}`;
-      if(q.includes("路线"))return `${state.route.title}：${state.route.stops.join(" → ")}。${state.route.desc}`;
-      return "我会结合灵山胜境知识库回答。你可以问景点、路线、演出、购票或服务设施。";
-    }
-    async function requestRecord(){
-      try{
-        if(!navigator.mediaDevices)throw new Error("当前环境不支持浏览器录音权限");
-        const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-        stream.getTracks().forEach(t=>t.stop());
-        alert("录音权限已获取。微信小程序中可接 RecorderManager 和语音识别。");
-      }catch(e){alert("录音权限未开启："+(e.message||"请允许麦克风"))}
-    }
 
-    document.addEventListener("click",e=>{
-      const el=e.target.closest("button");
-      if(!el)return;
-      if(el.dataset.tab){state.stack=[];nav(el.dataset.tab,{},false)}
-      if(el.dataset.go){
-        if(el.dataset.go==="spot") nav("spot",{title:el.dataset.title},true);
-        else if(el.dataset.go==="service") nav("service",{id:el.dataset.id},true);
-        else if(el.dataset.go==="routeLive") nav("routeLive",{id:el.dataset.id},true);
-        else nav(el.dataset.go,{},true);
+      function openAdminModal() {
+        els.adminPwd.value = "";
+        els.adminModal.classList.add("show");
+        setTimeout(() => els.adminPwd.focus(), 0);
       }
-      if(el.dataset.service){const s=serviceById(el.dataset.service);state.stack.push({page:"service",params:{}});state.page="serviceDetail";state.params={id:s.id};backBtn.classList.add("show");renderServiceDetail(s)}
-      if(el.dataset.ticket){const t=tickets.find(x=>x.id===el.dataset.ticket);t.count=Math.max(0,t.count+Number(el.dataset.delta));renderTicket()}
-      if(el.dataset.ask)ask(el.dataset.ask);
-    });
-    backBtn.onclick=back;
-    document.getElementById("photoInput").onchange=e=>{
-      const file=e.target.files[0];
-      if(file)alert(`已收到图片 ${file.name}。演示版作为多模态识别入口，真实小程序可接入视觉模型。`);
-    };
-    nav("home",{},false);
+
+      function closeAdminModal() {
+        els.adminModal.classList.remove("show");
+      }
+
+      function openSpot(name) {
+        const route = routeById(state.selectedRouteId);
+        const idx = route.path.indexOf(name);
+        if (idx >= 0) state.currentStop = idx;
+        const matched = knowledge.find((item) => item.title === name) || knowledge[0];
+        state.chat.push({ role: "ai", content: matched.content, meta: `景点讲解 · ${name}` });
+        state.history.unshift(name);
+        state.history = state.history.slice(0, 10);
+        persist();
+        render();
+        setPage("explore", false);
+      }
+
+      function openService(name) {
+        const map = {
+          "停车场": "停车场可提供停车指引和接驳信息，旺季建议优先查看剩余车位。",
+          "餐饮": "景区餐饮包含素食、简餐和亲子友好餐厅，建议避开正餐高峰。",
+          "洗手间": "洗手间与无障碍设施可以在服务地图里快速查看。",
+          "游客中心": "游客中心可办理咨询、失物招领、投诉建议与紧急求助。"
+        };
+        alert(map[name] || "服务信息已打开");
+      }
+
+      function render() {
+        renderPages();
+        renderNav();
+        renderHeader();
+        if (state.page === "home") renderHome();
+        if (state.page === "explore") renderExplore();
+        if (state.page === "ticket") renderTicket();
+        if (state.page === "service") renderService();
+        if (state.page === "profile") renderProfile();
+        if (state.page === "admin") renderAdmin();
+        persist();
+      }
+
+      document.addEventListener("click", (e) => {
+        const tab = e.target.closest("[data-tab]");
+        if (tab) {
+          state.stack = [];
+          state.currentTab = tab.dataset.tab;
+          state.page = tab.dataset.tab;
+          render();
+          return;
+        }
+        const action = e.target.closest("[data-action]");
+        if (action) {
+          const v = action.dataset.action;
+          if (v === "voice") {
+            navigator.mediaDevices?.getUserMedia?.({ audio: true }).then((stream) => {
+              stream.getTracks().forEach((t) => t.stop());
+              alert("录音权限已获取，可以开始语音问答。");
+            }).catch(() => alert("未开启录音权限。"));
+          } else if (v === "camera") {
+            els.photoInput.click();
+          } else if (v === "keyboard") {
+            els.homeInput.focus();
+            els.askInput.focus();
+            setPage("explore");
+          }
+          return;
+        }
+        const selectRoute = e.target.closest("[data-select-route]");
+        if (selectRoute) {
+          state.selectedRouteId = selectRoute.dataset.selectRoute;
+          state.currentStop = 0;
+          render();
+          return;
+        }
+        const openRoute = e.target.closest("[data-open-route]");
+        if (openRoute) {
+          state.selectedRouteId = openRoute.dataset.openRoute;
+          state.currentStop = 0;
+          state.currentTab = "explore";
+          state.page = "explore";
+          render();
+          return;
+        }
+        const openSpotBtn = e.target.closest("[data-spot]");
+        if (openSpotBtn) {
+          openSpot(openSpotBtn.dataset.spot);
+          return;
+        }
+        const openServiceBtn = e.target.closest("[data-service]");
+        if (openServiceBtn) {
+          openService(openServiceBtn.dataset.service);
+          return;
+        }
+        const askBtn = e.target.closest("[data-ask]");
+        if (askBtn) {
+          askGuide(askBtn.dataset.ask);
+          return;
+        }
+        const ticketBtn = e.target.closest("[data-ticket]");
+        if (ticketBtn) {
+          const item = state.tickets.find((t) => t.id === ticketBtn.dataset.ticket);
+          const delta = Number(ticketBtn.dataset.delta || 0);
+          if (item) item.count = Math.max(0, item.count + delta);
+          render();
+          return;
+        }
+        const showOrder = e.target.closest("[data-show-order]");
+        if (showOrder) {
+          state.selectedOrderId = showOrder.dataset.showOrder;
+          render();
+          return;
+        }
+        if (e.target.closest("[data-admin-open]")) {
+          openAdminModal();
+          return;
+        }
+      });
+
+      els.backBtn.addEventListener("click", goBack);
+      els.homeSend.addEventListener("click", () => askGuide(els.homeInput.value));
+      els.homeInput.addEventListener("keydown", (e) => { if (e.key === "Enter") askGuide(els.homeInput.value); });
+      els.askSend.addEventListener("click", () => askGuide(els.askInput.value));
+      els.askInput.addEventListener("keydown", (e) => { if (e.key === "Enter") askGuide(els.askInput.value); });
+      els.startTourBtn.addEventListener("click", () => setPage("home"));
+      els.askRouteBtn.addEventListener("click", () => askGuide(`请讲解${routeById(state.selectedRouteId).title}`));
+      els.createOrderBtn.addEventListener("click", createOrder);
+      els.resetCartBtn.addEventListener("click", () => {
+        state.tickets = structuredClone(tickets).map((item) => ({ ...item, count: item.id === "adult" ? 1 : 0 }));
+        state.selectedOrderId = null;
+        render();
+      });
+      els.voiceToggle.addEventListener("click", () => {
+        state.voiceOn = !state.voiceOn;
+        render();
+      });
+      els.routeToggle.addEventListener("click", () => {
+        state.routeOn = !state.routeOn;
+        render();
+      });
+      els.saveProfileBtn.addEventListener("click", () => {
+        state.avatarStyle = els.avatarStyleSelect.value;
+        state.voiceStyle = els.voiceStyleSelect.value;
+        persist();
+        render();
+        alert("设置已保存");
+      });
+      els.voicePermissionBtn.addEventListener("click", () => {
+        navigator.mediaDevices?.getUserMedia?.({ audio: true }).then((stream) => {
+          stream.getTracks().forEach((t) => t.stop());
+          alert("录音权限已开启");
+        }).catch(() => alert("未获得录音权限"));
+      });
+      els.cameraPermissionBtn.addEventListener("click", () => els.photoInput.click());
+      els.favBtn.addEventListener("click", () => {
+        alert(state.favs.length ? `收藏了 ${state.favs.length} 个内容` : "当前还没有收藏内容");
+      });
+      els.historyBtn.addEventListener("click", () => {
+        alert(state.history.length ? `最近查看：${state.history.slice(0, 5).join("、")}` : "还没有浏览记录");
+      });
+      els.photoInput.addEventListener("change", (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (file) alert(`已选择照片：${file.name}`);
+        e.target.value = "";
+      });
+
+      els.unlockAdminBtn.addEventListener("click", openAdminModal);
+      els.adminCancel.addEventListener("click", closeAdminModal);
+      els.adminEnter.addEventListener("click", () => {
+        if (els.adminPwd.value.trim() === ADMIN_PASSWORD) {
+          state.adminUnlocked = true;
+          closeAdminModal();
+          render();
+          setPage("admin");
+        } else {
+          alert("密码错误");
+        }
+      });
+      els.adminModal.addEventListener("click", (e) => {
+        if (e.target === els.adminModal) closeAdminModal();
+      });
+      els.saveAdminBtn.addEventListener("click", () => {
+        state.adminProfile = {
+          name: els.adminName.value.trim() || "灵灵",
+          costume: els.adminCostume.value.trim() || "青绿禅意导览服",
+          voice: els.adminVoice.value.trim() || "温柔讲解音色"
+        };
+        persist();
+        render();
+        alert("后台配置已保存");
+      });
+      els.uploadKbBtn.addEventListener("click", () => alert("已打开知识库上传入口"));
+      els.editKbBtn.addEventListener("click", () => alert("已打开知识编辑入口"));
+      document.getElementById("qrCanvas").addEventListener("click", () => {
+        if (!state.selectedOrderId) return;
+        drawQr(state.orders.find((o) => o.id === state.selectedOrderId)?.code || "WAITING");
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeAdminModal();
+      });
+
+      // Initialize route chips interaction after render via event delegation.
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".chip[data-select-route]");
+        if (btn) {
+          state.selectedRouteId = btn.dataset.selectRoute;
+          state.currentStop = 0;
+          render();
+        }
+      });
+
+      els.visitDate.innerHTML = ["今天入园", "明天入园", "本周末入园"].map((x) => `<option value="${x}">${x}</option>`).join("");
+      drawQr("WAITING");
+      render();
+    })();
   </script>
 </body>
 </html>
