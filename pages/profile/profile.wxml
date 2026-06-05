@@ -3,7 +3,7 @@
     <view class="section profile-section profile-page-main">
       <view class="section-title">我的导览</view>
       <view class="profile-card">
-        <view class="profile-avatar">灵</view>
+        <image class="profile-avatar profile-avatar-img" src="{{avatarSrc}}" mode="aspectFill"></image>
         <view class="profile-main">
           <text class="profile-title">游客体验档案</text>
           <text class="profile-desc">偏好：文化讲解 / 当前路线：{{currentRoute.displayTitle}}</text>
@@ -17,10 +17,43 @@
       </view>
     </view>
 
+    <view class="section">
+      <view class="section-title">数字人设置</view>
+      <picker mode="selector" range="{{avatarStyles}}" bindchange="onAvatarStyleChange">
+        <view class="picker-box">形象：{{avatarStyle}}</view>
+      </picker>
+      <picker mode="selector" range="{{voiceStyles}}" bindchange="onVoiceStyleChange">
+        <view class="picker-box">声音：{{voiceStyle}}</view>
+      </picker>
+      <button class="send-btn profile-save-btn" bindtap="saveGuideConfig">保存数字人配置</button>
+    </view>
+
+    <view class="section">
+      <view class="section-title">我的功能</view>
+      <view class="service-panel profile-menu-panel">
+        <view class="service-item" wx:for="{{menu}}" wx:key="title" bindtap="openMenu" data-type="{{item.type}}">
+          <view class="service-icon">{{index + 1}}</view>
+          <text>{{item.title}}</text>
+          <text class="profile-menu-desc">{{item.desc}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">偏好开关</view>
+      <view class="knowledge-row" wx:for="{{settings}}" wx:key="title">
+        <view>
+          <text class="knowledge-title">{{item.title}}</text>
+          <text class="knowledge-meta">{{item.desc}}</text>
+        </view>
+        <text class="hash-tag">{{item.enabled ? '已开启' : '已关闭'}}</text>
+      </view>
+    </view>
+
     <view class="section service-section profile-service-section">
       <view class="section-title">常用服务</view>
       <view class="service-panel">
-        <view class="service-item" wx:for="{{services}}" wx:key="label">
+        <view class="service-item" wx:for="{{services}}" wx:key="label" bindtap="openService" data-title="{{item.label}}">
           <view class="service-icon">{{item.icon}}</view>
           <text>{{item.label}}</text>
         </view>

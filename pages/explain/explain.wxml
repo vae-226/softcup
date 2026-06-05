@@ -5,8 +5,8 @@
       <view class="lotus-decoration">讲</view>
 
       <view class="avatar-wrap {{currentMood}}">
-        <image class="avatar-image" src="/assets/guide/avatar.jpg" mode="aspectFill"></image>
-        <view class="listening">正在讲解...</view>
+        <image class="avatar-image" src="{{avatarSrc}}" mode="aspectFill"></image>
+        <view class="listening">{{isRecording ? '语音采集中' : '正在讲解'}}</view>
       </view>
 
       <view class="dialogue-card">
@@ -25,24 +25,20 @@
     <view class="control-row">
       <view class="side-action" bindtap="toggleQuestionBox" role="button" aria-label="文本输入">
         <view class="icon-keyboard">
-          <view class="key-row">
-            <view></view><view></view><view></view>
-          </view>
-          <view class="key-row">
-            <view></view><view></view><view></view>
-          </view>
+          <view class="key-row"><view></view><view></view><view></view></view>
+          <view class="key-row"><view></view><view></view><view></view></view>
         </view>
       </view>
-      <view class="voice-action" bindtap="askQuestion" role="button" aria-label="语音提问">
+      <view class="voice-action" bindtap="requestRecord" role="button" aria-label="语音提问">
         <view class="icon-mic"></view>
       </view>
-      <view class="side-action" bindtap="useQuickQuestion" data-question="九龙灌浴适合孩子看吗？" role="button" aria-label="拍照识别">
+      <view class="side-action" bindtap="chooseImage" role="button" aria-label="拍照识别">
         <view class="icon-camera"></view>
       </view>
     </view>
 
     <view class="question-box" wx:if="{{showQuestionBox}}">
-      <input class="question-input" placeholder="问问小灵：灵山梵宫有什么看点？" value="{{question}}" bindinput="onQuestionInput" confirm-type="send" bindconfirm="askQuestion" />
+      <input class="question-input" placeholder="问问灵灵：灵山梵宫有什么看点？" value="{{question}}" bindinput="onQuestionInput" confirm-type="send" bindconfirm="askQuestion" />
       <button class="send-btn" bindtap="askQuestion">发送</button>
     </view>
 
@@ -55,5 +51,4 @@
       </view>
     </view>
   </scroll-view>
-
 </view>

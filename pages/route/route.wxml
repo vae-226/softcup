@@ -14,7 +14,16 @@
           </view>
           <text class="route-path">{{currentRoute.path}}</text>
           <text class="route-focus">{{currentRoute.focus}}</text>
+          <button class="start-btn" bindtap="startRoute" data-id="{{currentRoute.id}}">开始游览</button>
         </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">当前路线站点</view>
+      <view class="knowledge-row" wx:for="{{currentRoute.stops}}" wx:key="item" bindtap="openStop" data-title="{{item}}">
+        <text class="knowledge-title">{{index + 1}}. {{item}}</text>
+        <text class="knowledge-meta">点击查看景点讲解</text>
       </view>
     </view>
 
@@ -34,6 +43,7 @@
           <view class="route-bottom">
             <text class="duration">约{{item.displayDuration}}</text>
             <button class="start-btn" bindtap="chooseRoute" data-interest="{{item.id}}">选中路线</button>
+            <button class="start-btn" bindtap="startRoute" data-id="{{item.id}}">详情</button>
           </view>
         </view>
       </view>

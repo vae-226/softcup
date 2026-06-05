@@ -5,7 +5,7 @@
       <view class="lotus-decoration">莲</view>
 
       <view class="avatar-wrap {{currentMood}}">
-        <image class="avatar-image" src="/assets/guide/avatar.jpg" mode="aspectFill"></image>
+        <image class="avatar-image" src="{{avatarSrc}}" mode="aspectFill"></image>
         <view class="listening">{{isAsking ? '思考中...' : '在线导览'}}</view>
       </view>
 
@@ -20,6 +20,21 @@
           <view class="wave wave-red wave-4"></view>
           <view class="wave wave-gold wave-5"></view>
         </view>
+      </view>
+    </view>
+
+    <view class="control-row">
+      <view class="side-action" bindtap="goExplain" role="button" aria-label="打开讲解">
+        <view class="icon-keyboard">
+          <view class="key-row"><view></view><view></view><view></view></view>
+          <view class="key-row"><view></view><view></view><view></view></view>
+        </view>
+      </view>
+      <view class="voice-action" bindtap="goExplain" role="button" aria-label="语音讲解">
+        <view class="icon-mic"></view>
+      </view>
+      <view class="side-action" bindtap="goTicket" role="button" aria-label="购票">
+        <view class="icon-camera"></view>
       </view>
     </view>
 
@@ -47,7 +62,7 @@
     <view class="section route-section">
       <view class="section-head">
         <view class="section-title">推荐路线</view>
-        <text class="more">更多路线 ></text>
+        <text class="more" bindtap="goExplain">更多讲解 ></text>
       </view>
       <scroll-view class="route-scroll" scroll-x enhanced show-scrollbar="{{false}}">
         <view class="route-list">
@@ -75,7 +90,7 @@
     <view class="section">
       <view class="section-title">景区百科</view>
       <view class="tile-grid">
-        <view class="tile-card {{item.tone}}" wx:for="{{encyclopedia}}" wx:key="title">
+        <view class="tile-card {{item.tone}}" wx:for="{{encyclopedia}}" wx:key="title" bindtap="openFact" data-title="{{item.title}}">
           <text class="tile-icon">{{item.icon}}</text>
           <text class="tile-title">{{item.title}}</text>
           <text class="tile-subtitle">{{item.subtitle}}</text>
@@ -85,7 +100,7 @@
 
     <view class="section service-section">
       <view class="service-panel">
-        <view class="service-item" wx:for="{{services}}" wx:key="label">
+        <view class="service-item" wx:for="{{services}}" wx:key="label" bindtap="openService" data-title="{{item.label}}">
           <view class="service-icon">{{item.icon}}</view>
           <text>{{item.label}}</text>
         </view>
@@ -94,7 +109,7 @@
   </scroll-view>
 
   <view class="player-bar">
-    <image class="thumb" src="/assets/guide/player-thumb.jpg" mode="aspectFill"></image>
+    <image class="thumb" src="/assets/guide/avatar-cute.svg" mode="aspectFill"></image>
     <view class="player-main">
       <view class="player-line">
         <text class="player-title">正在讲解：{{currentSpotName}}</text>
@@ -103,7 +118,7 @@
       <view class="progress-track">
         <view class="progress-fill" style="width: {{progress}}%;"></view>
       </view>
-      <text class="player-desc">数字人灵灵正在根据您的问题生成讲解内容</text>
+      <text class="player-desc">数字人灵灵会根据你的问题生成讲解内容</text>
     </view>
     <view class="play-btn" bindtap="togglePlay" role="button" aria-label="播放讲解">
       <view class="icon-audio {{playIconClass}}"></view>

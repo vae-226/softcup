@@ -2,12 +2,14 @@
   "pages": [
     "pages/guide/guide",
     "pages/explain/explain",
+    "pages/ticket/ticket",
     "pages/route/route",
     "pages/profile/profile",
+    "pages/detail/detail",
     "pages/admin/admin"
   ],
   "window": {
-    "navigationBarTitleText": "灵境导游",
+    "navigationBarTitleText": "灵山导览",
     "navigationBarBackgroundColor": "#F2E6CE",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#F2E6CE"
@@ -29,6 +31,12 @@
         "text": "讲解",
         "iconPath": "assets/tabbar/native/guide.png",
         "selectedIconPath": "assets/tabbar/native/guide-active.png"
+      },
+      {
+        "pagePath": "pages/ticket/ticket",
+        "text": "购票",
+        "iconPath": "assets/tabbar/native/route.png",
+        "selectedIconPath": "assets/tabbar/native/route-active.png"
       },
       {
         "pagePath": "pages/route/route",

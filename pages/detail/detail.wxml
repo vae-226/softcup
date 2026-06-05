@@ -1,0 +1,27 @@
+<view class="page-shell">
+  <scroll-view class="content detail-content" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="section detail-hero">
+      <image class="detail-image" src="{{image}}" mode="aspectFill"></image>
+      <view class="section-title">{{title}}</view>
+      <view class="tag-row">
+        <text class="hash-tag" wx:for="{{tags}}" wx:key="item">{{item}}</text>
+      </view>
+      <text class="detail-text">{{content}}</text>
+    </view>
+
+    <view class="section" wx:if="{{route}}">
+      <view class="section-title">游览站点</view>
+      <view class="knowledge-row" wx:for="{{route.stops}}" wx:key="item">
+        <text class="knowledge-title">{{index + 1}}. {{item}}</text>
+        <text class="knowledge-meta">点击下方按钮可生成讲解</text>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">可执行操作</view>
+      <view class="quick-grid">
+        <button class="quick-btn" wx:for="{{actions}}" wx:key="item" bindtap="runAction" data-action="{{item}}">{{item}}</button>
+      </view>
+    </view>
+  </scroll-view>
+</view>

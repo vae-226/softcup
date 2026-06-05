@@ -9,7 +9,7 @@ const {
   sentimentReport
 } = require("../data/scenic");
 
-const ADMIN_STATE_KEY = "lingjing-admin-state";
+const ADMIN_STATE_KEY = "lingshan-admin-state";
 
 let adminStorage = null;
 
@@ -65,7 +65,8 @@ function answerQuestion(question) {
     spotName: matched.spotName,
     mood: matched.mood,
     answer: matched.answer,
-    source: "local-rag"
+    source: "local-rag",
+    statusText: "本地知识库回答"
   };
 }
 
@@ -93,11 +94,7 @@ function askAiGuide(question, options = {}) {
   const apiBase = options.apiBase || scenic.apiBase;
 
   if (!request || !apiBase) {
-    return Promise.resolve({
-      ...fallback,
-      source: "local-rag",
-      statusText: "本地知识库回答"
-    });
+    return Promise.resolve(fallback);
   }
 
   return new Promise((resolve) => {
@@ -114,7 +111,7 @@ function askAiGuide(question, options = {}) {
             answer: data.answer,
             source: data.provider || "qwen",
             model: data.model || "qwen-plus",
-            statusText: "千问AI回答"
+            statusText: "千问 AI 回答"
           });
           return;
         }

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <defs>
+    <linearGradient id="bg" x1="38" y1="20" x2="204" y2="224" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff7db"/>
+      <stop offset=".55" stop-color="#dff3e8"/>
+      <stop offset="1" stop-color="#f4d7c4"/>
+    </linearGradient>
+    <linearGradient id="robe" x1="65" y1="125" x2="180" y2="222" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#66b39b"/>
+      <stop offset="1" stop-color="#2f7f72"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#3a2b18" flood-opacity=".18"/>
+    </filter>
+  </defs>
+  <rect width="240" height="240" rx="56" fill="url(#bg)"/>
+  <circle cx="120" cy="116" r="82" fill="#ffffff" opacity=".52"/>
+  <path d="M60 211c9-46 35-72 61-72s51 26 60 72H60z" fill="url(#robe)" filter="url(#shadow)"/>
+  <path d="M91 151c8 11 18 17 30 17s22-6 30-17v42c-21 15-40 15-60 0v-42z" fill="#f3c8a8"/>
+  <circle cx="120" cy="96" r="54" fill="#ffd7ba" filter="url(#shadow)"/>
+  <path d="M69 92c7-36 30-55 59-55 25 0 45 14 52 38-16-10-34-14-54-13-22 2-41 12-57 30z" fill="#5b4334"/>
+  <path d="M74 103c5-27 19-43 42-48 26 12 49 18 68 17 8 21 4 44-10 61-12 15-29 23-52 23-33 0-55-21-48-53z" fill="#ffd7ba"/>
+  <circle cx="99" cy="105" r="7" fill="#352a24"/>
+  <circle cx="142" cy="105" r="7" fill="#352a24"/>
+  <circle cx="96" cy="101" r="2" fill="#fff"/>
+  <circle cx="139" cy="101" r="2" fill="#fff"/>
+  <path d="M108 129c9 8 20 8 29 0" fill="none" stroke="#b55b54" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="83" cy="121" r="9" fill="#ffb1a6" opacity=".55"/>
+  <circle cx="157" cy="121" r="9" fill="#ffb1a6" opacity=".55"/>
+  <path d="M81 178c18 14 34 21 49 21 13 0 25-5 38-16" fill="none" stroke="#f8e6b0" stroke-width="10" stroke-linecap="round"/>
+  <path d="M72 200h96" stroke="#efd27d" stroke-width="8" stroke-linecap="round" opacity=".9"/>
+  <circle cx="184" cy="54" r="16" fill="#fff7db" stroke="#d7b769" stroke-width="4"/>
+  <path d="M177 54h14M184 47v14" stroke="#d7b769" stroke-width="4" stroke-linecap="round"/>
+  <text x="120" y="228" text-anchor="middle" font-size="18" font-family="Microsoft YaHei, sans-serif" fill="#2f6f64">灵灵</text>
+</svg>

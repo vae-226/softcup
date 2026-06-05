@@ -1,0 +1,101 @@
+@import "../guide/guide.wxss";
+
+.ticket-content {
+  padding-bottom: 90rpx;
+}
+
+.ticket-hero {
+  margin-top: 40rpx;
+}
+
+.ticket-note {
+  display: block;
+  margin-top: 14rpx;
+  color: #666;
+  font-size: 24rpx;
+  line-height: 1.6;
+}
+
+.ticket-row,
+.order-card {
+  margin-top: 18rpx;
+  padding: 24rpx;
+  border-radius: 24rpx;
+  background: rgba(255,255,255,.72);
+  border: 1rpx solid rgba(197,165,90,.18);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+}
+
+.ticket-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.ticket-name,
+.ticket-desc,
+.ticket-price {
+  display: block;
+}
+
+.ticket-name {
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.ticket-desc {
+  margin-top: 8rpx;
+  color: #777;
+  font-size: 22rpx;
+  line-height: 1.45;
+}
+
+.ticket-price {
+  margin-top: 10rpx;
+  color: #8f000d;
+  font-size: 26rpx;
+  font-weight: 700;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.counter button {
+  width: 58rpx;
+  height: 58rpx;
+  border-radius: 50%;
+  background: #ead8ad;
+  color: #46381f;
+  font-size: 32rpx;
+}
+
+.form-input {
+  margin-top: 18rpx;
+  width: 100%;
+}
+
+.picker-box {
+  margin-top: 18rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  padding: 0 24rpx;
+  border-radius: 20rpx;
+  background: rgba(255,255,255,.82);
+  border: 1rpx solid rgba(197,165,90,.18);
+}
+
+.submit-btn {
+  margin-top: 22rpx;
+  width: 100%;
+}
+
+.empty-order {
+  margin-top: 18rpx;
+  color: #777;
+  font-size: 24rpx;
+}

@@ -1,0 +1,44 @@
+<view class="page-shell">
+  <scroll-view class="content ticket-content" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="section ticket-hero">
+      <view class="section-title">灵山胜境模拟购票</view>
+      <text class="ticket-note">用于作品演示：支持票种选择、数量调整、游客信息填写和订单生成。</text>
+    </view>
+
+    <view class="section">
+      <view class="section-title">选择票种</view>
+      <view class="ticket-row" wx:for="{{tickets}}" wx:key="id">
+        <view class="ticket-main">
+          <text class="ticket-name">{{item.name}}</text>
+          <text class="ticket-desc">{{item.desc}}</text>
+          <text class="ticket-price">￥{{item.price}}</text>
+        </view>
+        <view class="counter">
+          <button bindtap="changeCount" data-id="{{item.id}}" data-delta="-1">-</button>
+          <text>{{item.count}}</text>
+          <button bindtap="changeCount" data-id="{{item.id}}" data-delta="1">+</button>
+        </view>
+      </view>
+    </view>
+
+    <view class="section form-section">
+      <view class="section-title">游客信息</view>
+      <input class="question-input form-input" placeholder="姓名" value="{{buyerName}}" data-field="buyerName" bindinput="onInput" />
+      <input class="question-input form-input" placeholder="手机号" value="{{buyerPhone}}" data-field="buyerPhone" bindinput="onInput" />
+      <picker mode="selector" range="{{visitDateOptions}}" bindchange="chooseDate">
+        <view class="picker-box">{{visitDate}}</view>
+      </picker>
+      <button class="send-btn submit-btn" bindtap="submitOrder">提交模拟订单 ￥{{total}}</button>
+    </view>
+
+    <view class="section">
+      <view class="section-title">我的订单</view>
+      <view wx:if="{{orders.length === 0}}" class="empty-order">暂无订单，提交后显示在这里。</view>
+      <view class="order-card" wx:for="{{orders}}" wx:key="id">
+        <text class="ticket-name">{{item.name}} · {{item.count}}张</text>
+        <text class="ticket-desc">{{item.date}} / {{item.phone}}</text>
+        <text class="ticket-price">￥{{item.total}} · {{item.status}}</text>
+      </view>
+    </view>
+  </scroll-view>
+</view>
